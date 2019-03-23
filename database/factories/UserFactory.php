@@ -26,7 +26,7 @@ $factory->define(User::class, function (Faker $faker) {
         'role'=> 'ROLE_ADMIN',
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => new DateTime(),
-        'password' => '$2y$10$Pbsz5HVV7oYBRvUiGcgm0OyOinJfhHuV7zWkivkOlgeDGXVltTc6y', // password
+        'password' => '$2y$10$lLaBx6GCoH2Wfmv3bEGnqe2GffQQOZRsrjRy1KGd2nxLnCcpyH8UK', // password
         'remember_token' => Str::random(10),
     ];
 });

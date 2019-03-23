@@ -13,13 +13,15 @@
     <!-- Material Icons CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{asset('auth/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Animation Css -->
-    <link href="{{asset('auth/animate/animate.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/plugins/animate/animate.css')}}" rel="stylesheet" />
     <!-- materialize css -->
-    <link href="{{asset('auth/materialize/css/materialize.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/plugins/materialize/css/materialize.min.css')}}" rel="stylesheet">
     <!-- custom CSS -->
-    <link href="{{asset('auth/css/stylematerial.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/dist/css/stylematerial.css')}}" rel="stylesheet">
+    <!-- iziToast alert -->
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 </head>
 
 <body class="sign-section">
@@ -27,30 +29,22 @@
     <div class="row sign-row">
         <div class="sign-title">
             <h2 class="teal-text"><i class="fa fa-user-circle-o"></i></h2>
-            <h2 class="teal-text">Gestion Scolarite Login</h2>
+            <h2 class="teal-text">Gestion Scolarite</h2>
         </div>
+
         <form class="col s12" id="reg-form" method="POST" action="{{ route('login') }}">
             @csrf
             <div class="row sign-row">
+
                 <div class="input-field col s12">
                     <input id="u_name" type="email"  name="email" value="{{ old('email') }}" class="validate {{ $errors->has('email') ? ' is-invalid' : '' }}" required autofocus>
                     <label for="u_name">{{ __('E-Mail Address') }}</label>
-                    @if ($errors->has('email'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
                 </div>
             </div>
             <div class="row sign-row">
                 <div class="input-field col s12">
                     <input name="password" id="password" type="password" class="validate {{ $errors->has('password') ? ' is-invalid' : '' }}" required>
                     <label for="password">{{ __('Password') }}</label>
-                    @if ($errors->has('password'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                    @endif
                 </div>
             </div>
             @if (Route::has('password.request'))
@@ -84,14 +78,38 @@
 <!-- Start Core Plugins
      =====================================================================-->
 <!-- jQuery -->
-<script src="{{asset('auth/jQuery/jquery-3.2.1.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/jQuery/jquery-3.2.1.min.js')}}" type="text/javascript"></script>
 <!-- materialize  -->
-<script src="{{asset('auth/materialize/js/materialize.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/materialize/js/materialize.min.js')}}" type="text/javascript"></script>
+<!-- iziToast -->
+<script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
 <!-- End Core Plugins
      =====================================================================-->
 <script>
     $(document).ready(function() {
+        @if ($errors->has('notadmin'))
+        iziToast.warning({
+            title: 'Non Autorisé',
+            message: '{{ $errors->first("notadmin") }}',
+            position: 'topCenter'
+        });
+        @endif
+        @if ($errors->has('password'))
+        iziToast.warning({
+            title: 'Non Autorisé',
+            message: '{{ $errors->first("password") }}',
+            position: 'topCenter'
+        });
+        @endif
+        @if ($errors->has('email'))
+        iziToast.warning({
+            title: 'Non Autorisé',
+            message: '{{ $errors->first("email") }}',
+            position: 'topCenter'
+        });
+        @endif
         $('select').material_select();
+
     });
 </script>
 </body>
