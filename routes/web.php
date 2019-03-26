@@ -17,4 +17,13 @@ Route::get('/', function () {
 
 Auth::routes(['register'=> false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => ['auth', 'admin']], function() {
+    Route::get('/etudiants/annee', 'EtudiantController@index')->name('etudiant.index');
+    Route::get('/etudiants/liste/{anne_id}', 'EtudiantController@list')->name('etudiant.liste');
+    Route::get('/etudiant/ajout', 'EtudiantController@create')->name('etudiant.ajout');
+    Route::post('/etudiant/store', 'EtudiantController@store')->name('etudiant.store');
+    Route::get('/etudiant/classes/{spec_id?}', 'EtudiantController@getclasses')->name('etudiant.classes');
+});
+

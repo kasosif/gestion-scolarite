@@ -307,7 +307,7 @@
                     <li @yield('etudiantactive')>
                         <a><i class="material-icons">supervisor_account</i>Etudiants<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li @yield('listeetudiantactive')><a href="mailbox.html">Liste des Etudiants</a></li>
+                            <li @yield('listeetudiantactive')><a href="{{route('etudiant.index')}}">Liste des Etudiants</a></li>
                             <li @yield('abscenceetudiantactive')><a href="mailDetails.html">Abscences</a></li>
                             <li @yield('noteetudiantactive')><a href="compose.html">Notes</a></li>
                         </ul>
