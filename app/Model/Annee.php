@@ -17,7 +17,7 @@ class Annee extends Model
         'code'
     ];
 
-    public function mesclasses(){
+    public function classes(){
         return $this->hasMany('App\Model\Classe');
     }
 

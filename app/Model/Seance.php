@@ -15,7 +15,7 @@ class Seance extends Model
         'heure_debut','heure_fin',
     ];
 
-    public function mesabscences(){
+    public function abscences(){
         return $this->hasMany('App\Model\Abscence');
     }
 }

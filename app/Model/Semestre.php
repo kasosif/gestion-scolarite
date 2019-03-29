@@ -13,7 +13,7 @@ class Semestre extends Model
      */
     protected $fillable = ['nom'];
 
-    public function mesmatieres(){
+    public function matieres(){
         return $this->hasMany('App\Model\Matiere');
     }
 }

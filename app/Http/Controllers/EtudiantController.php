@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EtudiantRequest;
 use App\Model\Annee;
 use App\Model\Classe;
 use App\Model\Specialite;
+use App\Model\User;
+use File;
 use Illuminate\Http\Request;
 
 class EtudiantController extends Controller
@@ -43,8 +46,7 @@ class EtudiantController extends Controller
     public function list($id)
     {
         $annee = Annee::findorFail($id);
-        $classes = $annee->mesclasses()->get();
-        return view('Etudiants.liste',['classes'=>$classes, 'annee'=>$annee]);
+        return view('Etudiants.liste',['annee'=>$annee]);
     }
 
     /**
@@ -62,56 +64,80 @@ class EtudiantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  EtudiantRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EtudiantRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $params = ['role' => 'ROLE_ETUDIANT'];
+        if ($image = $request->files->get('image')) {
+            $destinationPath = 'images/etudiants/'; // upload path
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $params['image'] = $profileImage;
+        }
+        User::create(array_merge($request->all(), $params));
+        return redirect()->route('etudiant.index')->with('success','Etudiant Ajouté');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $cin
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($cin)
     {
-        //
+        $etudiant = User::where('cin',$cin)->first();
+        $maclasse = Classe::findorFail($etudiant->classe_id);
+        $monannee = Annee::findorFail($maclasse->annee_id);
+        $maspecialite = Specialite::findorFail($maclasse->specialite_id);
+        $annees = Annee::all();
+        $specialites = Specialite::all();
+        return view('Etudiants.modif',
+            compact('annees',
+                'specialites',
+                'etudiant','monannee','maspecialite','maclasse')
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  EtudiantRequest $request
+     * @param  string  $cin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EtudiantRequest $request, $cin)
     {
-        //
+        $etudiant = User::where('cin',$cin)->first();
+        $params = [];
+        if ($image = $request->files->get('image')) {
+            $destinationPath = 'images/etudiants/'; // upload path
+            if ($etudiant->image && file_exists(public_path().'/images/etudiants/'.$etudiant->image)) {
+                unlink(public_path().'/images/etudiants/'.$etudiant->image);
+            }
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $params['image'] = $profileImage;
+        }
+        $etudiant->update(array_merge($request->all(),$params));
+        return redirect()->route('etudiant.index')->with('success','Etudiant Modifié');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $cin
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($cin)
     {
-        //
+        $etudiant = User::where('cin',$cin)->first();
+        if ($etudiant->image && file_exists(public_path().'/images/etudiants/'.$etudiant->image)) {
+            unlink(public_path().'/images/etudiants/'.$etudiant->image);
+        }
+        $etudiant->delete();
+        return redirect()->route('etudiant.index')->with('success','Etudiant Supprimé');
     }
 }

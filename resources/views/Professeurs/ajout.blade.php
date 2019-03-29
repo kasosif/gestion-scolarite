@@ -1,16 +1,16 @@
 @extends('layouts.app')
 @section('title')
-    Ajouter Un Etudiant
+    Ajouter Un Professeur
 @endsection
 @section('preloader')
 @endsection
 @section('csspage')
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
 @endsection
-@section('etudiantactive')
+@section('professeuractive')
     class = "active"
 @endsection
-@section('listeetudiantactive')
+@section('listeprofesseuractive')
     class = "active-link"
 @endsection
 @section('HeaderPage')
@@ -19,12 +19,12 @@
             <i class="fa fa-list"></i>
         </div>
         <div class="header-title">
-            <h1> Ajouter Un Etudiant</h1>
-            <small>Interface d'ajout d'etudiant</small>
+            <h1> Ajouter Un Professeur</h1>
+            <small>Interface d'ajout de professeur</small>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('etudiant.index')}}">Liste Etudiants</a></li>
-                <li>Ajouter un Etudiant</li>
+                <li><a href="{{route('professeur.index')}}">Liste Professeurs</a></li>
+                <li>Ajouter Un Professeu</li>
             </ul>
         </div>
     </section>
@@ -33,7 +33,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="pull-right">
-                <a href="{{route('etudiant.index')}}" class="btn btn-default w-md">Retour</a>
+                <a href="{{route('professeur.index')}}" class="btn btn-default w-md">Retour</a>
             </div>
         </div>
         @if (count($errors) > 0)
@@ -56,47 +56,13 @@
             <br>
         @endif
         <div class="row">
-            <form action="{{route('etudiant.store')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('professeur.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="col-sm-8">
                     <div class="card">
                         <div class="card-header">
-                            <i class="fa fa-university fa-lg"></i>
-                            <h2>ETUDE <small>Selectionner l'année et la filière pour filtrer les classes...</small></h2>
-                        </div>
-                        <div class="card-body" style="padding: 4px;">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="annee" class="control-label">Année</label>
-                                    <select required id="annee" name="annee" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Année</option>
-                                        @foreach($annees as $annee)
-                                            <option value="{{$annee->id}}">{{$annee->nom}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="specialite" class="control-label">Spécialite</label>
-                                    <select id="specialite" name="specialite" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Spécialite</option>
-                                        @foreach($specialites as $specialite)
-                                            <option value="{{$specialite->id}}">{{$specialite->nom}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="classe" class="control-label">Classe</label>
-                                    <select id="classe" name="classe_id" class="form-control">
-                                        <option value="" selected disabled>Selectionner Classe</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
                             <i class="fa fa-info fa-lg"></i>
-                            <h2>INFORMATIONS <small>Details etudiant...</small></h2>
+                            <h2>INFORMATIONS <small>Details professeur...</small></h2>
                         </div>
                         <div class="card-body" style="padding: 4px;">
                             <div class="row">
@@ -218,15 +184,6 @@
                 'showCaption':!1,
                 'minFileSize': 5,
                 'maxFileSize': 2200
-            });
-            $('body').on('change','#specialite',function () {
-                $.ajax({
-                    url: '{{route('etudiant.classes')}}'+'/'+ $('#specialite').val(),
-                    method: "GET",
-                    success: function(response) {
-                        $("#classe").html(response);
-                    }
-                });
             });
         });
     </script>

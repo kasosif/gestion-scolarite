@@ -17,23 +17,23 @@ class Classe extends Model
         'abbreviation'
     ];
 
-    public function myfeeds(){
+    public function feeds(){
         return $this->hasMany('App\Model\Feed');
     }
 
-    public function mesetudiants(){
+    public function users(){
         return $this->hasMany('App\Model\User');
     }
 
-    public function mesmatieres(){
+    public function matieres(){
         return $this->hasMany('App\Model\Matiere');
     }
 
-    public function maspecialite(){
+    public function specialite(){
         return $this->belongsTo('App\Model\Specialite');
     }
 
-    public function monannee(){
+    public function annee(){
         return $this->belongsTo('App\Model\Annee');
     }
 

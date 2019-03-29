@@ -15,7 +15,7 @@ class Devoir extends Model
         'nom','coeficient','type'
     ];
 
-    public function mamatiere(){
+    public function matiere(){
         return $this->belongsTo('App\Model\Matiere');
     }
 }

@@ -15,23 +15,23 @@ class Matiere extends Model
         'nom','coeficient','nbr_heures','plafond_abscences','horaires'
     ];
 
-    public function Semestre(){
+    public function semestre(){
         return $this->belongsTo('App\Model\Semestre');
     }
 
-    public function Professeur(){
+    public function user(){
         return $this->belongsTo('App\Model\User');
     }
 
-    public function Classe(){
+    public function classe(){
         return $this->belongsTo('App\Model\Classe');
     }
 
-    public function mesdevoirs(){
+    public function devoirs(){
         return $this->hasMany('App\Model\Devoir');
     }
 
-    public function mesabscences(){
+    public function abscences(){
         return $this->hasMany('App\Model\Abscence');
     }
 

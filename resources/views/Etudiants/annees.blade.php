@@ -5,6 +5,8 @@
 @section('preloader')
 @endsection
 @section('csspage')
+    <!-- iziToast alert -->
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 @endsection
 @section('etudiantactive')
     class = "active"
@@ -38,7 +40,7 @@
                     <div class="panel cardbox bg-primary">
                         <div class="panel-body card-item panel-refresh">
                             <div class="refresh-container"><i class="refresh-spinner fa fa-spinner fa-spin fa-5x"></i></div>
-                            <div class="timer" data-to="{{$annee->mesclasses()->count()}}" data-speed="1500">{{$annee->mesclasses()->count()}}</div><span>nombre de classe(s)</span>
+                            <div class="timer" data-to="{{$annee->classes()->count()}}" data-speed="1500">{{$annee->classes()->count()}}</div><span>nombre de classe(s)</span>
                             <div class="cardbox-icon">
                                 <i class="fa fa-users"></i>
                             </div>
@@ -60,4 +62,17 @@
     </div>
 @endsection
 @section('scriptpage')
+    <!-- iziToast -->
+    <script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            @if ($message = Session::get('success'))
+            iziToast.success({
+                title: 'Success',
+                message: '{{ $message }}',
+                position: 'topCenter'
+            });
+            @endif
+        });
+    </script>
 @endsection

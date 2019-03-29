@@ -13,15 +13,18 @@ class Feed extends Model
      */
     protected $fillable = [
         'titre',
+        'date',
         'contenu',
-        'type'
+        'type',
+        'classe_id',
+        'user_id'
     ];
 
-    public function Utilisateur(){
+    public function user(){
         return $this->belongsTo('App\Model\User');
     }
 
-    public function Classe(){
+    public function classe(){
         return $this->belongsTo('App\Model\Classe');
     }
 }

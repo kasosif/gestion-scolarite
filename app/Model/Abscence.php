@@ -18,15 +18,15 @@ class Abscence extends Model
         'justification'
     ];
 
-    public function Etudiant(){
+    public function user(){
         return $this->belongsTo('App\Model\User');
     }
 
-    public function Matiere(){
+    public function matiere(){
         return $this->belongsTo('App\Model\Matiere');
     }
 
-    public function Seance(){
+    public function seance(){
         return $this->belongsTo('App\Model\Seance');
     }
 }

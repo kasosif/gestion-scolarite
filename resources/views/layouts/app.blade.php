@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Favicon and touch icons -->
-    <link rel="shortcut icon" href="assets/dist/img/ico/fav.png">
+    <link rel="shortcut icon" href="{{asset('assets/dist/img/ico/fav.png')}}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -315,11 +315,11 @@
                     <li @yield('professeuractive')>
                         <a><i class="material-icons">contact_mail</i>Professeurs<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li @yield('listeprofesseuractive')><a href="mailbox.html">Liste des Professeurs</a></li>
+                            <li @yield('listeprofesseuractive')><a href="{{route('professeur.index')}}">Liste des Professeurs</a></li>
                         </ul>
                     </li>
                     <li @yield('actualiteactive')>
-                        <a href="{{route('home')}}">
+                        <a href="{{route('feed.index')}}">
                             <i class="material-icons">rss_feed</i>
                             Actualitées
                         </a>

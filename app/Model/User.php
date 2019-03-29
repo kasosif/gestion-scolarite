@@ -21,7 +21,8 @@ class User extends Authenticatable
         'gendre',
         'lieu_naissance','lieu_naissance_ar','lieu_naissance_en',
         'date_naissance',
-        'role'
+        'role',
+        'classe_id'
     ];
 
     /**
@@ -42,20 +43,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function myfeeds(){
+    public function feeds(){
         return $this->hasMany('App\Model\Feed');
     }
 
-    public function mesabscences(){
+    public function abscences(){
         return $this->hasMany('App\Model\Abscence');
     }
 
-    public function maclasse(){
+    public function classe(){
         return $this->belongsTo('App\Model\Classe');
     }
 
-    public function mesmatieres(){
+    public function matieres(){
         return $this->hasMany('App\Model\Matiere');
+    }
+
+    public function setPasswordAttribute($value){
+        $this->attributes['password'] = bcrypt($value);
     }
 
 
