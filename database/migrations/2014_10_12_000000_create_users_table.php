@@ -33,7 +33,7 @@ class CreateUsersTable extends Migration
             $table->date('date_naissance');
             $table->string('role');
             $table->integer('classe_id')->unsigned()->nullable();
-            $table->foreign('classe_id')->references('id')->on('classes');
+            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
         });

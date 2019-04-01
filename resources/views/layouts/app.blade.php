@@ -333,9 +333,9 @@
                     <li @yield('parametreactive')>
                         <a><i class="material-icons">build</i>Paramètres<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li @yield('anneeactive')><a href="mailbox.html">Années Scolaires</a></li>
-                            <li @yield('semestreactive')><a href="mailDetails.html">Semestres</a></li>
-                            <li @yield('specialiteactive')><a href="compose.html">Spécialites</a></li>
+                            <li @yield('anneeactive')><a href="{{route('annee.index')}}">Années Scolaires</a></li>
+                            <li @yield('semestreactive')><a href="{{route('semestre.index')}}">Semestres</a></li>
+                            <li @yield('specialiteactive')><a href="{{route('specialite.index')}}">Spécialites</a></li>
                             <li @yield('classeactive')><a href="compose.html">Classes</a></li>
                             <li @yield('seanceactive')><a href="compose.html">Séances</a></li>
                             <li @yield('devoiractive')><a href="compose.html">Devoirs</a></li>

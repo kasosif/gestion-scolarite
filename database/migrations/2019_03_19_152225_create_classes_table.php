@@ -19,9 +19,9 @@ class CreateClassesTable extends Migration
             $table->string('code')->nullable();
             $table->string('abbreviation')->nullable();
             $table->integer('annee_id')->unsigned();
-            $table->foreign('annee_id')->references('id')->on('annees');
+            $table->foreign('annee_id')->references('id')->on('annees')->onDelete('cascade');
             $table->integer('specialite_id')->unsigned();
-            $table->foreign('specialite_id')->references('id')->on('specialites');
+            $table->foreign('specialite_id')->references('id')->on('specialites')->onDelete('cascade');
             $table->timestamps();
         });
     }

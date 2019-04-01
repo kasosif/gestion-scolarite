@@ -19,7 +19,7 @@ class CreateDevoirsTable extends Migration
             $table->string('nom');
             $table->string('type');
             $table->integer('matiere_id')->unsigned();
-            $table->foreign('matiere_id')->references('id')->on('matieres');
+            $table->foreign('matiere_id')->references('id')->on('matieres')->onDelete('cascade');
             $table->timestamps();
         });
     }

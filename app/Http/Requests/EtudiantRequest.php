@@ -16,9 +16,7 @@ class EtudiantRequest extends FormRequest
      */
     public function authorize()
     {
-        if ((Auth()->check()) && (Auth::user()->role == 'ROLE_ADMIN'))
-            return true;
-        return false;
+        return true;
     }
 
     /**

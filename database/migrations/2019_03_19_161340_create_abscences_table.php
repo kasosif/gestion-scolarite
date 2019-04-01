@@ -20,11 +20,11 @@ class CreateAbscencesTable extends Migration
             $table->string('justification');
             $table->longText('commentaire');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('matiere_id')->unsigned();
-            $table->foreign('matiere_id')->references('id')->on('matieres');
+            $table->foreign('matiere_id')->references('id')->on('matieres')->onDelete('cascade');
             $table->integer('seance_id')->unsigned();
-            $table->foreign('seance_id')->references('id')->on('seances');
+            $table->foreign('seance_id')->references('id')->on('seances')->onDelete('cascade');
             $table->timestamps();
         });
     }
