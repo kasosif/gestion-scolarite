@@ -61,7 +61,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-wpforms"></i>
-                        Formulaire d'ajout
+                        Formulaire de modification
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">

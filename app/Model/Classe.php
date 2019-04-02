@@ -14,7 +14,9 @@ class Classe extends Model
     protected $fillable = [
         'promotion',
         'code',
-        'abbreviation'
+        'abbreviation',
+        'annee_id',
+        'specialite_id'
     ];
 
     public function feeds(){

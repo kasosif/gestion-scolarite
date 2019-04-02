@@ -11,16 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes(['register'=> false]);
 
 
 Route::group(['middleware' => ['auth', 'admin']], function() {
+
     //dashboard
-    Route::get('/dashboard', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@index')->name('home');
 
     //etudiants
 
@@ -84,5 +81,51 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::get('/specialites/show/{id}', 'SpecialiteController@show')->name('specialite.show');
     Route::put('/specialites/update/{id}', 'SpecialiteController@update')->name('specialite.update');
     Route::delete('/specialites/destroy/{id?}', 'SpecialiteController@destroy')->name('specialite.destroy');
+
+    //classes
+
+    Route::get('/classes/', 'ClasseController@index')->name('classe.index');
+    Route::get('/classes/ajout', 'ClasseController@create')->name('classe.ajout');
+    Route::post('/classes/store', 'ClasseController@store')->name('classe.store');
+    Route::get('/classes/edit/{id}', 'ClasseController@edit')->name('classe.edit');
+    Route::get('/classes/show/{id}', 'ClasseController@show')->name('classe.show');
+    Route::put('/classes/update/{id}', 'ClasseController@update')->name('classe.update');
+    Route::delete('/classes/destroy/{id?}', 'ClasseController@destroy')->name('classe.destroy');
+
+    //seances
+
+    Route::get('/seances/', 'SeanceController@index')->name('seance.index');
+    Route::get('/seances/ajout', 'SeanceController@create')->name('seance.ajout');
+    Route::post('/seances/store', 'SeanceController@store')->name('seance.store');
+    Route::get('/seances/edit/{id}', 'SeanceController@edit')->name('seance.edit');
+    Route::put('/seances/update/{id}', 'SeanceController@update')->name('seance.update');
+    Route::delete('/seances/destroy/{id?}', 'SeanceController@destroy')->name('seance.destroy');
+
+    //matieres
+
+    Route::get('/matieres/', 'MatiereController@index')->name('matiere.index');
+    Route::get('/matieres/ajout', 'MatiereController@create')->name('matiere.ajout');
+    Route::post('/matieres/store', 'MatiereController@store')->name('matiere.store');
+    Route::get('/matieres/edit/{id}', 'MatiereController@edit')->name('matiere.edit');
+    Route::put('/matieres/update/{id}', 'MatiereController@update')->name('matiere.update');
+    Route::delete('/matieres/destroy/{id?}', 'MatiereController@destroy')->name('matiere.destroy');
+
+    //devoirs
+
+    Route::get('/devoirs/', 'DevoirController@index')->name('devoir.index');
+    Route::get('/devoirs/ajout', 'DevoirController@create')->name('devoir.ajout');
+    Route::post('/devoirs/store', 'DevoirController@store')->name('devoir.store');
+    Route::get('/devoirs/edit/{id}', 'DevoirController@edit')->name('devoir.edit');
+    Route::put('/devoirs/update/{id}', 'DevoirController@update')->name('devoir.update');
+    Route::delete('/devoirs/destroy/{id?}', 'DevoirController@destroy')->name('devoir.destroy');
+
+    //salles
+
+    Route::get('/salles/', 'SalleController@index')->name('salle.index');
+    Route::get('/salles/ajout', 'SalleController@create')->name('salle.ajout');
+    Route::post('/salles/store', 'SalleController@store')->name('salle.store');
+    Route::get('/salles/edit/{id}', 'SalleController@edit')->name('salle.edit');
+    Route::put('/salles/update/{id}', 'SalleController@update')->name('salle.update');
+    Route::delete('/salles/destroy/{id?}', 'SalleController@destroy')->name('salle.destroy');
 });
 

@@ -284,9 +284,6 @@
                                document.getElementById('logout-form').submit();">
                                 <i class="material-icons">lock</i> Deconnecter</a>
                         </li>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
                     </ul>
                 </li>
                 <!-- /.user profile -->
@@ -294,6 +291,9 @@
         </div>
     </nav>
     <!-- Sidebar -->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
     <div id="sidebar-wrapper" class="waves-effect" data-simplebar>
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
@@ -308,8 +308,8 @@
                         <a><i class="material-icons">supervisor_account</i>Etudiants<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li @yield('listeetudiantactive')><a href="{{route('etudiant.index')}}">Liste des Etudiants</a></li>
-                            <li @yield('abscenceetudiantactive')><a href="mailDetails.html">Abscences</a></li>
-                            <li @yield('noteetudiantactive')><a href="compose.html">Notes</a></li>
+                            <li @yield('abscenceetudiantactive')><a href="#">Abscences</a></li>
+                            <li @yield('noteetudiantactive')><a href="#">Notes</a></li>
                         </ul>
                     </li>
                     <li @yield('professeuractive')>
@@ -336,11 +336,11 @@
                             <li @yield('anneeactive')><a href="{{route('annee.index')}}">Années Scolaires</a></li>
                             <li @yield('semestreactive')><a href="{{route('semestre.index')}}">Semestres</a></li>
                             <li @yield('specialiteactive')><a href="{{route('specialite.index')}}">Spécialites</a></li>
-                            <li @yield('classeactive')><a href="compose.html">Classes</a></li>
-                            <li @yield('seanceactive')><a href="compose.html">Séances</a></li>
-                            <li @yield('devoiractive')><a href="compose.html">Devoirs</a></li>
-                            <li @yield('matiereactive')><a href="compose.html">Matieres</a></li>
-                            <li @yield('salleactive')><a href="compose.html">Salles</a></li>
+                            <li @yield('classeactive')><a href="{{route('classe.index')}}">Classes</a></li>
+                            <li @yield('seanceactive')><a href="{{route('seance.index')}}">Séances</a></li>
+                            <li @yield('devoiractive')><a href="{{route('devoir.index')}}">Devoirs</a></li>
+                            <li @yield('matiereactive')><a href="{{route('matiere.index')}}">Matieres</a></li>
+                            <li @yield('salleactive')><a href="{{route('salle.index')}}">Salles</a></li>
                         </ul>
                     </li>
                     <li class="side-last"></li>

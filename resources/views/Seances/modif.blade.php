@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Modifier Un Semestre
+    Modifier Une Seance
 @endsection
 @section('preloader')
 @endsection
@@ -9,7 +9,7 @@
 @section('parametreactive')
     class = "active"
 @endsection
-@section('semestreactive')
+@section('seanceactive')
     class = "active-link"
 @endsection
 @section('HeaderPage')
@@ -18,12 +18,12 @@
             <i class="fa fa-list"></i>
         </div>
         <div class="header-title">
-            <h1> Modifier Un Semestre</h1>
-            <small>Interface de modification de semestre</small>
+            <h1> Modifier Une Seance</h1>
+            <small>Interface de modification de seance</small>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('semestre.index')}}">Liste Semestres</a></li>
-                <li>Modifier Un Semestre</li>
+                <li><a href="{{route('seance.index')}}">Liste Seances</a></li>
+                <li>Modifier Une Seance</li>
             </ul>
         </div>
     </section>
@@ -32,7 +32,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="pull-right">
-                <a href="{{route('semestre.index')}}" class="btn btn-default w-md">Retour</a>
+                <a href="{{route('seance.index')}}" class="btn btn-default w-md">Retour</a>
             </div>
         </div>
         @if (count($errors) > 0)
@@ -55,20 +55,26 @@
             <br>
         @endif
         <div class="row">
-            <form action="{{route('semestre.update',['id'=> $semestre->id])}}" method="post">
+            <form action="{{route('seance.update',['id' =>$seance->id])}}" method="post" >
                 <input type="hidden" name="_method" value="PUT">
                 @csrf
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-wpforms"></i>
-                        Formulaire de modification
+                        Formulaire d'ajout
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
-                            <div class="col-md-8">
-                                <div class="input-field form-input">
-                                    <input id="nom" value="{{$semestre->nom}}" name="nom" type="text" class="validate" required>
-                                    <label for="nom" class="">Nom</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="heure_debut" class="">Heure Debut</label>
+                                    <input id="heure_debut"  value="{{$seance->heure_debut}}" name="heure_debut" type="time" class="validate" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="heure_fin" class="">Heure Fin</label>
+                                    <input id="heure_fin" value="{{$seance->heure_fin}}" name="heure_fin" type="time" class="validate" required>
                                 </div>
                             </div>
                         </div>

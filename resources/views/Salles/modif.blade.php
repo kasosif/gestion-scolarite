@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Modifier Un Semestre
+    Modifier Une Salle
 @endsection
 @section('preloader')
 @endsection
@@ -18,12 +18,12 @@
             <i class="fa fa-list"></i>
         </div>
         <div class="header-title">
-            <h1> Modifier Un Semestre</h1>
-            <small>Interface de modification de semestre</small>
+            <h1> Modifier Une Salle</h1>
+            <small>Interface de modification de salle</small>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('semestre.index')}}">Liste Semestres</a></li>
-                <li>Modifier Un Semestre</li>
+                <li><a href="{{route('salle.index')}}">Liste Salles</a></li>
+                <li>Modifier Une Salle</li>
             </ul>
         </div>
     </section>
@@ -32,7 +32,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="pull-right">
-                <a href="{{route('semestre.index')}}" class="btn btn-default w-md">Retour</a>
+                <a href="{{route('salle.index')}}" class="btn btn-default w-md">Retour</a>
             </div>
         </div>
         @if (count($errors) > 0)
@@ -55,7 +55,7 @@
             <br>
         @endif
         <div class="row">
-            <form action="{{route('semestre.update',['id'=> $semestre->id])}}" method="post">
+            <form action="{{route('salle.update',['id'=>$salle->id])}}" method="post" >
                 <input type="hidden" name="_method" value="PUT">
                 @csrf
                 <div class="card">
@@ -67,7 +67,7 @@
                         <div class="row" style="padding: 4px">
                             <div class="col-md-8">
                                 <div class="input-field form-input">
-                                    <input id="nom" value="{{$semestre->nom}}" name="nom" type="text" class="validate" required>
+                                    <input id="nom" value="{{$salle->nom}}" name="nom" type="text" class="validate" required>
                                     <label for="nom" class="">Nom</label>
                                 </div>
                             </div>
