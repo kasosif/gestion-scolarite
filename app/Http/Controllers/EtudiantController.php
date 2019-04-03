@@ -9,6 +9,7 @@ use App\Model\Specialite;
 use App\Model\User;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EtudiantController extends Controller
 {
@@ -30,9 +31,11 @@ class EtudiantController extends Controller
      * Display a listing of years
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('viewEtudiant', Auth::user());
         $annees = Annee::paginate(4);
         return view('Etudiants.annees',['annees'=>$annees]);
     }
@@ -42,9 +45,11 @@ class EtudiantController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function list($id)
     {
+        $this->authorize('viewEtudiant', Auth::user());
         $annee = Annee::findorFail($id);
         return view('Etudiants.liste',['annee'=>$annee]);
     }
@@ -53,9 +58,11 @@ class EtudiantController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('createEtudiant', Auth::user());
         $annees = Annee::all();
         $specialites = Specialite::all();
         return view('Etudiants.ajout',compact('annees','specialites'));
@@ -66,9 +73,11 @@ class EtudiantController extends Controller
      *
      * @param  EtudiantRequest  $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(EtudiantRequest $request)
     {
+        $this->authorize('createEtudiant', Auth::user());
         $params = ['role' => 'ROLE_ETUDIANT'];
         if ($image = $request->files->get('image')) {
             $destinationPath = 'images/etudiants/'; // upload path
@@ -85,9 +94,11 @@ class EtudiantController extends Controller
      *
      * @param  string  $cin
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($cin)
     {
+        $this->authorize('updateEtudiant', Auth::user());
         $etudiant = User::where('cin',$cin)->first();
         $maclasse = Classe::findorFail($etudiant->classe_id);
         $monannee = Annee::findorFail($maclasse->annee_id);
@@ -107,9 +118,11 @@ class EtudiantController extends Controller
      * @param  EtudiantRequest $request
      * @param  string  $cin
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(EtudiantRequest $request, $cin)
     {
+        $this->authorize('updateEtudiant', Auth::user());
         $etudiant = User::where('cin',$cin)->first();
         $params = [];
         if ($image = $request->files->get('image')) {
@@ -130,9 +143,11 @@ class EtudiantController extends Controller
      *
      * @param  string  $cin
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($cin)
     {
+        $this->authorize('deleteEtudiant', Auth::user());
         $etudiant = User::where('cin',$cin)->first();
         if ($etudiant->image && file_exists(public_path().'/images/etudiants/'.$etudiant->image)) {
             unlink(public_path().'/images/etudiants/'.$etudiant->image);
