@@ -13,7 +13,7 @@ class MatiereRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,34 @@ class MatiereRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        switch ($this->method()){
+            case 'POST':
+                {
+                    return [
+                        'nom' => 'required|min:2',
+                        'coeficient' => 'required|numeric',
+                        'nbr_heures' => 'required|numeric',
+                        'plafond_abscences' => 'required|numeric',
+                        'horaires' => 'required|numeric',
+                        'semestre_id' => 'required|numeric',
+                        'user_id' => 'required|numeric',
+                        'classe_id' => 'required|numeric'
+                    ];
+                }
+            case 'PUT':
+                {
+                    return [
+                        'nom' => 'required|min:2',
+                        'coeficient' => 'required|numeric',
+                        'nbr_heures' => 'required|numeric',
+                        'plafond_abscences' => 'required|numeric',
+                        'horaires' => 'required|numeric',
+                        'semestre_id' => 'required|numeric',
+                        'user_id' => 'required|numeric',
+                        'classe_id' => 'required|numeric'
+                    ];
+                }
+        }
+        return [];
     }
 }

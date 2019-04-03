@@ -13,7 +13,7 @@ class DevoirRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class DevoirRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nom' => 'required|min:2',
+            'coeficient' => 'required|numeric',
+            'date' => 'required|date|after: today',
+            'type' => [
+                'required',
+                'regex:(cc|ds|examen)'
+            ],
+            'matiere_id' => 'required|numeric'
         ];
     }
 }

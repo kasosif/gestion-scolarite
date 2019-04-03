@@ -12,7 +12,7 @@ class Devoir extends Model
      * @var array
      */
     protected $fillable = [
-        'nom','coeficient','type'
+        'nom','coeficient','date','type','matiere_id'
     ];
 
     public function matiere(){

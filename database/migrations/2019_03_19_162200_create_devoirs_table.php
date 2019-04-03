@@ -18,6 +18,7 @@ class CreateDevoirsTable extends Migration
             $table->integer('coeficient');
             $table->string('nom');
             $table->string('type');
+            $table->date('date');
             $table->integer('matiere_id')->unsigned();
             $table->foreign('matiere_id')->references('id')->on('matieres')->onDelete('cascade');
             $table->timestamps();

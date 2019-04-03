@@ -107,8 +107,11 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::get('/matieres/ajout', 'MatiereController@create')->name('matiere.ajout');
     Route::post('/matieres/store', 'MatiereController@store')->name('matiere.store');
     Route::get('/matieres/edit/{id}', 'MatiereController@edit')->name('matiere.edit');
+    Route::get('/matieres/show/{id}', 'MatiereController@show')->name('matiere.show');
     Route::put('/matieres/update/{id}', 'MatiereController@update')->name('matiere.update');
     Route::delete('/matieres/destroy/{id?}', 'MatiereController@destroy')->name('matiere.destroy');
+
+    Route::get('/matieres/classes/{annee_id?}', 'MatiereController@getclasses')->name('matiere.classes');
 
     //devoirs
 
@@ -118,6 +121,8 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::get('/devoirs/edit/{id}', 'DevoirController@edit')->name('devoir.edit');
     Route::put('/devoirs/update/{id}', 'DevoirController@update')->name('devoir.update');
     Route::delete('/devoirs/destroy/{id?}', 'DevoirController@destroy')->name('devoir.destroy');
+    Route::get('/devoirs/classes/{annee_id?}', 'DevoirController@getclasses')->name('devoir.classes');
+    Route::get('/devoirs/matieres/{classe_id?}', 'DevoirController@getmatieres')->name('devoir.matieres');
 
     //salles
 

@@ -12,7 +12,8 @@ class Matiere extends Model
      * @var array
      */
     protected $fillable = [
-        'nom','coeficient','nbr_heures','plafond_abscences','horaires'
+        'nom','coeficient','nbr_heures','plafond_abscences','horaires',
+        'semestre_id','user_id','classe_id',
     ];
 
     public function semestre(){

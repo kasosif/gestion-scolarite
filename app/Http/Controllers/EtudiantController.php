@@ -22,7 +22,7 @@ class EtudiantController extends Controller
     public function getclasses($spec_id = null)
     {
         $spec = Specialite::findorFail($spec_id);
-        $classes = $spec->mesclasses()->get();
+        $classes = $spec->classes()->get();
         return view('Etudiants.classes',['classes'=>$classes]);
     }
 
