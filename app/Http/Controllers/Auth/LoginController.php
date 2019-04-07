@@ -54,7 +54,7 @@ class LoginController extends Controller
             $user = $this->guard()->getLastAttempted();
 
             // Make sure the user is active
-            if (($user->role == 'ROLE_ADMIN' ) && ($this->attemptLogin($request))) {
+            if ((($user->role == 'ROLE_ADMIN') || ($user->role == 'ROLE_EMPLOYE')) && ($this->attemptLogin($request))) {
                 // Send the normal successful login response
                 return $this->sendLoginResponse($request);
             } else {

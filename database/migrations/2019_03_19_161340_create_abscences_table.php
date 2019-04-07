@@ -17,8 +17,8 @@ class CreateAbscencesTable extends Migration
             $table->bigIncrements('id');
             $table->date('date');
             $table->boolean('justifie');
-            $table->string('justification');
-            $table->longText('commentaire');
+            $table->string('justification')->nullable();
+            $table->longText('commentaire')->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('matiere_id')->unsigned();

@@ -15,7 +15,10 @@ class Abscence extends Model
         'date',
         'justifie',
         'commentaire',
-        'justification'
+        'justification',
+        'user_id',
+        'matiere_id',
+        'seance_id',
     ];
 
     public function user(){

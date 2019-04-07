@@ -134,7 +134,7 @@
         $(document).ready(function () {
             $('body').on('change','#annee_id',function () {
                 $.ajax({
-                    url: '{{route('devoir.classes')}}'+'/'+ $('#annee_id').val(),
+                    url: '{{route('ajax.classesbyannee')}}'+'/'+ $('#annee_id').val(),
                     method: "GET",
                     success: function(response) {
                         $("#classe_id").html(response);
@@ -144,7 +144,7 @@
             });
             $('body').on('change','#classe_id',function () {
                 $.ajax({
-                    url: '{{route('devoir.matieres')}}'+'/'+ $('#classe_id').val(),
+                    url: '{{route('ajax.matieresbyclasse')}}'+'/'+ $('#classe_id').val(),
                     method: "GET",
                     success: function(response) {
                         $("#matiere_id").html(response);

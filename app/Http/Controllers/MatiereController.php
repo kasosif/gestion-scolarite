@@ -107,18 +107,4 @@ class MatiereController extends Controller
         $matiere->delete();
         return redirect()->route('matiere.index')->with('success','Matiere Supprimé');
     }
-
-
-    /**
-     * Display classes by annee
-     *
-     * @param  int  $annee_id
-     * @return \Illuminate\Http\Response
-     */
-    public function getclasses($annee_id = null)
-    {
-        $annee = Annee::findorFail($annee_id);
-        $classes = $annee->classes()->get();
-        return view('Matieres.classes',['classes'=>$classes]);
-    }
 }

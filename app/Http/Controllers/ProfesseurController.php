@@ -12,9 +12,11 @@ class ProfesseurController extends Controller
      * Display a listing of Teachers
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('viewProfesseur', User::class);
         $professeurs = User::where('role','ROLE_PROFESSEUR')->get();
         return view('Professeurs.index',['professeurs'=>$professeurs]);
     }
@@ -23,9 +25,11 @@ class ProfesseurController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('createProfesseur', User::class);
         return view('Professeurs.ajout');
     }
 
@@ -34,9 +38,11 @@ class ProfesseurController extends Controller
      *
      * @param  ProfesseurRequest  $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(ProfesseurRequest $request)
     {
+        $this->authorize('createProfesseur', User::class);
         $params = ['role' => 'ROLE_PROFESSEUR'];
         if ($image = $request->files->get('image')) {
             $destinationPath = 'images/professeurs/'; // upload path
@@ -53,10 +59,12 @@ class ProfesseurController extends Controller
      *
      * @param  string  $cin
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($cin)
     {
         $professeur = User::where('cin',$cin)->first();
+        $this->authorize('updateProfesseur', $professeur);
         return view('Professeurs.modif',compact('professeur'));
     }
 
@@ -65,11 +73,13 @@ class ProfesseurController extends Controller
      *
      * @param  ProfesseurRequest $request
      * @param  string  $cin
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @return \Illuminate\Http\Response
      */
     public function update(ProfesseurRequest $request, $cin)
     {
         $professeur = User::where('cin',$cin)->first();
+        $this->authorize('updateProfesseur', $professeur);
         $params = [];
         if ($image = $request->files->get('image')) {
             $destinationPath = 'images/professeurs/'; // upload path
@@ -88,11 +98,13 @@ class ProfesseurController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  string  $cin
+     * @param  string $cin
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($cin)
     {
+        $this->authorize('deleteProfesseur', User::class);
         $professeur = User::where('cin',$cin)->first();
         if ($professeur->image && file_exists(public_path().'/images/professeurs/'.$professeur->image)) {
             unlink(public_path().'/images/professeurs/'.$professeur->image);

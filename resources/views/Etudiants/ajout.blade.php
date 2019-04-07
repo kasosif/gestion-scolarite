@@ -136,8 +136,8 @@
                                         <label for="nom_ar" class="">Nom Arabe</label>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="nom_ar" name="nom_ar" type="text" class="validate" >
-                                        <label for="nom_ar" class="">Nom Anglais</label>
+                                        <input id="nom_en" name="nom_en" type="text" class="validate" >
+                                        <label for="nom_en" class="">Nom Anglais</label>
                                     </div>
                                     <div class="input-field form-input">
                                         <select id="gendre" name="gendre" class="form-control" required>
@@ -221,7 +221,7 @@
             });
             $('body').on('change','#specialite',function () {
                 $.ajax({
-                    url: '{{route('etudiant.classes')}}'+'/'+ $('#specialite').val(),
+                    url: '{{route('ajax.classesbyspec')}}'+'/'+ $('#specialite').val(),
                     method: "GET",
                     success: function(response) {
                         $("#classe").html(response);

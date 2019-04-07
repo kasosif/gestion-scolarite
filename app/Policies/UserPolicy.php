@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Model\Privilege;
 use App\Model\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class UserPolicy
 {
@@ -12,29 +13,30 @@ class UserPolicy
 
     public function before($user, $ability)
     {
-        return $user->role == 'ROLE_ADMIN';
+        if ($user->role == 'ROLE_ADMIN'){
+            return true;
+        }
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Model\User  $user
+     * Determine whether the user can view the etudiant.
+     * @param \App\Model\User $user
      * @param User|null $model
      * @return mixed
      */
-    public function viewEtudiant(User $user,User $model = null)
+    public function viewEtudiant(User $user, User $model = null)
     {
+        $pass = false;
         if ($model){
-            return $user->id == $model->id;
+            $pass =  $user->id == $model->id;
         }
         $privilege = Privilege::where('titre','view_etudiants')->first();
-        return $user->privileges->contains($privilege->id);
+        return ($user->privileges->contains($privilege->id)) || $pass;
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Model\User $user
+     * Determine whether the user can view the professeur.
+     * @param \App\Model\User $user
      * @param User|null $model
      * @return mixed
      */
@@ -49,9 +51,8 @@ class UserPolicy
 
 
     /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Model\User  $user
+     * Determine whether the user can create etudiants.
+     * @param \App\Model\User $user
      * @return mixed
      */
     public function createEtudiant(User $user)
@@ -61,21 +62,24 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\Model\User  $user
+     * Determine whether the user can update the etudiant.
+     * @param \App\Model\User $user
+     * @param  \App\Model\User  $model
      * @return mixed
      */
-    public function updateEtudiant(User $user)
+    public function updateEtudiant(User $user, User $model = null)
     {
+        $pass = false;
+        if ($model){
+            $pass = $user->id == $model->id;
+        }
         $privilege = Privilege::where('titre','update_etudiants')->first();
-        return $user->privileges->contains($privilege->id);
+        return ($user->privileges->contains($privilege->id)) || $pass;
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\Model\User  $user
+     * Determine whether the user can delete the etudiant.
+     * @param \App\Model\User $user
      * @return mixed
      */
     public function deleteEtudiant(User $user)
@@ -84,18 +88,11 @@ class UserPolicy
         return $user->privileges->contains($privilege->id);
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Model\User  $user
-     * @return mixed
-     */
-
 
     /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Model\User  $user
+     * Determine whether the user can create professeurs.
+     * @param \App\Model\User $user
+     * @param \App\Model\User $user
      * @return mixed
      */
     public function createProfesseur(User $user)
@@ -105,20 +102,24 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update the professeur.
      *
      * @param  \App\Model\User  $user
+     * @param  \App\Model\User  $model
      * @return mixed
      */
-    public function updateProfesseur(User $user)
+    public function updateProfesseur(User $user, User $model)
     {
+        $pass = false;
+        if ($model){
+            $pass = $user->id == $model->id;
+        }
         $privilege = Privilege::where('titre','update_professeurs')->first();
-        return $user->privileges->contains($privilege->id);
+        return ($user->privileges->contains($privilege->id)) || $pass;
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
+     * Determine whether the user can delete the professeur.
      * @param  \App\Model\User  $user
      * @return mixed
      */

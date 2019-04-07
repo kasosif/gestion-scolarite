@@ -97,38 +97,4 @@ class FeedController extends Controller
         return redirect()->route('feed.index')->with('success','Actualité Supprimé');
     }
 
-
-    /**
-     * Display classes
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getclasses()
-    {
-        $classes = Classe::all();
-        return view('Feeds.allclasses',['classes'=>$classes]);
-    }
-
-    /**
-     * Display students
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getstudents()
-    {
-        $etudiants = User::where('role','ROLE_ETUDIANT')->get();
-        return view('Feeds.allstudents',compact('etudiants'));
-    }
-
-    /**
-     * Display teachers
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getteachers()
-    {
-        $professeurs = User::where('role','ROLE_PROFESSEUR')->get();
-        return view('Feeds.allteachers',compact('professeurs'));
-    }
-
 }

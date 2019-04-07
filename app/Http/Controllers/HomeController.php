@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Classe;
+use App\Model\Specialite;
+use App\Model\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +26,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $etudiantsnb = User::where('role','ROLE_ETUDIANT')->count();
+        $etudiants = User::where('role','ROLE_ETUDIANT');
+        $profsnb = User::where('role','ROLE_PROFESSEUR')->count();
+        $agentsnb = User::where('role','ROLE_EMPLOYE')->count();
+        $classesnb = Classe::all()->count();
+        $specialitesnb = Specialite::all()->count();
+        $specialites = Specialite::with('classes.users')->get();
+        return view('home',compact('profsnb','agentsnb','etudiantsnb','classesnb','specialitesnb','specialites','etudiants'));
     }
 }

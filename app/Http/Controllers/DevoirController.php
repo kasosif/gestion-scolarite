@@ -87,30 +87,4 @@ class DevoirController extends Controller
         return redirect()->route('devoir.index')->with('success','Devoir Supprimé');
     }
 
-
-    /**
-     * Display classes by annee
-     *
-     * @param  int  $annee_id
-     * @return \Illuminate\Http\Response
-     */
-    public function getclasses($annee_id = null)
-    {
-        $annee = Annee::findorFail($annee_id);
-        $classes = $annee->classes()->get();
-        return view('Devoirs.classes',['classes'=>$classes]);
-    }
-
-    /**
-     * Display matieres by classe
-     *
-     * @param  int  $classe_id
-     * @return \Illuminate\Http\Response
-     */
-    public function getmatieres($classe_id = null)
-    {
-        $classe = Classe::findorFail($classe_id);
-        $matieres = $classe->matieres()->get();
-        return view('Devoirs.matieres',['matieres'=>$matieres]);
-    }
 }

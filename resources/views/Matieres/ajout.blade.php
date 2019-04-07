@@ -141,7 +141,7 @@
         $(document).ready(function () {
             $('body').on('change','#annee_id',function () {
                 $.ajax({
-                    url: '{{route('matiere.classes')}}'+'/'+ $('#annee_id').val(),
+                    url: '{{route('ajax.classesbyannee')}}'+'/'+ $('#annee_id').val(),
                     method: "GET",
                     success: function(response) {
                         $("#classe_id").html(response);

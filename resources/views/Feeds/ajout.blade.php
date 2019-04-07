@@ -118,15 +118,15 @@
                 var url = '';
                 switch ($('#type').val()){
                     case 'classe' : {
-                        url = '{{route('feed.allclasses')}}';
+                        url = '{{route('ajax.classes')}}';
                         break;
                     }
                     case 'etudiant' : {
-                        url = '{{route('feed.allstudents')}}';
+                        url = '{{route('ajax.students')}}';
                         break;
                     }
                     case 'professeur' : {
-                        url = '{{route('feed.allteachers')}}';
+                        url = '{{route('ajax.teachers')}}';
                         break;
                     }
                 }

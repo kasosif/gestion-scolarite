@@ -15,19 +15,6 @@ class EtudiantController extends Controller
 {
 
     /**
-     * Display classes by speciality
-     *
-     * @param  int  $spec_id
-     * @return \Illuminate\Http\Response
-     */
-    public function getclasses($spec_id = null)
-    {
-        $spec = Specialite::findorFail($spec_id);
-        $classes = $spec->classes()->get();
-        return view('Etudiants.classes',['classes'=>$classes]);
-    }
-
-    /**
      * Display a listing of years
      *
      * @return \Illuminate\Http\Response
@@ -35,7 +22,7 @@ class EtudiantController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewEtudiant', Auth::user());
+        $this->authorize('viewEtudiant', User::class);
         $annees = Annee::paginate(4);
         return view('Etudiants.annees',['annees'=>$annees]);
     }
@@ -98,8 +85,8 @@ class EtudiantController extends Controller
      */
     public function edit($cin)
     {
-        $this->authorize('updateEtudiant', Auth::user());
         $etudiant = User::where('cin',$cin)->first();
+        $this->authorize('updateEtudiant', $etudiant);
         $maclasse = Classe::findorFail($etudiant->classe_id);
         $monannee = Annee::findorFail($maclasse->annee_id);
         $maspecialite = Specialite::findorFail($maclasse->specialite_id);
@@ -122,8 +109,8 @@ class EtudiantController extends Controller
      */
     public function update(EtudiantRequest $request, $cin)
     {
-        $this->authorize('updateEtudiant', Auth::user());
         $etudiant = User::where('cin',$cin)->first();
+        $this->authorize('updateEtudiant',[Auth::user(),$etudiant]);
         $params = [];
         if ($image = $request->files->get('image')) {
             $destinationPath = 'images/etudiants/'; // upload path

@@ -1,16 +1,16 @@
 @extends('layouts.app')
 @section('title')
-    Ajouter Un Devoir
+    Ajouter Une Abscence
 @endsection
 @section('preloader')
 @endsection
 @section('csspage')
-    <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
+    <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
 @endsection
-@section('parametreactive')
+@section('etudiantactive')
     class="active"
 @endsection
-@section('devoiractive')
+@section('abscenceetudiantactive')
     class="active-link"
 @endsection
 @section('HeaderPage')
@@ -19,12 +19,12 @@
             <i class="fa fa-list"></i>
         </div>
         <div class="header-title">
-            <h1> Ajouter Un Devoir</h1>
-            <small>Interface d'ajout de devoir</small>
+            <h1> Ajouter Une Abscence</h1>
+            <small>Interface d'ajout d'abscence</small>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('devoir.index')}}">Liste des Devoirs</a></li>
-                <li>Ajouter Un Devoir</li>
+                <li><a href="{{route('abscence.index')}}">Liste des Abscences</a></li>
+                <li>Ajouter Une Abscence</li>
             </ul>
         </div>
     </section>
@@ -33,7 +33,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="pull-right">
-                <a href="{{route('devoir.index')}}" class="btn btn-default w-md">Retour</a>
+                <a href="{{route('abscence.index')}}" class="btn btn-default w-md">Retour</a>
             </div>
         </div>
         @if (count($errors) > 0)
@@ -56,7 +56,7 @@
             <br>
         @endif
         <div class="row">
-            <form action="{{route('devoir.store')}}" method="post">
+            <form action="{{route('abscence.store')}}" method="post">
                 @csrf
                 <div class="card">
                     <div class="card-header">
@@ -81,12 +81,20 @@
                                         <option value="" selected disabled>Selectionnez Matiere</option>
                                     </select>
                                 </div>
-                                <div class="input-field form-input">
-                                    <input id="coeficient" name="coeficient" type="number" class="validate" required>
-                                    <label for="coeficient" class="">Coeficient</label>
+                                <div class="form-group">
+                                    <label for="user_id" class="control-label">Etudiant</label>
+                                    <select required id="user_id" name="user_id" class="form-control">
+                                        <option value="" selected disabled>Selectionnez Etudiant</option>
+                                    </select>
                                 </div>
-                                <div class="input-field form-input">
-                                    <input name="date" id= "date_pub" class="validate" type="date">
+                                <div class="form-group">
+                                    <label for="seance_id" class="control-label">Seance</label>
+                                    <select required id="seance_id" name="seance_id" class="form-control">
+                                        <option value="" selected disabled>Selectionnez Seance</option>
+                                        @foreach($seances as $seance)
+                                            <option value="{{$seance->id}}">{{date('H:i', strtotime($seance->heure_debut))}} => {{date('H:i', strtotime($seance->heure_fin))}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -97,18 +105,20 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="type" class="control-label">Type</label>
-                                    <select required id="type" name="type" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Type</option>
-                                        <option value="cc">Cc</option>
-                                        <option value="ds">Ds</option>
-                                        <option value="examen">Examen</option>
+                                    <label for="justifie" class="control-label">Justification</label>
+                                    <select required id="justifie" name="justifie" class="form-control">
+                                        <option value="" selected disabled>Selectionnez Justification</option>
+                                        <option value="1">Justifié</option>
+                                        <option value="0">Non Justifié</option>
                                     </select>
                                 </div>
-                                <div class="input-field form-input">
-                                    <input id="nom" name="nom" type="text" class="validate" required>
-                                    <label for="nom" class="">Nom</label>
+                                <div class="form-group">
+                                    <label for="date_pub">Date</label>
+                                    <input name="date" id= "date_pub" class="validate" type="date">
                                 </div>
+                            </div>
+                            <div class="col-md-8" id="contenuJustif">
+
                             </div>
 
                         </div>
@@ -129,6 +139,7 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.js')}}"></script>
     <script>
         $(document).ready(function () {
             $('body').on('change','#annee_id',function () {
@@ -138,6 +149,7 @@
                     success: function(response) {
                         $("#classe_id").html(response);
                         $("#matiere_id").html('');
+                        $("#user_id").html('');
                     }
                 });
             });
@@ -149,6 +161,30 @@
                         $("#matiere_id").html(response);
                     }
                 });
+                $.ajax({
+                    url: '{{route('ajax.studentsbyclass')}}'+'/'+ $('#classe_id').val(),
+                    method: "GET",
+                    success: function(response) {
+                        $("#user_id").html(response);
+                    }
+                });
+            });
+
+            $('body').on('change','#justifie',function () {
+                if ($('#justifie').val() === '1'){
+                    $('#contenuJustif').html('<label for="justification">Justification</label>\n' +
+                        '<input type="file" name="justification" id="justifphoto" required>');
+                    $("#justifphoto").fileinput({
+                        'showUpload': !1,
+                        'allowedFileExtensions': ["jpeg","jpg", "png"],
+                        'minFileSize': 5,
+                        'maxFileSize': 2200
+                    });
+                }
+                if ($('#justifie').val() === '0'){
+                    $('#contenuJustif').html('<label for="commentaire">Commentaire</label>\n' +
+                        '<textarea required name="commentaire" id="commentaire" cols="100" rows="500"></textarea>');
+                }
             });
         });
     </script>

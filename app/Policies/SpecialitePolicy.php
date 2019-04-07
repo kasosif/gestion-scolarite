@@ -11,11 +11,17 @@ class SpecialitePolicy
 {
     use HandlesAuthorization;
 
+    public function before($user, $ability)
+    {
+        if ($user->role == 'ROLE_ADMIN'){
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view the specialite.
-     *
-     * @param  \App\Model\User  $user
-     * @param  \App\Model\Specialite  $specialite
+     * @param \App\Model\User $user
+     * @param  \App\Model\Specialite|null  $specialite
      * @return mixed
      */
     public function view(User $user, Specialite $specialite = null)
@@ -26,8 +32,7 @@ class SpecialitePolicy
 
     /**
      * Determine whether the user can create specialites.
-     *
-     * @param  \App\Model\User  $user
+     * @param \App\Model\User $user
      * @return mixed
      */
     public function create(User $user)
@@ -38,8 +43,7 @@ class SpecialitePolicy
 
     /**
      * Determine whether the user can update the specialite.
-     *
-     * @param  \App\Model\User  $user
+     * @param \App\Model\User $user
      * @param  \App\Model\Specialite  $specialite
      * @return mixed
      */
@@ -51,8 +55,7 @@ class SpecialitePolicy
 
     /**
      * Determine whether the user can delete the specialite.
-     *
-     * @param  \App\Model\User  $user
+     * @param \App\Model\User $user
      * @param  \App\Model\Specialite  $specialite
      * @return mixed
      */

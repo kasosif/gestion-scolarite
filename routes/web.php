@@ -14,7 +14,7 @@
 Auth::routes(['register'=> false]);
 
 
-Route::group(['middleware' => ['auth', 'admin']], function() {
+Route::group(['middleware' => 'auth'], function() {
 
     //dashboard
     Route::get('/', 'HomeController@index')->name('home');
@@ -28,7 +28,6 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::get('/etudiant/edit/{cin}', 'EtudiantController@edit')->name('etudiant.edit');
     Route::put('/etudiant/update/{cin}', 'EtudiantController@update')->name('etudiant.update');
     Route::delete('/etudiant/destroy/{cin?}', 'EtudiantController@destroy')->name('etudiant.destroy');
-    Route::get('/etudiant/classes/{spec_id?}', 'EtudiantController@getclasses')->name('etudiant.classes');
 
     //professeurs
 
@@ -39,6 +38,15 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::get('/professeurs/edit/{cin}', 'ProfesseurController@edit')->name('professeur.edit');
     Route::put('/professeurs/update/{cin}', 'ProfesseurController@update')->name('professeur.update');
 
+    //employes
+
+    Route::get('/employes', 'EmployeController@index')->name('employe.index');
+    Route::get('/employes/ajout', 'EmployeController@create')->name('employe.ajout');
+    Route::post('/employes/store', 'EmployeController@store')->name('employe.store');
+    Route::delete('/employes/destroy/{cin?}', 'EmployeController@destroy')->name('employe.destroy');
+    Route::get('/employes/edit/{cin}', 'EmployeController@edit')->name('employe.edit');
+    Route::put('/employes/update/{cin}', 'EmployeController@update')->name('employe.update');
+
     //actualitées
 
     Route::get('/feeds', 'FeedController@index')->name('feed.index');
@@ -47,10 +55,6 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::delete('/feeds/destroy/{id?}', 'FeedController@destroy')->name('feed.destroy');
     Route::get('/feeds/edit/{id}', 'FeedController@edit')->name('feed.edit');
     Route::put('/feeds/update/{id}', 'FeedController@update')->name('feed.update');
-
-    Route::get('/feeds/classes', 'FeedController@getclasses')->name('feed.allclasses');
-    Route::get('/feeds/students', 'FeedController@getstudents')->name('feed.allstudents');
-    Route::get('/feeds/teachers', 'FeedController@getteachers')->name('feed.allteachers');
 
     //années
 
@@ -111,7 +115,6 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::put('/matieres/update/{id}', 'MatiereController@update')->name('matiere.update');
     Route::delete('/matieres/destroy/{id?}', 'MatiereController@destroy')->name('matiere.destroy');
 
-    Route::get('/matieres/classes/{annee_id?}', 'MatiereController@getclasses')->name('matiere.classes');
 
     //devoirs
 
@@ -121,8 +124,6 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::get('/devoirs/edit/{id}', 'DevoirController@edit')->name('devoir.edit');
     Route::put('/devoirs/update/{id}', 'DevoirController@update')->name('devoir.update');
     Route::delete('/devoirs/destroy/{id?}', 'DevoirController@destroy')->name('devoir.destroy');
-    Route::get('/devoirs/classes/{annee_id?}', 'DevoirController@getclasses')->name('devoir.classes');
-    Route::get('/devoirs/matieres/{classe_id?}', 'DevoirController@getmatieres')->name('devoir.matieres');
 
     //salles
 
@@ -132,5 +133,22 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::get('/salles/edit/{id}', 'SalleController@edit')->name('salle.edit');
     Route::put('/salles/update/{id}', 'SalleController@update')->name('salle.update');
     Route::delete('/salles/destroy/{id?}', 'SalleController@destroy')->name('salle.destroy');
+
+    //abscences
+
+    Route::get('/abscences/', 'AbscenceController@index')->name('abscence.index');
+    Route::get('/abscences/ajout', 'AbscenceController@create')->name('abscence.ajout');
+    Route::post('/abscences/store', 'AbscenceController@store')->name('abscence.store');
+    Route::delete('/abscences/destroy/{id?}', 'AbscenceController@destroy')->name('abscence.destroy');
+
+    //ajax
+    Route::get('/ajax/classes/{spec_id?}', 'AjaxController@classsesBySpecialite')->name('ajax.classesbyspec');
+    Route::get('/ajax/annees/{annee_id?}', 'AjaxController@classsesByAnnee')->name('ajax.classesbyannee');
+    Route::get('/ajax/matieres/{classe_id?}', 'AjaxController@matieresByClasse')->name('ajax.matieresbyclasse');
+    Route::get('/ajax/allclasses', 'AjaxController@getAllClasses')->name('ajax.classes');
+    Route::get('/ajax/alletudiants', 'AjaxController@getAllStudents')->name('ajax.students');
+    Route::get('/ajax/etudiants/{classe_id?}', 'AjaxController@getStudentsByClasse')->name('ajax.studentsbyclass');
+    Route::get('/ajax/professeurs', 'AjaxController@getAllTeachers')->name('ajax.teachers');
+
 });
 

@@ -3,11 +3,12 @@
 namespace App\Policies;
 
 use App\Model\Privilege;
-use App\Model\Semestre;
+use App\Model\Seance;
 use App\Model\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
-class SemestrePolicy
+class SeancePolicy
 {
     use HandlesAuthorization;
 
@@ -19,50 +20,50 @@ class SemestrePolicy
     }
 
     /**
-     * Determine whether the user can view the semestre.
+     * Determine whether the user can view the seance.
      * @param \App\Model\User $user
-     * @param  \App\Model\Semestre|null  $semestre
+     * @param  \App\Model\Seance  $seance
      * @return mixed
      */
-    public function view(User $user, Semestre $semestre = null)
+    public function view(User $user, Seance $seance = null)
     {
-        $privilege = Privilege::where('titre','view_semestres')->first();
+        $privilege = Privilege::where('titre','view_seances')->first();
         return $user->privileges->contains($privilege->id);
     }
 
     /**
-     * Determine whether the user can create semestres.
+     * Determine whether the user can create seances.
      * @param \App\Model\User $user
      * @return mixed
      */
     public function create(User $user)
     {
-        $privilege = Privilege::where('titre','create_semestres')->first();
+        $privilege = Privilege::where('titre','create_seances')->first();
         return $user->privileges->contains($privilege->id);
     }
 
     /**
-     * Determine whether the user can update the semestre.
+     * Determine whether the user can update the seance.
      * @param \App\Model\User $user
-     * @param  \App\Model\Semestre  $semestre
+     * @param  \App\Model\Seance  $seance
      * @return mixed
      */
-    public function update(User $user,Semestre $semestre = null)
+    public function update(User $user,Seance $seance = null)
     {
-        $privilege = Privilege::where('titre','update_semestres')->first();
+        $privilege = Privilege::where('titre','update_seances')->first();
         return $user->privileges->contains($privilege->id);
     }
 
     /**
-     * Determine whether the user can delete the semestre.
+     * Determine whether the user can delete the seance.
      * @param \App\Model\User $user
-     * @param  \App\Model\Semestre  $semestre
+     * @param  \App\Model\Seance  $seance
      * @return mixed
      */
-    public function delete(User $user,Semestre $semestre = null)
+    public function delete(User $user,Seance $seance = null)
     {
-        $privilege = Privilege::where('titre','delete_semestres')->first();
+
+        $privilege = Privilege::where('titre','delete_seances')->first();
         return $user->privileges->contains($privilege->id);
     }
-
 }

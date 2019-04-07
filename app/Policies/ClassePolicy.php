@@ -3,18 +3,23 @@
 namespace App\Policies;
 
 use App\Model\Privilege;
-use App\Model\User;
 use App\Model\Classe;
+use App\Model\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-
 class ClassePolicy
 {
     use HandlesAuthorization;
 
+    public function before($user, $ability)
+    {
+        if ($user->role == 'ROLE_ADMIN'){
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view the classe.
-     *
-     * @param  \App\Model\User  $user
+     * @param \App\Model\User $user
      * @param  \App\Model\Classe  $classe
      * @return mixed
      */
@@ -30,8 +35,7 @@ class ClassePolicy
 
     /**
      * Determine whether the user can create classes.
-     *
-     * @param  \App\Model\User  $user
+     * @param \App\Model\User $user
      * @return mixed
      */
     public function create(User $user)
@@ -42,8 +46,7 @@ class ClassePolicy
 
     /**
      * Determine whether the user can update the classe.
-     *
-     * @param  \App\Model\User  $user
+     * @param \App\Model\User $user
      * @param  \App\Model\Classe  $classe
      * @return mixed
      */
@@ -55,8 +58,7 @@ class ClassePolicy
 
     /**
      * Determine whether the user can delete the classe.
-     *
-     * @param  \App\Model\User  $user
+     * @param \App\Model\User $user
      * @param  \App\Model\Classe  $classe
      * @return mixed
      */

@@ -307,40 +307,67 @@
                     <li @yield('etudiantactive')>
                         <a><i class="material-icons">supervisor_account</i>Etudiants<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li @yield('listeetudiantactive')><a href="{{route('etudiant.index')}}">Liste des Etudiants</a></li>
-                            <li @yield('abscenceetudiantactive')><a href="#">Abscences</a></li>
-                            <li @yield('noteetudiantactive')><a href="#">Notes</a></li>
+                            @can('viewEtudiant',App\Model\User::class)
+                                <li @yield('listeetudiantactive')><a href="{{route('etudiant.index')}}">Liste des Etudiants</a></li>
+                            @endcan
+                            @can('view',App\Model\Abscence::class)
+                                <li @yield('abscenceetudiantactive')><a href="{{route('abscence.index')}}">Abscences</a></li>
+
+                            @endcan
                         </ul>
                     </li>
-                    <li @yield('professeuractive')>
-                        <a><i class="material-icons">contact_mail</i>Professeurs<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li @yield('listeprofesseuractive')><a href="{{route('professeur.index')}}">Liste des Professeurs</a></li>
-                        </ul>
-                    </li>
-                    <li @yield('actualiteactive')>
-                        <a href="{{route('feed.index')}}">
-                            <i class="material-icons">rss_feed</i>
-                            Actualitées
-                        </a>
-                    </li>
-                    <li @yield('accesactive')>
-                        <a href="{{route('home')}}">
-                            <i class="material-icons">lock_open</i>
-                            Accés
-                        </a>
-                    </li>
+                    @can('viewProfesseur',App\Model\User::class)
+                        <li @yield('professeuractive')>
+                            <a><i class="material-icons">contact_mail</i>Professeurs<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li @yield('listeprofesseuractive')><a href="{{route('professeur.index')}}">Liste des Professeurs</a></li>
+                            </ul>
+                        </li>
+                    @endcan
+                    @can('view',App\Model\Feed::class)
+                        <li @yield('actualiteactive')>
+                            <a href="{{route('feed.index')}}">
+                                <i class="material-icons">rss_feed</i>
+                                Actualitées
+                            </a>
+                        </li>
+                    @endcan
+                    @if(Auth::user()->role == 'ROLE_ADMIN')
+                        <li @yield('accesactive')>
+                            <a href="{{route('employe.index')}}">
+                                <i class="material-icons">lock_open</i>
+                                Accés
+                            </a>
+                        </li>
+                    @endif
                     <li @yield('parametreactive')>
                         <a><i class="material-icons">build</i>Paramètres<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li @yield('anneeactive')><a href="{{route('annee.index')}}">Années Scolaires</a></li>
-                            <li @yield('semestreactive')><a href="{{route('semestre.index')}}">Semestres</a></li>
-                            <li @yield('specialiteactive')><a href="{{route('specialite.index')}}">Spécialites</a></li>
-                            <li @yield('classeactive')><a href="{{route('classe.index')}}">Classes</a></li>
-                            <li @yield('seanceactive')><a href="{{route('seance.index')}}">Séances</a></li>
-                            <li @yield('devoiractive')><a href="{{route('devoir.index')}}">Devoirs</a></li>
-                            <li @yield('matiereactive')><a href="{{route('matiere.index')}}">Matieres</a></li>
-                            <li @yield('salleactive')><a href="{{route('salle.index')}}">Salles</a></li>
+                            @can('view',App\Model\Annee::class)
+                                <li @yield('anneeactive')><a href="{{route('annee.index')}}">Années Scolaires</a></li>
+
+                            @endcan
+                            @can('view',App\Model\Semestre::class)
+                                <li @yield('semestreactive')><a href="{{route('semestre.index')}}">Semestres</a></li>
+                            @endcan
+                            @can('view',App\Model\Specialite::class)
+                                <li @yield('specialiteactive')><a href="{{route('specialite.index')}}">Spécialites</a></li>
+                            @endcan
+                            @can('view',App\Model\Classe::class)
+                                <li @yield('classeactive')><a href="{{route('classe.index')}}">Classes</a></li>
+                            @endcan
+                            @can('view',App\Model\Seance::class)
+                                <li @yield('seanceactive')><a href="{{route('seance.index')}}">Séances</a></li>
+                            @endcan
+                            @can('view',App\Model\Devoir::class)
+                                <li @yield('devoiractive')><a href="{{route('devoir.index')}}">Devoirs</a></li>
+                            @endcan
+                            @can('view',App\Model\Matiere::class)
+                                <li @yield('matiereactive')><a href="{{route('matiere.index')}}">Matieres</a></li>
+                            @endcan
+                            @can('view',App\Model\Salle::class)
+                                <li @yield('salleactive')><a href="{{route('salle.index')}}">Salles</a></li>
+                            @endcan
                         </ul>
                     </li>
                     <li class="side-last"></li>
