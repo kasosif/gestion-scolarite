@@ -32,7 +32,7 @@ class HomeController extends Controller
         $agentsnb = User::where('role','ROLE_EMPLOYE')->count();
         $classesnb = Classe::all()->count();
         $specialitesnb = Specialite::all()->count();
-        $specialites = Specialite::with('classes.users')->get();
+        $specialites = Specialite::all();
         return view('home',compact('profsnb','agentsnb','etudiantsnb','classesnb','specialitesnb','specialites','etudiants'));
     }
 }

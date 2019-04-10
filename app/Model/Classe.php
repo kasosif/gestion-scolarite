@@ -15,28 +15,23 @@ class Classe extends Model
         'promotion',
         'code',
         'abbreviation',
-        'annee_id',
-        'specialite_id'
+        'niveau_id'
     ];
 
-    public function feeds(){
-        return $this->hasMany('App\Model\Feed');
+    public function affectations() {
+        return $this->hasMany(Affectation::class);
     }
 
-    public function users(){
-        return $this->hasMany('App\Model\User');
+    public function users() {
+        return $this->hasMany(User::class);
     }
 
-    public function matieres(){
-        return $this->hasMany('App\Model\Matiere');
+    public function feeds() {
+        return $this->hasMany(Feed::class);
     }
 
-    public function specialite(){
-        return $this->belongsTo('App\Model\Specialite');
-    }
-
-    public function annee(){
-        return $this->belongsTo('App\Model\Annee');
+    public function niveau(){
+        return $this->belongsTo(Niveau::class);
     }
 
 

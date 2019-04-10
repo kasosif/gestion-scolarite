@@ -120,17 +120,17 @@
                 {
                     label: "Etudiants",
                     data: '{{$etudiantsnb}}',
-                    color: "grey"
+                    color: "green"
                 },
                 {
                     label: "Profs",
-                    data: '{{$etudiantsnb}}',
-                    color: "black"
+                    data: '{{$profsnb}}',
+                    color: "blue"
                 },
                 {
                     label: "Agents",
-                    data: '{{$etudiantsnb}}',
-                    color: "green"
+                    data: '{{$agentsnb}}',
+                    color: "black"
                 }
             ];
             var chartUsersOptions8 = {
@@ -166,7 +166,7 @@
                         label: '# of Classes',
                         data: [
                             @forEach($specialites as $specialite)
-                                '{{$specialite->classes()->count()}}',
+                                '{{$specialite->niveaux()->count()}}',
                             @endforeach
                         ],
                         backgroundColor: [

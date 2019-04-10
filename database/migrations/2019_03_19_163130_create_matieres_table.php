@@ -22,10 +22,8 @@ class CreateMatieresTable extends Migration
             $table->integer('horaires');
             $table->integer('semestre_id')->unsigned();
             $table->foreign('semestre_id')->references('id')->on('semestres');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('classe_id')->unsigned();
-            $table->foreign('classe_id')->references('id')->on('classes');
+            $table->integer('niveau_id')->unsigned();
+            $table->foreign('niveau_id')->references('id')->on('niveaux');
             $table->timestamps();
         });
     }

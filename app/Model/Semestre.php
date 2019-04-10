@@ -14,6 +14,6 @@ class Semestre extends Model
     protected $fillable = ['nom'];
 
     public function matieres(){
-        return $this->hasMany('App\Model\Matiere');
+        return $this->hasMany(Matiere::class);
     }
 }

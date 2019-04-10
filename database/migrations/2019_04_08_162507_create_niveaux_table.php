@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSpecialitesTable extends Migration
+class CreateNiveauxTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateSpecialitesTable extends Migration
      */
     public function up()
     {
-        Schema::create('specialites', function (Blueprint $table) {
+        Schema::create('niveaux', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nom');
-            $table->string('nom_ar')->nullable();
-            $table->string('nom_en')->nullable();
-            $table->string('code')->nullable();
-            $table->integer('annee_id')->unsigned()->nullable();
-            $table->foreign('annee_id')->references('id')->on('annees')->onDelete('set null');
-
+            $table->integer('specialite_id')->unsigned()->nullable();
+            $table->foreign('specialite_id')->references('id')->on('specialites')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ class CreateSpecialitesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('specialites');
+        Schema::dropIfExists('niveaux');
     }
 }

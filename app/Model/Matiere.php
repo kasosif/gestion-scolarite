@@ -13,27 +13,27 @@ class Matiere extends Model
      */
     protected $fillable = [
         'nom','coeficient','nbr_heures','plafond_abscences','horaires',
-        'semestre_id','user_id','classe_id',
+        'niveau_id','semestre_id'
     ];
 
+    public function affectations() {
+        return $this->hasMany(Affectation::class);
+    }
+
+    public function devoirs() {
+        return $this->hasMany(Devoir::class);
+    }
+
+    public function abscences() {
+        return $this->hasMany(Abscence::class);
+    }
+
+    public function niveau(){
+        return $this->belongsTo(Niveau::class);
+    }
+
     public function semestre(){
-        return $this->belongsTo('App\Model\Semestre');
-    }
-
-    public function user(){
-        return $this->belongsTo('App\Model\User');
-    }
-
-    public function classe(){
-        return $this->belongsTo('App\Model\Classe');
-    }
-
-    public function devoirs(){
-        return $this->hasMany('App\Model\Devoir');
-    }
-
-    public function abscences(){
-        return $this->hasMany('App\Model\Abscence');
+        return $this->belongsTo(Semestre::class);
     }
 
 

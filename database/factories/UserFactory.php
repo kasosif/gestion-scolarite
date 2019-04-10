@@ -4,7 +4,7 @@ use App\Model\User;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 use Illuminate\Support\Facades\Hash;
-
+use App\Model\Classe;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -46,9 +46,9 @@ $factory->state(User::class,'teacher',function () {
         'role' => 'ROLE_PROFESSEUR'
     ];
 });
-$factory->state(User::class,'student',function (Faker $faker) {
+$factory->state(User::class,'student',function () {
     return [
         'role' => 'ROLE_ETUDIANT',
-        'classe_id' => $faker->numberBetween(1,10),
+        'classe_id' => Classe::all()->random()->id,
     ];
 });

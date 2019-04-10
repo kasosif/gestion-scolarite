@@ -22,14 +22,14 @@ class Abscence extends Model
     ];
 
     public function user(){
-        return $this->belongsTo('App\Model\User');
+        return $this->belongsTo(User::class);
     }
 
     public function matiere(){
-        return $this->belongsTo('App\Model\Matiere');
+        return $this->belongsTo(Matiere::class);
     }
 
     public function seance(){
-        return $this->belongsTo('App\Model\Seance');
+        return $this->belongsTo(Seance::class);
     }
 }

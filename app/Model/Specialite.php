@@ -13,10 +13,14 @@ class Specialite extends Model
      */
     protected $fillable = [
         'nom','nom_ar','nom_en',
-        'code'
+        'code','annee_id'
     ];
 
-    public function classes(){
-        return $this->hasMany('App\Model\Classe');
+    public function niveaux() {
+        return $this->hasMany(Niveau::class);
+    }
+
+    public function annee(){
+        return $this->belongsTo(Annee::class);
     }
 }

@@ -24,7 +24,8 @@ class PrivilegesTableSeeder extends Seeder
             ['titre' => 'view_seances'],['titre' => 'update_seances'],['titre' => 'delete_seances'],['titre' => 'create_seances'],
             ['titre' => 'view_devoirs'],['titre' => 'update_devoirs'],['titre' => 'delete_devoirs'],['titre' => 'create_devoirs'],
             ['titre' => 'view_matieres'],['titre' => 'update_matieres'],['titre' => 'delete_matieres'],['titre' => 'create_matieres'],
-            ['titre' => 'view_salles'],['titre' => 'update_salles'],['titre' => 'delete_salles'],['titre' => 'create_salles']
+            ['titre' => 'view_salles'],['titre' => 'update_salles'],['titre' => 'delete_salles'],['titre' => 'create_salles'],
+            ['titre' => 'view_niveaux'],['titre' => 'update_niveaux'],['titre' => 'delete_niveaux'],['titre' => 'create_niveaux'],
         ]);
     }
 }

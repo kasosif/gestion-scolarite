@@ -43,24 +43,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function feeds(){
-        return $this->hasMany('App\Model\Feed');
+    public function abscences() {
+        return $this->hasMany(Abscence::class);
     }
 
-    public function abscences(){
-        return $this->hasMany('App\Model\Abscence');
+    public function feeds() {
+        return $this->hasMany(Feed::class);
     }
 
-    public function classe(){
-        return $this->belongsTo('App\Model\Classe');
-    }
-
-    public function matieres(){
-        return $this->hasMany('App\Model\Matiere');
+    public function affectations() {
+        return $this->hasMany(Affectation::class);
     }
 
     public function privileges(){
         return $this->belongsToMany(Privilege::class);
+    }
+
+    public function classe(){
+        return $this->belongsTo(Classe::class);
     }
 
     public function setPasswordAttribute($value){

@@ -4,23 +4,20 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Devoir extends Model
+class Affectation extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'nom','coeficient','date','type',
-        'matiere_id','classe_id'
-    ];
+    protected $fillable = ['matiere_id','classe_id','user_id'];
 
     public function classe(){
         return $this->belongsTo(Classe::class);
     }
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
     public function matiere(){
         return $this->belongsTo(Matiere::class);
     }
+
 }

@@ -21,10 +21,10 @@ class Feed extends Model
     ];
 
     public function user(){
-        return $this->belongsTo('App\Model\User');
+        return $this->belongsTo(User::class);
     }
 
     public function classe(){
-        return $this->belongsTo('App\Model\Classe');
+        return $this->belongsTo(Classe::class);
     }
 }

@@ -16,6 +16,6 @@ class Seance extends Model
     ];
 
     public function abscences(){
-        return $this->hasMany('App\Model\Abscence');
+        return $this->hasMany(Abscence::class);
     }
 }

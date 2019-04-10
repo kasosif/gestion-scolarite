@@ -17,8 +17,8 @@ class Annee extends Model
         'code'
     ];
 
-    public function classes(){
-        return $this->hasMany('App\Model\Classe');
+    public function specialites() {
+        return $this->hasMany(Specialite::class);
     }
 
 }
