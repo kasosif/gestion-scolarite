@@ -47,7 +47,6 @@
                             <table id="devoirsTable" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Année Scolaire</th>
                                     <th>Classe</th>
                                     <th>Matiere</th>
                                     <th>Date</th>
@@ -58,10 +57,7 @@
                                 @foreach($devoirs as $devoir)
                                     <tr>
                                         <td>
-                                            {{$devoir->matiere->classe->annee->nom}}
-                                        </td>
-                                        <td>
-                                            {{$devoir->matiere->classe->abbreviation}}
+                                            {{$devoir->classe->abbreviation}} {{$devoir->classe->niveau->nom}}
                                         </td>
                                         <td>
                                             {{$devoir->matiere->nom}}
@@ -71,7 +67,7 @@
                                         </td>
                                         <td>
                                             <a href="{{route('devoir.edit',['id' => $devoir->id])}}" class="btn btn-primary w-md">Modif/Info</a>
-                                            <button onclick="deleteFeed('{{$devoir->id}}','{{$devoir->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            <button onclick="deleteDevoir('{{$devoir->id}}','{{$devoir->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -126,7 +122,7 @@
             });
             @endif
         });
-        function deleteFeed(id,titre) {
+        function deleteDevoir(id,titre) {
             $('#deleteform').attr('action','{{route('devoir.destroy')}}'+'/'+id);
             $('.modal-body').html('<h2>Etes-vous sûr de vouloir supprimer le devoir :'+titre+'</h2>');
             $('#deleteModal').modal('show');

@@ -1,15 +1,16 @@
 @extends('layouts.app')
 @section('title')
-    Ajouter Une Année Scolaire
+    Modifier Un Niveau
 @endsection
 @section('preloader')
 @endsection
 @section('csspage')
+    <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
 @endsection
 @section('basesactive')
     class = "active"
 @endsection
-@section('anneeactive')
+@section('niveauactive')
     class = "active-link"
 @endsection
 @section('HeaderPage')
@@ -18,12 +19,12 @@
             <i class="fa fa-list"></i>
         </div>
         <div class="header-title">
-            <h1> Ajouter Une Année Scolaire</h1>
-            <small>Interface d'ajout d'année scolaire</small>
+            <h1> Modifier Un Niveau</h1>
+            <small>Interface de modification de niveau</small>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('annee.index')}}">Liste Années Scolaires</a></li>
-                <li>Ajouter Une Année Scolaire</li>
+                <li><a href="{{route('niveau.index')}}">Liste Niveaux</a></li>
+                <li>Modifier Un Niveau</li>
             </ul>
         </div>
     </section>
@@ -32,7 +33,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="pull-right">
-                <a href="{{route('annee.index')}}" class="btn btn-default w-md">Retour</a>
+                <a href="{{route('niveau.index')}}" class="btn btn-default w-md">Retour</a>
             </div>
         </div>
         @if (count($errors) > 0)
@@ -55,46 +56,49 @@
             <br>
         @endif
         <div class="row">
-            <form action="{{route('annee.store')}}" method="post" >
+            <form action="{{route('niveau.update',['id' => $niveau->id])}}" method="post" >
+                <input type="hidden" name="_method" value="PUT">
                 @csrf
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-wpforms"></i>
-                        Formulaire d'ajout
+                        Formulaire de modification
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
                             <div class="col-md-6">
-                                <div class="input-field form-input">
-                                    <input id="nom" name="nom" type="text" class="validate" required>
-                                    <label for="nom" class="">Nom</label>
-                                </div>
                                 <div class="form-group">
-                                    <label for="date_debut">Date Debut</label>
-                                    <input name="date_debut" id= "date_debut" class="form-control" type="date" required>
-                                </div>
-                                <div class="input-field form-input">
-                                    <input id="code" name="code" type="text" class="validate" required>
-                                    <label for="code" class="">Code</label>
+                                    <label for="specialite_id" class="control-label">Specialite</label>
+                                    <select id="specialite_id" name="specialite_id" required class="form-control">
+                                        <option value="" selected disabled>Selectionner Specialite</option>
+                                        @foreach($specs as $spec)
+                                            <option @if($spec->id == $niveau->specialite->id) selected @endif value="{{$spec->id}}">{{$spec->nom}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="nom_ar" name="nom_ar" type="text" class="validate">
-                                    <label for="nom_ar" class="">Nom Arabe</label>
+                                    <input id="nom" value="{{$niveau->nom}}" name="nom" type="text" class="validate" required>
+                                    <label for="nom" class="">Nom</label>
                                 </div>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="date_fin">Date Fin</label>
-                                    <input name="date_fin" id="date_fin" class="form-control" type="date" required>
+                                    <label for="matieres" class="control-label">Matieres</label>
+                                    <select id="matieres" name="matieres[]" multiple>
+                                        @foreach($matieres as $matiere)
+                                            <option @if($niveau->matieres->contains($matiere->id)) selected @endif value="{{$matiere->id}}">{{$matiere->nom}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="pull-right">
                     <button type="submit" class="btn btn-labeled btn-success">
-                        <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Ajouter
+                        <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Modifier
                     </button>
                     <button type="reset" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
@@ -105,4 +109,10 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#matieres').select2();
+        });
+    </script>
 @endsection

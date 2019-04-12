@@ -23,22 +23,8 @@ class EtudiantController extends Controller
     public function index()
     {
         $this->authorize('viewEtudiant', User::class);
-        $annees = Annee::paginate(4);
-        return view('Etudiants.annees',['annees'=>$annees]);
-    }
-
-    /**
-     * Display a listing of students
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function list($id)
-    {
-        $this->authorize('viewEtudiant', Auth::user());
-        $annee = Annee::findorFail($id);
-        return view('Etudiants.liste',['annee'=>$annee]);
+        $etudiants = User::where('role','ROLE_ETUDIANT')->get();
+        return view('Etudiants.liste',['etudiants'=>$etudiants]);
     }
 
     /**
@@ -87,15 +73,11 @@ class EtudiantController extends Controller
     {
         $etudiant = User::where('cin',$cin)->first();
         $this->authorize('updateEtudiant', $etudiant);
-        $maclasse = Classe::findorFail($etudiant->classe_id);
-        $monannee = Annee::findorFail($maclasse->annee_id);
-        $maspecialite = Specialite::findorFail($maclasse->specialite_id);
         $annees = Annee::all();
         $specialites = Specialite::all();
         return view('Etudiants.modif',
-            compact('annees',
-                'specialites',
-                'etudiant','monannee','maspecialite','maclasse')
+            compact('annees','specialites',
+                'etudiant')
         );
     }
 

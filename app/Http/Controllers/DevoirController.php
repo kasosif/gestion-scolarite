@@ -8,6 +8,7 @@ use App\Model\Annee;
 use App\Model\Classe;
 use App\Model\Devoir;
 use App\Model\Matiere;
+use App\Model\Niveau;
 
 class DevoirController extends Controller
 {
@@ -29,8 +30,8 @@ class DevoirController extends Controller
      */
     public function create()
     {
-        $annees = Annee::all();
-        return view('Devoirs.ajout',compact('annees'));
+        $niveaux = Niveau::all();
+        return view('Devoirs.ajout',compact('niveaux'));
     }
 
     /**
@@ -53,9 +54,9 @@ class DevoirController extends Controller
      */
     public function edit($id)
     {
-        $annees = Annee::all();
+        $niveaux = Niveau::all();
         $devoir = Devoir::findorFail($id);
-        return view('Devoirs.modif',compact('devoir','annees'));
+        return view('Devoirs.modif',compact('devoir','niveaux'));
     }
 
     /**

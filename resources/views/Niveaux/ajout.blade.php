@@ -1,15 +1,16 @@
 @extends('layouts.app')
 @section('title')
-    Ajouter Une Matiere
+    Ajouter Un Niveau
 @endsection
 @section('preloader')
 @endsection
 @section('csspage')
+    <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
 @endsection
-@section('parametreactive')
+@section('basesactive')
     class = "active"
 @endsection
-@section('matiereactive')
+@section('niveauactive')
     class = "active-link"
 @endsection
 @section('HeaderPage')
@@ -18,12 +19,12 @@
             <i class="fa fa-list"></i>
         </div>
         <div class="header-title">
-            <h1> Ajouter Une Matiere</h1>
-            <small>Interface d'ajout de matiere</small>
+            <h1> Ajouter Un Niveau</h1>
+            <small>Interface d'ajout de niveau</small>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('matiere.index')}}">Liste Matieres</a></li>
-                <li>Ajouter Une Matiere</li>
+                <li><a href="{{route('niveau.index')}}">Liste Niveaux</a></li>
+                <li>Ajouter Un Niveau</li>
             </ul>
         </div>
     </section>
@@ -32,7 +33,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="pull-right">
-                <a href="{{route('matiere.index')}}" class="btn btn-default w-md">Retour</a>
+                <a href="{{route('niveau.index')}}" class="btn btn-default w-md">Retour</a>
             </div>
         </div>
         @if (count($errors) > 0)
@@ -55,7 +56,7 @@
             <br>
         @endif
         <div class="row">
-            <form action="{{route('matiere.store')}}" method="post" >
+            <form action="{{route('niveau.store')}}" method="post" >
                 @csrf
                 <div class="card">
                     <div class="card-header">
@@ -64,17 +65,13 @@
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="niveau_id" class="control-label">Niveau</label>
-                                    <select required id="niveau_id" name="niveau_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Niveau</option>
+                                    <label for="specialite_id" class="control-label">Specialite</label>
+                                    <select id="specialite_id" name="specialite_id" required class="form-control">
+                                        <option value="" selected disabled>Selectionner Specialite</option>
                                         @foreach($specs as $spec)
-                                            <optgroup label="{{$spec->nom}}">
-                                                @foreach($spec->niveaux as $niveau)
-                                                    <option value="{{$niveau->id}}">{{$spec->nom}} {{$niveau->nom}}</option>
-                                                @endforeach
-                                            </optgroup>
+                                            <option value="{{$spec->id}}">{{$spec->nom}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -84,23 +81,15 @@
                                     <input id="nom" name="nom" type="text" class="validate" required>
                                     <label for="nom" class="">Nom</label>
                                 </div>
-                                <div class="input-field form-input">
-                                    <input id="nbr_heures" name="nbr_heures" type="number" class="validate" required>
-                                    <label for="nbr_heures" class="">Nombre d'heures</label>
-                                </div>
-                                <div class="input-field form-input">
-                                    <input id="horaires" name="horaires" type="number" class="validate" required>
-                                    <label for="horaires" class="">Horaires</label>
-                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="input-field form-input">
-                                    <input id="coeficient" name="coeficient" type="number" class="validate" required>
-                                    <label for="coeficient" class="">Coefficient</label>
-                                </div>
-                                <div class="input-field form-input">
-                                    <input id="plafond_abscences" name="plafond_abscences" type="number" class="validate" required>
-                                    <label for="plafond_abscences" class="">Plafond Absences</label>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="matieres" class="control-label">Matieres</label>
+                                    <select id="matieres" name="matieres[]" multiple>
+                                        @foreach($matieres as $matiere)
+                                            <option value="{{$matiere->id}}">{{$matiere->nom}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -119,4 +108,10 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#matieres').select2();
+        });
+    </script>
 @endsection

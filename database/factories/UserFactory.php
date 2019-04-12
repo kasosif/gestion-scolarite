@@ -26,7 +26,7 @@ $factory->define(User::class, function (Faker $faker) {
         'gendre'=> $faker->randomElement(['male','female']),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => new DateTime(),
-        'password' => Hash::make('secret'),// password
+        'password' => 'secret',
         'remember_token' => Str::random(10),
     ];
 });

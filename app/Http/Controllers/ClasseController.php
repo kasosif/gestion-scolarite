@@ -6,7 +6,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClasseRequest;
 use App\Model\Annee;
 use App\Model\Classe;
+use App\Model\Niveau;
 use App\Model\Specialite;
+use App\Model\User;
 
 class ClasseController extends Controller
 {
@@ -28,9 +30,8 @@ class ClasseController extends Controller
      */
     public function create()
     {
-        $annees = Annee::all();
-        $specialites = Specialite::all();
-        return view('Classes.ajout',compact('annees','specialites'));
+        $specs = Specialite::all();
+        return view('Classes.ajout',compact('specs'));
     }
 
     /**
@@ -55,7 +56,8 @@ class ClasseController extends Controller
     public function show($id)
     {
         $classe = Classe::findorFail($id);
-        return view('Classes.show',compact('classe'));
+        $professeurs = User::where('role','ROLE_PROFESSEUR')->get();
+        return view('Classes.show',compact('classe','professeurs'));
     }
 
 
@@ -67,10 +69,9 @@ class ClasseController extends Controller
      */
     public function edit($id)
     {
-        $annees = Annee::all();
-        $specialites = Specialite::all();
+        $specs = Specialite::all();
         $classe = Classe::findorFail($id);
-        return view('Classes.modif',compact('classe','annees','specialites'));
+        return view('Classes.modif',compact('classe','specs'));
     }
 
     /**

@@ -67,18 +67,16 @@
                         <div class="row" style="padding: 4px">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="annee_id" class="control-label">Année</label>
-                                    <select required id="annee_id" name="annee_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Année</option>
-                                        @foreach($annees as $annee)
-                                            <option value="{{$annee->id}}">{{$annee->nom}}</option>
+                                    <label for="classe_id" class="control-label">Classe</label>
+                                    <select required id="classe_id" name="classe_id" class="form-control">
+                                        <option value="" selected disabled>Selectionnez Classe</option>
+                                        @foreach($niveaux as $niveau)
+                                            <optgroup label="{{$niveau->specialite->nom}} {{$niveau->nom}}">
+                                            @foreach($niveau->classes as $classe)
+                                                <option value="{{$classe->id}}">{{$niveau->nom}} {{$classe->abbreviation}}</option>
+                                            @endforeach
+                                        </optgroup>
                                         @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="matiere_id" class="control-label">Matiere</label>
-                                    <select required id="matiere_id" name="matiere_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Matiere</option>
                                     </select>
                                 </div>
                                 <div class="input-field form-input">
@@ -91,9 +89,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="classe_id" class="control-label">Classe</label>
-                                    <select required id="classe_id" name="classe_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Classe</option>
+                                    <label for="matiere_id" class="control-label">Matiere</label>
+                                    <select required id="matiere_id" name="matiere_id" class="form-control">
+                                        <option value="" selected disabled>Selectionnez Matiere</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -131,16 +129,6 @@
 @section('scriptpage')
     <script>
         $(document).ready(function () {
-            $('body').on('change','#annee_id',function () {
-                $.ajax({
-                    url: '{{route('ajax.classesbyannee')}}'+'/'+ $('#annee_id').val(),
-                    method: "GET",
-                    success: function(response) {
-                        $("#classe_id").html(response);
-                        $("#matiere_id").html('');
-                    }
-                });
-            });
             $('body').on('change','#classe_id',function () {
                 $.ajax({
                     url: '{{route('ajax.matieresbyclasse')}}'+'/'+ $('#classe_id').val(),

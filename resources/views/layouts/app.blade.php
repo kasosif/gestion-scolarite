@@ -304,6 +304,23 @@
                             Tableau de Bord
                         </a>
                     </li>
+                    <li @yield('basesactive')>
+                        <a><i class="material-icons">build</i>Les Bases<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            @can('view',App\Model\Annee::class)
+                                <li @yield('anneeactive')><a href="{{route('annee.index')}}">Années Scolaires</a></li>
+                            @endcan
+                            @can('view',App\Model\Specialite::class)
+                                <li @yield('specialiteactive')><a href="{{route('specialite.index')}}">Spécialites</a></li>
+                            @endcan
+                            @can('view',App\Model\Niveau::class)
+                                <li @yield('niveauactive')><a href="{{route('niveau.index')}}">Niveaux</a></li>
+                            @endcan
+                            @can('view',App\Model\Classe::class)
+                                <li @yield('classeactive')><a href="{{route('classe.index')}}">Classes</a></li>
+                            @endcan
+                        </ul>
+                    </li>
                     <li @yield('etudiantactive')>
                         <a><i class="material-icons">supervisor_account</i>Etudiants<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -341,20 +358,10 @@
                         </li>
                     @endif
                     <li @yield('parametreactive')>
-                        <a><i class="material-icons">build</i>Paramètres<span class="fa arrow"></span></a>
+                        <a><i class="material-icons">settings</i>Paramètres<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            @can('view',App\Model\Annee::class)
-                                <li @yield('anneeactive')><a href="{{route('annee.index')}}">Années Scolaires</a></li>
-
-                            @endcan
                             @can('view',App\Model\Semestre::class)
                                 <li @yield('semestreactive')><a href="{{route('semestre.index')}}">Semestres</a></li>
-                            @endcan
-                            @can('view',App\Model\Specialite::class)
-                                <li @yield('specialiteactive')><a href="{{route('specialite.index')}}">Spécialites</a></li>
-                            @endcan
-                            @can('view',App\Model\Classe::class)
-                                <li @yield('classeactive')><a href="{{route('classe.index')}}">Classes</a></li>
                             @endcan
                             @can('view',App\Model\Seance::class)
                                 <li @yield('seanceactive')><a href="{{route('seance.index')}}">Séances</a></li>

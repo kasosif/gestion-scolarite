@@ -5,12 +5,12 @@
 @section('preloader')
 @endsection
 @section('csspage')
-    @if($specialite->classes()->count() > 0)
+    @if($specialite->niveaux()->count() > 0)
         <!-- dataTables css -->
         <link href="{{asset('assets/plugins/datatables/dataTables.min.css')}}" rel="stylesheet" type="text/css" />
     @endif
 @endsection
-@section('parametreactive')
+@section('basesactive')
     class = "active"
 @endsection
 @section('specialiteactive')
@@ -54,31 +54,37 @@
                             <li>Code : {{$specialite->code}}</li>
                         </ul>
                     </div>
-                    @if($specialite->classes()->count() > 0)
+                    @if($specialite->niveaux()->count() > 0)
                         <div class="row">
                             <h2>Mes Classes</h2>
                             <div class="table-responsive">
                                 <table id="classesTable" class="table table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
+                                        <th>Niveau</th>
                                         <th>Code</th>
                                         <th>Abbreviation</th>
                                         <th>Promotion</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($specialite->classes as $classe)
-                                        <tr>
-                                            <td>
-                                                {{$classe->code}}
-                                            </td>
-                                            <td>
-                                                {{$classe->abbreviation}}
-                                            </td>
-                                            <td>
-                                                {{$classe->promotion}}
-                                            </td>
-                                        </tr>
+                                    @foreach($specialite->niveaux as $niveau)
+                                        @foreach($niveau->classes as $classe)
+                                            <tr>
+                                                <td>
+                                                    {{$niveau->nom}}
+                                                </td>
+                                                <td>
+                                                    {{$classe->code}}
+                                                </td>
+                                                <td>
+                                                    {{$classe->abbreviation}}
+                                                </td>
+                                                <td>
+                                                    {{$classe->promotion}}
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     @endforeach
                                     </tbody>
                                 </table>
@@ -92,7 +98,7 @@
     </div>
 @endsection
 @section('scriptpage')
-    @if($specialite->classes()->count() > 0)
+    @if($specialite->niveaux()->count() > 0)
         <!-- dataTables js -->
         <script src="{{asset('assets/plugins/datatables/dataTables.min.js')}}" type="text/javascript"></script>
         <script>

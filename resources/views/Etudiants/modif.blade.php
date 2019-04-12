@@ -6,6 +6,11 @@
 @endsection
 @section('csspage')
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
+    <style>
+        .file-caption-name{
+            margin: -8px !important;
+        }
+    </style>
 @endsection
 @section('etudiantactive')
     class = "active"
@@ -72,7 +77,7 @@
                                     <select required id="annee" name="annee" class="form-control">
                                         <option value="" selected disabled>Selectionnez Année</option>
                                         @foreach($annees as $annee)
-                                            <option @if($monannee->id == $annee->id) selected @endif value="{{$annee->id}}">{{$annee->nom}}</option>
+                                            <option @if($etudiant->classe->niveau->specialite->annee->id == $annee->id) selected @endif value="{{$annee->id}}">{{$annee->nom}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -81,7 +86,7 @@
                                     <select id="specialite" name="specialite" class="form-control">
                                         <option value="" selected disabled>Selectionnez Spécialite</option>
                                         @foreach($specialites as $specialite)
-                                            <option @if($maspecialite->id == $specialite->id) selected @endif value="{{$specialite->id}}">{{$specialite->nom}}</option>
+                                            <option @if($etudiant->classe->niveau->specialite->id == $specialite->id) selected @endif value="{{$specialite->id}}">{{$specialite->nom}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -89,7 +94,7 @@
                                     <label for="classe" class="control-label">Classe</label>
                                     <select id="classe" name="classe_id" class="form-control">
                                         <option value="" selected disabled>Selectionner Classe</option>
-                                        <option value="{{$maclasse->id}}" selected>{{$maclasse->abbreviation}}</option>
+                                        <option value="{{$etudiant->classe->id}}" selected>{{$etudiant->classe->abbreviation}} {{$etudiant->classe->niveau->nom}}</option>
                                     </select>
                                 </div>
                             </div>

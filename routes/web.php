@@ -21,8 +21,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     //etudiants
 
-    Route::get('/etudiants/annee', 'EtudiantController@index')->name('etudiant.index');
-    Route::get('/etudiants/liste/{anne_id}', 'EtudiantController@list')->name('etudiant.liste');
+    Route::get('/etudiants', 'EtudiantController@index')->name('etudiant.index');
     Route::get('/etudiant/ajout', 'EtudiantController@create')->name('etudiant.ajout');
     Route::post('/etudiant/store', 'EtudiantController@store')->name('etudiant.store');
     Route::get('/etudiant/edit/{cin}', 'EtudiantController@edit')->name('etudiant.edit');
@@ -141,8 +140,19 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/abscences/store', 'AbscenceController@store')->name('abscence.store');
     Route::delete('/abscences/destroy/{id?}', 'AbscenceController@destroy')->name('abscence.destroy');
 
+    //années
+
+    Route::get('/niveaux/', 'NiveauController@index')->name('niveau.index');
+    Route::get('/niveaux/ajout', 'NiveauController@create')->name('niveau.ajout');
+    Route::post('/niveaux/store', 'NiveauController@store')->name('niveau.store');
+    Route::get('/niveaux/edit/{id}', 'NiveauController@edit')->name('niveau.edit');
+    Route::get('/niveaux/show/{id}', 'NiveauController@show')->name('niveau.show');
+    Route::put('/niveaux/update/{id}', 'NiveauController@update')->name('niveau.update');
+    Route::delete('/niveaux/destroy/{id?}', 'NiveauController@destroy')->name('niveau.destroy');
+
     //ajax
     Route::get('/ajax/classes/{spec_id?}', 'AjaxController@classsesBySpecialite')->name('ajax.classesbyspec');
+    Route::post('/ajax/affecterprofesseur', 'AjaxController@affecterProfesseur')->name('ajax.affectprof');
     Route::get('/ajax/annees/{annee_id?}', 'AjaxController@classsesByAnnee')->name('ajax.classesbyannee');
     Route::get('/ajax/matieres/{classe_id?}', 'AjaxController@matieresByClasse')->name('ajax.matieresbyclasse');
     Route::get('/ajax/allclasses', 'AjaxController@getAllClasses')->name('ajax.classes');

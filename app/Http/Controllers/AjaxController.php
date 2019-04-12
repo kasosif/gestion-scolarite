@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 
+use App\Model\Affectation;
 use App\Model\Annee;
 use App\Model\Classe;
+use App\Model\Matiere;
 use App\Model\Specialite;
 use App\Model\User;
+use Illuminate\Http\Request;
 
 class AjaxController extends Controller
 {
@@ -25,8 +28,7 @@ class AjaxController extends Controller
     public function classsesBySpecialite($spec_id = null)
     {
         $spec = Specialite::findorFail($spec_id);
-        $classes = $spec->classes()->get();
-        return view('Ajax.classes',['classes'=>$classes]);
+        return view('Ajax.classes',['spec'=>$spec]);
     }
 
     /**
@@ -96,7 +98,25 @@ class AjaxController extends Controller
     public function matieresByClasse($classe_id = null)
     {
         $classe = Classe::findorFail($classe_id);
-        $matieres = $classe->matieres()->get();
+        $niveau = $classe->niveau;
+        $matieres = $niveau->matieres()->get();
         return view('Ajax.matieres',['matieres'=>$matieres]);
+    }
+
+    /**
+     * Display matieres by classe
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function affecterProfesseur(Request $request)
+    {
+        Affectation::create($request->all());
+        $matiere = Matiere::findorFail($request->get('matiere_id'));
+        $professeur= User::findorFail($request->get('user_id'));
+        return response()->json([
+            'matiere' => $matiere->nom,
+            'professeur' => $professeur->nom.' '.$professeur->prenom
+        ]);
     }
 }

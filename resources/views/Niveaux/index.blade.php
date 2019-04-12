@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Liste des Années Scolaires
+    Liste des Niveaux
 @endsection
 @section('preloader')
 @endsection
@@ -13,7 +13,7 @@
 @section('basesactive')
     class = "active"
 @endsection
-@section('anneeactive')
+@section('niveauactive')
     class = "active-link"
 @endsection
 @section('HeaderPage')
@@ -22,10 +22,10 @@
             <i class="fa fa-list"></i>
         </div>
         <div class="header-title">
-            <h1> Liste des Années Scolaires</h1>
+            <h1> Liste des Niveaux</h1>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('annee.index')}}">Liste Années Scolaires</a></li>
+                <li><a href="{{route('niveau.index')}}">Liste Niveaux</a></li>
             </ul>
         </div>
     </section>
@@ -33,46 +33,42 @@
 @section('ContenuPage')
     <div class="container-fluid">
         <div class="row">
-            <a href="{{route('annee.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Année Scolaire</a>
+            <a href="{{route('niveau.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Niveau</a>
         </div>
         <div class="row">
-            @if($annees->count() != 0)
+            @if($niveaux->count() != 0)
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-table fa-lg"></i>
-                        Liste des Années Scolaires
+                        Liste des Niveaux
                     </div>
                     <div class="card-content">
                         <div class="table-responsive">
-                            <table id="professeursTable" class="table table-bordered table-striped table-hover">
+                            <table id="niveauxTable" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
+                                    <th>Année Scolaire</th>
+                                    <th>Specialite</th>
                                     <th>Nom</th>
-                                    <th>Date Debut</th>
-                                    <th>Date Fin</th>
-                                    <th>Code</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($annees as $annee)
+                                @foreach($niveaux as $niveau)
                                     <tr>
                                         <td>
-                                            {{$annee->nom}}
+                                            {{$niveau->specialite->annee->nom}}
                                         </td>
                                         <td>
-                                            {{$annee->date_debut}}
+                                            {{$niveau->specialite->nom}}
                                         </td>
                                         <td>
-                                            {{$annee->date_fin}}
+                                            {{$niveau->nom}}
                                         </td>
                                         <td>
-                                            {{$annee->code}}
-                                        </td>
-                                        <td>
-                                            <a href="{{route('annee.edit',['id' => $annee->id])}}" class="btn btn-primary w-md">Modif</a>
-                                            <a href="{{route('annee.show',['id' => $annee->id])}}" class="btn btn-warning w-md">Info</a>
-                                            <button onclick="deleteRessource('{{$annee->id}}','{{$annee->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            <a href="{{route('niveau.edit',['id' => $niveau->id])}}" class="btn btn-primary w-md">Modif</a>
+                                            <a href="{{route('niveau.show',['id' => $niveau->id])}}" class="btn btn-warning w-md">Info</a>
+                                            <button onclick="deleteRessource('{{$niveau->id}}','{{$niveau->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -83,7 +79,7 @@
                 </div>
             @else
                 <div class="alert alert-warning z-depth-1">
-                    <strong>Oops!</strong> Aucune Année Scolaire Trouvé.
+                    <strong>Oops!</strong> Aucun Niveau Trouvé.
                 </div>
             @endif
         </div>
@@ -118,7 +114,7 @@
     <script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
-            $('#professeursTable').DataTable();
+            $('#niveauxTable').DataTable();
             @if ($message = Session::get('success'))
             iziToast.success({
                 title: 'Success',
@@ -128,8 +124,8 @@
             @endif
         });
         function deleteRessource(id,nom) {
-            $('#deleteform').attr('action','{{route('annee.destroy')}}'+'/'+id);
-            $('.modal-body').html('<h2>Etes-vous sûr de vouloir supprimer l\'annee scolaire:'+nom+'</h2>');
+            $('#deleteform').attr('action','{{route('niveau.destroy')}}'+'/'+id);
+            $('.modal-body').html('<h2>Etes-vous sûr de vouloir supprimer le niveau:'+nom+'</h2>');
             $('#deleteModal').modal('show');
         }
     </script>

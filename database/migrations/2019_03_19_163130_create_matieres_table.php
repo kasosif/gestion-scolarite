@@ -20,9 +20,7 @@ class CreateMatieresTable extends Migration
             $table->integer('nbr_heures');
             $table->integer('plafond_abscences');
             $table->integer('horaires');
-            $table->integer('semestre_id')->unsigned();
-            $table->foreign('semestre_id')->references('id')->on('semestres');
-            $table->integer('niveau_id')->unsigned();
+            $table->integer('niveau_id')->unsigned()->nullable();
             $table->foreign('niveau_id')->references('id')->on('niveaux');
             $table->timestamps();
         });

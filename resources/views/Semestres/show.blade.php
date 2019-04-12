@@ -5,10 +5,6 @@
 @section('preloader')
 @endsection
 @section('csspage')
-    @if($semestre->matieres()->count() > 0)
-        <!-- dataTables css -->
-        <link href="{{asset('assets/plugins/datatables/dataTables.min.css')}}" rel="stylesheet" type="text/css" />
-    @endif
 @endsection
 @section('parametreactive')
     class = "active"
@@ -51,33 +47,6 @@
                             <li>Nom : {{$semestre->nom}}</li>
                         </ul>
                     </div>
-                    @if($semestre->matieres()->count() > 0)
-                        <div class="row">
-                            <h2>Mes Matiéres</h2>
-                            <div class="table-responsive">
-                                <table id="matieresTable" class="table table-bordered table-striped table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Nom</th>
-                                        <th>Coeficient</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($semestre->matieres as $matiere)
-                                        <tr>
-                                            <td>
-                                                {{$matiere->nom}}
-                                            </td>
-                                            <td>
-                                                {{$matiere->coeficient}}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    @endif
                 </div>
             </div>
         </div>
@@ -85,13 +54,4 @@
     </div>
 @endsection
 @section('scriptpage')
-    @if($semestre->matieres()->count() > 0)
-        <!-- dataTables js -->
-        <script src="{{asset('assets/plugins/datatables/dataTables.min.js')}}" type="text/javascript"></script>
-        <script>
-            $(document).ready(function () {
-                $('#matieresTable').DataTable();
-            });
-        </script>
-    @endif
 @endsection

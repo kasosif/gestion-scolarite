@@ -30,8 +30,7 @@ class ClasseRequest extends FormRequest
             case 'POST':
                 {
                     return [
-                        'annee_id' => 'required|numeric',
-                        'specialite_id' => 'required|numeric',
+                        'niveau_id' => 'required|numeric',
                         'abbreviation' => 'required|min:2',
                         'code' => 'required|min:2|unique:classes',
                         'promotion' => 'required|numeric',
@@ -41,8 +40,7 @@ class ClasseRequest extends FormRequest
                 {
                     $classe = Classe::findorFail($this->route('id'));
                     return [
-                        'annee_id' => 'required|numeric',
-                        'specialite_id' => 'required|numeric',
+                        'niveau_id' => 'required|numeric',
                         'abbreviation' => 'required|min:2',
                         'code' => [
                             'required',

@@ -6,7 +6,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MatiereRequest;
 use App\Model\Annee;
 use App\Model\Matiere;
+use App\Model\Niveau;
 use App\Model\Semestre;
+use App\Model\Specialite;
 use App\Model\User;
 
 class MatiereController extends Controller
@@ -29,12 +31,8 @@ class MatiereController extends Controller
      */
     public function create()
     {
-        $annees = Annee::all();
-        $semestres = Semestre::all();
-        $professeurs = User::where('role','ROLE_PROFESSEUR')->get();
-        return view('Matieres.ajout',compact(
-            'annees','semestres','professeurs'
-        ));
+        $specs = Specialite::all();
+        return view('Matieres.ajout',compact('specs'));
     }
 
     /**
@@ -71,13 +69,9 @@ class MatiereController extends Controller
      */
     public function edit($id)
     {
-        $annees = Annee::all();
-        $semestres = Semestre::all();
-        $professeurs = User::where('role','ROLE_PROFESSEUR')->get();
+        $specs = Specialite::all();
         $matiere = Matiere::findorFail($id);
-        return view('Matieres.modif',compact(
-            'matiere','annees','semestres','professeurs'
-        ));
+        return view('Matieres.modif',compact('matiere','specs'));
     }
 
     /**

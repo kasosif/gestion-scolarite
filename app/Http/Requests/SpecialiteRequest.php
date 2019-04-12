@@ -33,6 +33,7 @@ class SpecialiteRequest extends FormRequest
                         'nom_ar' => 'nullable|min:2',
                         'nom_en' => 'nullable|min:2',
                         'code' => 'required|unique:specialites',
+                        'annee_id' => 'required|numeric',
                     ];
                 }
             case 'PUT':
@@ -49,6 +50,7 @@ class SpecialiteRequest extends FormRequest
                             'required',
                             Rule::unique('specialites')->ignore($specialite->id)
                         ],
+                        'annee_id' => 'required|numeric',
                     ];
                 }
         }

@@ -6,6 +6,11 @@
 @endsection
 @section('csspage')
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
+    <style>
+        .file-caption-name{
+            margin: -8px !important;
+        }
+    </style>
 @endsection
 @section('professeuractive')
     class = "active"

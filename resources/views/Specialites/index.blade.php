@@ -10,7 +10,7 @@
     <!-- iziToast alert -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 @endsection
-@section('parametreactive')
+@section('basesactive')
     class = "active"
 @endsection
 @section('specialiteactive')

@@ -5,12 +5,12 @@
 @section('preloader')
 @endsection
 @section('csspage')
-    @if($annee->classes()->count() > 0)
+    @if($annee->specialites()->count() > 0)
         <!-- dataTables css -->
         <link href="{{asset('assets/plugins/datatables/dataTables.min.css')}}" rel="stylesheet" type="text/css" />
     @endif
 @endsection
-@section('parametreactive')
+@section('basesactive')
     class = "active"
 @endsection
 @section('anneeactive')
@@ -55,29 +55,25 @@
                             <li>Code : {{$annee->code}}</li>
                         </ul>
                     </div>
-                    @if($annee->classes()->count() > 0)
+                    @if($annee->specialites()->count() > 0)
                         <div class="row">
-                            <h2>Mes Classes</h2>
+                            <h2>Mes Specialites</h2>
                             <div class="table-responsive">
-                                <table id="classesTable" class="table table-bordered table-striped table-hover">
+                                <table id="specialitesTable" class="table table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
+                                        <th>Nom</th>
                                         <th>Code</th>
-                                        <th>Abbreviation</th>
-                                        <th>Promotion</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($annee->classes as $classe)
+                                    @foreach($annee->specialites as $specialite)
                                         <tr>
                                             <td>
-                                                {{$classe->code}}
+                                                {{$specialite->nom}}
                                             </td>
                                             <td>
-                                                {{$classe->abbreviation}}
-                                            </td>
-                                            <td>
-                                                {{$classe->promotion}}
+                                                {{$specialite->code}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -93,12 +89,12 @@
     </div>
 @endsection
 @section('scriptpage')
-    @if($annee->classes()->count() > 0)
+    @if($annee->specialites()->count() > 0)
         <!-- dataTables js -->
         <script src="{{asset('assets/plugins/datatables/dataTables.min.js')}}" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
-                $('#classesTable').DataTable();
+                $('#specialitesTable').DataTable();
             });
         </script>
     @endif

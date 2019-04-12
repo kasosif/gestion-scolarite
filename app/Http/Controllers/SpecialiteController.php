@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\SpecialiteRequest;
+use App\Model\Annee;
 use App\Model\Specialite;
 
 class SpecialiteController extends Controller
@@ -26,7 +27,8 @@ class SpecialiteController extends Controller
      */
     public function create()
     {
-        return view('Specialites.ajout');
+        $annees = Annee::all();
+        return view('Specialites.ajout',compact('annees'));
     }
 
     /**
@@ -63,8 +65,9 @@ class SpecialiteController extends Controller
      */
     public function edit($id)
     {
+        $annees = Annee::all();
         $specialite = Specialite::findorFail($id);
-        return view('Specialites.modif',compact('specialite'));
+        return view('Specialites.modif',compact('specialite','annees'));
     }
 
     /**

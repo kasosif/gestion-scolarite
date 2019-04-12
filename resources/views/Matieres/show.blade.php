@@ -53,9 +53,8 @@
                             <li>Nombre d'heures : {{$matiere->nbr_heures}}</li>
                             <li>Plafond Abscences : {{$matiere->plafond_abscences}}</li>
                             <li>Horraires : {{$matiere->horaires}}</li>
-                            <li>Mon Année Scolaire : <b>{{$matiere->classe->annee->nom}}</b></li>
-                            <li>Ma Classe : <b>{{$matiere->classe->abbreviation}}</b></li>
-                            <li>Ma Professeur : <b>{{$matiere->user->nom}}</b></li>
+                            <li>Ma Specialite : <b>{{$matiere->niveau->specialite->nom}}</b></li>
+                            <li>Mon Niveau : <b>{{$matiere->niveau->nom}}</b></li>
                         </ul>
                     </div>
                     @if($matiere->devoirs()->count() > 0)

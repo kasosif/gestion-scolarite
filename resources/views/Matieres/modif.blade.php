@@ -65,25 +65,22 @@
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="niveau_id" class="control-label">Niveau</label>
+                                    <select required id="niveau_id" name="niveau_id" class="form-control">
+                                        <option value="" selected disabled>Selectionnez Niveau</option>
+                                        @foreach($specs as $spec)
+                                            <optgroup label="{{$spec->nom}}">
+                                                @foreach($spec->niveaux as $niveau)
+                                                    <option @if($niveau->id == $matiere->niveau->id) selected @endif value="{{$niveau->id}}">{{$spec->nom}} {{$niveau->nom}}</option>
+                                                @endforeach
+                                            </optgroup>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="annee_id" class="control-label">Année</label>
-                                    <select required id="annee_id" name="annee_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Année</option>
-                                        @foreach($annees as $annee)
-                                            <option @if($matiere->classe->annee->id == $annee->id) selected @endif value="{{$annee->id}}">{{$annee->nom}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="semestre_id" class="control-label">Semestre</label>
-                                    <select required id="semestre_id" name="semestre_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Semestre</option>
-                                        @foreach($semestres as $semestre)
-                                            <option @if($matiere->semestre->id == $semestre->id) selected @endif  value="{{$semestre->id}}">{{$semestre->nom}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
                                 <div class="input-field form-input">
                                     <input id="nom" value="{{$matiere->nom}}" name="nom" type="text" class="validate" required>
                                     <label for="nom" class="">Nom</label>
@@ -98,21 +95,6 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="classe_id" class="control-label">Classe</label>
-                                    <select required id="classe_id" name="classe_id" class="form-control">
-                                        <option value="{{$matiere->classe->id}}">{{$matiere->classe->abbreviation}}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="user_id" class="control-label">Professeur</label>
-                                    <select required id="user_id" name="user_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Professeur</option>
-                                        @foreach($professeurs as $professeur)
-                                            <option @if($matiere->user->id == $professeur->id) selected @endif  value="{{$professeur->id}}">{{$professeur->nom}} {{$professeur->prenom}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
                                 <div class="input-field form-input">
                                     <input id="coeficient" value="{{$matiere->coeficient}}" name="coeficient" type="number" class="validate" required>
                                     <label for="coeficient" class="">Coefficient</label>
@@ -138,17 +120,4 @@
     </div>
 @endsection
 @section('scriptpage')
-    <script>
-        $(document).ready(function () {
-            $('body').on('change','#annee_id',function () {
-                $.ajax({
-                    url: '{{route('ajax.classesbyannee')}}'+'/'+ $('#annee_id').val(),
-                    method: "GET",
-                    success: function(response) {
-                        $("#classe_id").html(response);
-                    }
-                });
-            });
-        });
-    </script>
 @endsection

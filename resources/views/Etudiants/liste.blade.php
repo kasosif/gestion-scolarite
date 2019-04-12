@@ -21,10 +21,10 @@
         </div>
         <div class="header-title">
             <h1> Liste des Etudiants</h1>
-            <small> Liste des etudiants par annee scolaire {{$annee->nom}}</small>
+            <small> Liste des etudiants</small>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('etudiant.liste',['id' => $annee->id])}}">Liste Etudiants</a></li>
+                <li><a href="{{route('etudiant.index')}}">Liste Etudiants</a></li>
             </ul>
         </div>
     </section>
@@ -33,90 +33,70 @@
     <div class="container-fluid">
         <div class="row">
             <a href="{{route('etudiant.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Etudiant</a>
-            <div class="pull-right">
-                <a href="{{route('etudiant.index')}}" class="btn btn-default w-md">Retour</a>
-            </div>
         </div>
         <div class="row">
-            <div class="panel-group" id="accordion" role="tablist">
-                @forelse($annee->classes as $indexKey => $classe)
-                    <div class="panel panel-default">
-                        <div class="panel-heading panel-acc" role="tab" id="heading{{$indexKey}}">
-                            <h4 class="panel-title">
-                                <a style="color: black" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$indexKey}}" aria-controls="collapse{{$indexKey}}">
-                                    <i class="fa fa-plus" style="color: black"></i>
-                                    @if($classe->code) Code Classe :  {{$classe->code}} ,@endif
-                                    @if($classe->abbreviation) Abbreviation Classe :  {{$classe->abbreviation}} ,@endif
-                                    @if($classe->promotion) Promotion :  {{$classe->promotion}} ,@endif
-                                    @if($classe->maspecialite) Specialite :  {{$classe->maspecialite->nom}} @endif
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse{{$indexKey}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{$indexKey}}">
-                            @if($classe->users()->count() != 0)
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-striped table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th>Image</th>
-                                                <th>CIN</th>
-                                                <th>Nom</th>
-                                                <th>Prénom</th>
-                                                <th>Gendre</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($classe->users as $etudiant)
-                                                @if($etudiant->role == "ROLE_ETUDIANT")
-                                                    <tr>
-                                                        <td>
-                                                            @if($etudiant->image)
-                                                                <img src="{{asset('images/etudiants/'.$etudiant->image)}}" alt="User Image" style="width: 50px;">
-                                                            @else
-                                                                No Image
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            {{$etudiant->cin}}
-                                                        </td>
-                                                        <td>
-                                                            {{$etudiant->nom}}
-                                                        </td>
-                                                        <td>
-                                                            {{$etudiant->prenom}}
-                                                        </td>
-                                                        <td>
-                                                            {{$etudiant->gendre  === "male" ? "Homme" : "Femme"}}
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{route('etudiant.edit',['cin' => $etudiant->cin])}}" class="btn btn-primary w-md">Modif/Info</a>
-                                                            <button type="button" class="btn btn-warning w-md">Docs</button>
-                                                            <button onclick="deleteUser({{$etudiant->cin}})" type="button" class="btn btn-danger w-md">Supp</button>
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="alert alert-warning z-depth-1">
-                                    <strong>Oops!</strong> Aucun Etudiant Trouvé.
-                                </div>
-                            @endif
+            @if($etudiants->count() != 0)
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-table fa-lg"></i>
+                        Liste des Etudiants
+                    </div>
+                    <div class="card-content">
+                        <div class="table-responsive">
+                            <table id="etudiantsTable" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Classe</th>
+                                    <th>Image</th>
+                                    <th>CIN</th>
+                                    <th>Prénom</th>
+                                    <th>Nom</th>
+                                    <th>Gendre</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($etudiants as $etudiant)
+                                    <tr>
+                                        <td>
+                                            {{$etudiant->classe->abbreviation}} {{$etudiant->classe->niveau->nom}}
+                                        </td>
+                                        <td>
+                                            @if($etudiant->image)
+                                                <img src="{{asset('images/etudiants/'.$etudiant->image)}}" alt="User Image" style="width: 50px;">
+                                            @else
+                                                No Image
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{$etudiant->cin}}
+                                        </td>
+                                        <td>
+                                            {{$etudiant->prenom}}
+                                        </td>
+                                        <td>
+                                            {{$etudiant->nom}}
+                                        </td>
+                                        <td>
+                                            {{$etudiant->gendre  === "male" ? "Homme" : "Femme"}}
+                                        </td>
+                                        <td>
+                                            <a href="{{route('etudiant.edit',['cin' => $etudiant->cin])}}" class="btn btn-primary w-md">Modif/Info</a>
+                                            <button type="button" class="btn btn-warning w-md">Docs</button>
+                                            <button onclick="deleteUser({{$etudiant->cin}})" type="button" class="btn btn-danger w-md">Supp</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                @empty
-                    <div class="alert alert-warning z-depth-1">
-                        <strong>Oops!</strong> Aucune Classe Trouvée.
-                    </div>
-                @endforelse
-            </div>
-            <!-- ./Data tables -->
-            <!-- ./row -->
+                </div>
+            @else
+                <div class="alert alert-warning z-depth-1">
+                    <strong>Oops!</strong> Aucun Etudiant Trouvé.
+                </div>
+            @endif
         </div>
         <!-- ./cotainer -->
     </div>

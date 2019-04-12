@@ -7,7 +7,7 @@
 @section('csspage')
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 @endsection
-@section('parametreactive')
+@section('basesactive')
     class="active"
 @endsection
 @section('classeactive')
@@ -65,31 +65,28 @@
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="annee_id" class="control-label">Année</label>
-                                    <select required id="annee_id" name="annee_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Année</option>
-                                        @foreach($annees as $annee)
-                                            <option value="{{$annee->id}}">{{$annee->nom}}</option>
+                                    <label for="niveau_id" class="control-label">Niveau</label>
+                                    <select required id="niveau_id" name="niveau_id" class="form-control">
+                                        <option value="" selected disabled>Selectionnez Niveau</option>
+                                        @foreach($specs as $spec)
+                                            <optgroup label="{{$spec->nom}}">
+                                                @foreach($spec->niveaux as $niveau)
+                                                    <option value="{{$niveau->id}}">{{$spec->nom}} {{$niveau->nom}}</option>
+                                                @endforeach
+                                            </optgroup>
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="input-field form-input">
                                     <input id="abbreviation" name="abbreviation" type="text" class="validate" required>
                                     <label for="abbreviation" class="">Abbreviation</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="specialite_id" class="control-label">Specialité</label>
-                                    <select required id="specialite_id" name="specialite_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Specialité</option>
-                                        @foreach($specialites as $specialite)
-                                            <option value="{{$specialite->id}}">{{$specialite->nom}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
                                 <div class="input-field form-input">
                                     <input id="code" name="code" type="text" class="validate" required>
                                     <label for="code" class="">Code</label>

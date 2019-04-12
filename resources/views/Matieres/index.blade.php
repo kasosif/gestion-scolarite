@@ -47,9 +47,9 @@
                             <table id="matieresTable" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Année</th>
+                                    <th>Niveau</th>
                                     <th>Nom</th>
-                                    <th>Classe</th>
+                                    <th>Coeficient</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -57,13 +57,13 @@
                                 @foreach($matieres as $matiere)
                                     <tr>
                                         <td>
-                                            {{$matiere->classe->annee->nom}}
+                                            {{$matiere->niveau->specialite->nom}} {{$matiere->niveau->nom}}
                                         </td>
                                         <td>
                                             {{$matiere->nom}}
                                         </td>
                                         <td>
-                                            {{$matiere->classe->abbreviation}}
+                                            {{$matiere->coeficient}}
                                         </td>
                                         <td>
                                             <a href="{{route('matiere.edit',['id' => $matiere->id])}}" class="btn btn-primary w-md">Modif</a>

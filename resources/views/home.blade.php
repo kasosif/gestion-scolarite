@@ -86,7 +86,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-pie-chart fa-lg"></i>
-                        <h2>Nombre de Classe par Spécialite</h2>
+                        <h2>Nombre d'etudiants par Spécialite</h2>
                     </div>
                     <div class="card-content">
                         <canvas id="flotChart7" width="400" height="246"></canvas>
@@ -120,17 +120,17 @@
                 {
                     label: "Etudiants",
                     data: '{{$etudiantsnb}}',
-                    color: "green"
+                    color: "rgba({{rand(10,255)}}, {{rand(10,255)}}, {{rand(10,255)}}, 0.8)"
                 },
                 {
                     label: "Profs",
                     data: '{{$profsnb}}',
-                    color: "blue"
+                    color: "rgba({{rand(10,255)}}, {{rand(10,255)}}, {{rand(10,255)}}, 0.8)"
                 },
                 {
                     label: "Agents",
                     data: '{{$agentsnb}}',
-                    color: "black"
+                    color: "rgba({{rand(10,255)}}, {{rand(10,255)}}, {{rand(10,255)}}, 0.8)"
                 }
             ];
             var chartUsersOptions8 = {
@@ -159,29 +159,25 @@
                 data: {
                     labels: [
                         @forEach($specialites as $specialite)
-                        '{{$specialite->nom}}',
+                            '{{$specialite->nom}}',
                         @endforeach
                     ],
                     datasets: [{
-                        label: '# of Classes',
+                        label: '# of Etudiants',
                         data: [
                             @forEach($specialites as $specialite)
-                                '{{$specialite->niveaux()->count()}}',
+                                '{{DB::table('users')
+                                ->join('classes','users.classe_id','=','classes.id')
+                                ->join('niveaux','classes.niveau_id','=','niveaux.id')
+                                ->join('specialites','niveaux.specialite_id','=','specialites.id')
+                                ->where('specialites.id','=',$specialite->id)
+                            ->count()}}',
                             @endforeach
                         ],
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)'
+                            @forEach($specialites as $specialite)
+                                'rgba({{rand(10,255)}}, {{rand(10,255)}}, {{rand(10,255)}}, 0.8)',
+                            @endforeach
                         ],
                         borderWidth: 1
                     }]

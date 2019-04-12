@@ -10,7 +10,7 @@
     <!-- iziToast alert -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 @endsection
-@section('parametreactive')
+@section('basesactive')
     class = "active"
 @endsection
 @section('classeactive')
@@ -47,6 +47,8 @@
                             <table id="classesTable" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
+                                    <th>Specialite</th>
+                                    <th>Niveau</th>
                                     <th>Abbreviation</th>
                                     <th>Code</th>
                                     <th>Promotion</th>
@@ -56,6 +58,12 @@
                                 <tbody>
                                 @foreach($classes as $classe)
                                     <tr>
+                                        <td>
+                                            {{$classe->niveau->specialite->nom}}
+                                        </td>
+                                        <td>
+                                            {{$classe->niveau->nom}}
+                                        </td>
                                         <td>
                                             {{$classe->abbreviation}}
                                         </td>
@@ -67,7 +75,7 @@
                                         </td>
                                         <td>
                                             <a href="{{route('classe.edit',['id' => $classe->id])}}" class="btn btn-primary w-md">Modif</a>
-                                            <a href="{{route('classe.show',['id' => $classe->id])}}" class="btn btn-warning w-md">Info</a>
+                                            <a href="{{route('classe.show',['id' => $classe->id])}}" class="btn btn-warning w-md">Info/Affectation</a>
                                             <button onclick="deleteResource('{{$classe->id}}','{{$classe->abbreviation}}')" type="button" class="btn btn-danger w-md">Supp</button>
                                         </td>
                                     </tr>

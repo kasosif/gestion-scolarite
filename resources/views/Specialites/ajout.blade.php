@@ -6,7 +6,7 @@
 @endsection
 @section('csspage')
 @endsection
-@section('parametreactive')
+@section('basesactive')
     class = "active"
 @endsection
 @section('specialiteactive')
@@ -64,6 +64,15 @@
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
+                            <div class="col-md-8">
+                                <label for="annee" class="control-label">Année</label>
+                                <select required id="annee" name="annee_id" class="form-control">
+                                    <option value="" selected disabled>Selectionnez Année</option>
+                                    @foreach($annees as $annee)
+                                        <option value="{{$annee->id}}">{{$annee->nom}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
                                     <input id="nom" name="nom" type="text" class="validate" required>

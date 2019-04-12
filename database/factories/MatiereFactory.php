@@ -11,7 +11,6 @@ $factory->define(Matiere::class, function (Faker $faker) {
         'nbr_heures' => $faker->numberBetween(20,40),
         'plafond_abscences' => $faker->numberBetween(3,6),
         'horaires' => $faker->numberBetween(10,30),
-        'niveau_id' => Niveau::all()->random()->id,
-        'semestre_id' => Semestre::all()->random()->id,
+        'niveau_id' => Niveau::all()->random()->id
     ];
 });
