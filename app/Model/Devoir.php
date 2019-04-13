@@ -16,6 +16,10 @@ class Devoir extends Model
         'matiere_id','classe_id'
     ];
 
+    public function notes() {
+        return $this->hasMany(Note::class);
+    }
+
     public function classe(){
         return $this->belongsTo(Classe::class);
     }

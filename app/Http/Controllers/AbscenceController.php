@@ -7,6 +7,7 @@ use App\Http\Requests\AbscenceRequest;
 use App\Model\Abscence;
 use App\Model\Annee;
 use App\Model\Seance;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -20,14 +21,14 @@ class AbscenceController extends Controller
     public function index(Request $request)
     {
         $annees = Annee::all();
-        if($request->query->all()){
-            $seance = $request->query->get('seance_id');
-            $matiere = $request->query->get('matiere_id');
-            $date = $request->query->get('date');
-            $semestre = $request->query->get('semestre_id');
+        $abscences = false;
+        if ($user_id = $request->query('user_id')) {
+            $query = Abscence::where('user_id',$user_id);
+            if ($date = $request->query('date'))
+                $query = $query->where('date','=',$date);
+            $abscences = $query->get();
         }
-        $abscences = Abscence::all();
-        return view('Abscences.index',compact('annees','abscences'));
+        return view('Abscences.index',compact('abscences','annees'));
     }
 
     /**
@@ -60,6 +61,21 @@ class AbscenceController extends Controller
         }
         Abscence::create(array_merge($request->all(), $params));
         return redirect()->route('abscence.index')->with('success','Abscence Ajoutée');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function destroy($id)
+    {
+        $this->authorize('delete', Abscence::class);
+        $abscence = Abscence::findorFail($id);
+        $abscence->delete();
+        return redirect()->route('abscence.index')->with('success','Abscence Supprimé');
     }
 
 }

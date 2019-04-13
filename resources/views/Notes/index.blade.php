@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Liste des Abscences
+    Liste des Notes
 @endsection
 @section('preloader')
 @endsection
@@ -10,11 +10,11 @@
     <!-- iziToast alert -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 @endsection
-@section('abscenceetudiantactive')
-    class = "active-link"
-@endsection
-@section('etudiantactive')
+@section('parametreactive')
     class = "active"
+@endsection
+@section('noteactive')
+    class = "active-link"
 @endsection
 @section('HeaderPage')
     <section class="content-header">
@@ -22,10 +22,10 @@
             <i class="fa fa-list"></i>
         </div>
         <div class="header-title">
-            <h1> Liste des Abscences</h1>
+            <h1> Liste des Notes</h1>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('abscence.index')}}">Liste Abscences</a></li>
+                <li><a href="{{route('note.index')}}">Liste Notes</a></li>
             </ul>
         </div>
     </section>
@@ -33,10 +33,10 @@
 @section('ContenuPage')
     <div class="container-fluid">
         <div class="row">
-            <a href="{{route('abscence.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Une Abscence</a>
+            <a href="{{route('note.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Note</a>
         </div>
         <div class="row">
-            <form action="{{route('abscence.index')}}" method="GET">
+            <form action="{{route('note.index')}}" method="GET">
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-university fa-lg"></i>
@@ -69,12 +69,6 @@
                                     <option value="" selected disabled>Selectionner Etudiant</option>
                                 </select>
                             </div>
-                            <div class="col-sm-4">
-                                <label for="date_pub" class="control-label">Date</label>
-                                <div class="form-group">
-                                    <input name="date" id="date_pub" class="validate" type="date">
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -88,46 +82,44 @@
             </form>
         </div>
         <div class="row">
-            @if($abscences)
-                @if($abscences->count() != 0)
+            @if($notes)
+                @if($notes->count() != 0)
                     <div class="card">
                         <div class="card-header">
                             <i class="fa fa-table fa-lg"></i>
-                            Liste des Abscences
+                            Liste des Notes
                         </div>
                         <div class="card-content">
                             <div class="table-responsive">
-                                <table id="abscencesTable" class="table table-bordered table-striped table-hover">
+                                <table id="notesTable" class="table table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
-                                        <th>Classe</th>
                                         <th>Etudiant</th>
                                         <th>Matiere</th>
-                                        <th>Seance</th>
-                                        <th>Date</th>
+                                        <th>Devoir</th>
+                                        <th>Note</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($abscences as $abscence)
+                                    @foreach($notes as $note)
                                         <tr>
                                             <td>
-                                                {{$abscence->user->classe->niveau->specialite->nom}} {{$abscence->user->classe->abbreviation}} {{$abscence->user->classe->niveau->nom}}
+                                                {{$note->user->nom}} {{$note->user->prenom}}
                                             </td>
                                             <td>
-                                                {{$abscence->user->nom}} {{$abscence->user->prenom}}
+                                                {{$note->devoir->matiere->nom}}
                                             </td>
                                             <td>
-                                                {{$abscence->matiere->nom}}
+                                                {{$note->devoir->nom}} {{strtoupper($note->devoir->type)}}
                                             </td>
                                             <td>
-                                                {{date('H:i', strtotime($abscence->seance->heure_debut))}} => {{date('H:i', strtotime($abscence->seance->heure_fin))}}
+                                                {{$note->mark}}
                                             </td>
                                             <td>
-                                                {{date('d-m-Y', strtotime($abscence->date))}}
-                                            </td>
-                                            <td>
-                                                <button onclick="deleteAbscence('{{$abscence->id}}','{{$abscence->user->nom}} {{$abscence->user->prenom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                                @can('delete',$note)
+                                                    <button onclick="deleteRessource('{{$note->id}}','{{$note->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach
@@ -138,12 +130,12 @@
                     </div>
                 @else
                     <div class="alert alert-warning z-depth-1">
-                        <strong>Oops!</strong> Aucune Abscence Trouvé.
+                        <strong>Oops!</strong> Aucune Note Trouvé.
                     </div>
                 @endif
             @else
                 <div class="alert alert-warning z-depth-1">
-                    <strong>Chrecher l'etudiant </strong>
+                    <strong>Rechcercher Etudiant</strong>
                 </div>
             @endif
         </div>
@@ -178,6 +170,7 @@
     <script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
+            $('#notesTable').DataTable();
             @if ($message = Session::get('success'))
             iziToast.success({
                 title: 'Success',
@@ -185,7 +178,6 @@
                 position: 'topCenter'
             });
             @endif
-            $('#abscencesTable').DataTable();
             $('body').on('change','#spec_id',function () {
                 $.ajax({
                     url: '{{route('ajax.classesbyspec')}}'+'/'+ $('#spec_id').val(),
@@ -206,9 +198,9 @@
                 });
             });
         });
-        function deleteAbscence(id,nom) {
-            $('#deleteform').attr('action','{{route('abscence.destroy')}}'+'/'+id);
-            $('.modal-body').html('<h2>Etes-vous sûr de vouloir supprimer labscence de l\'etudiant :'+nom+'</h2>');
+        function deleteRessource(id,nom) {
+            $('#deleteform').attr('action','{{route('note.destroy')}}'+'/'+id);
+            $('.modal-body').html('<h2>Etes-vous sûr de vouloir supprimer la note:'+nom+'</h2>');
             $('#deleteModal').modal('show');
         }
     </script>

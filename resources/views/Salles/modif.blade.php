@@ -9,7 +9,7 @@
 @section('parametreactive')
     class = "active"
 @endsection
-@section('semestreactive')
+@section('salleactive')
     class = "active-link"
 @endsection
 @section('HeaderPage')

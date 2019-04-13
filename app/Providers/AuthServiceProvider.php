@@ -9,6 +9,7 @@ use App\Model\Devoir;
 use App\Model\Feed;
 use App\Model\Matiere;
 use App\Model\Niveau;
+use App\Model\Note;
 use App\Model\Salle;
 use App\Model\Seance;
 use App\Model\Semestre;
@@ -21,6 +22,7 @@ use App\Policies\DevoirPolicy;
 use App\Policies\FeedPolicy;
 use App\Policies\MatierePolicy;
 use App\Policies\NiveauPolicy;
+use App\Policies\NotePolicy;
 use App\Policies\SallePolicy;
 use App\Policies\SeancePolicy;
 use App\Policies\SemestrePolicy;
@@ -49,6 +51,7 @@ class AuthServiceProvider extends ServiceProvider
         Annee::class => AnneePolicy::class,
         Abscence::class => AbscencePolicy::class,
         Niveau::class => NiveauPolicy::class,
+        Note::class => NotePolicy::class,
     ];
 
     /**

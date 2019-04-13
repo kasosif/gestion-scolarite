@@ -57,7 +57,7 @@
                                 @foreach($matieres as $matiere)
                                     <tr>
                                         <td>
-                                            {{$matiere->niveau->specialite->nom}} {{$matiere->niveau->nom}}
+                                            @if($matiere->niveau != null) {{$matiere->niveau->specialite->nom}} {{$matiere->niveau->nom}}  @else Aucun Niveau @endif
                                         </td>
                                         <td>
                                             {{$matiere->nom}}

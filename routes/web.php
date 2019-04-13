@@ -133,6 +133,15 @@ Route::group(['middleware' => 'auth'], function() {
     Route::put('/salles/update/{id}', 'SalleController@update')->name('salle.update');
     Route::delete('/salles/destroy/{id?}', 'SalleController@destroy')->name('salle.destroy');
 
+    //notes
+
+    Route::get('/notes/', 'NoteController@index')->name('note.index');
+    Route::get('/notes/ajout', 'NoteController@create')->name('note.ajout');
+    Route::post('/notes/store', 'NoteController@store')->name('note.store');
+    Route::get('/notes/edit/{id}', 'NoteController@edit')->name('note.edit');
+    Route::put('/notes/update/{id}', 'NoteController@update')->name('note.update');
+    Route::delete('/notes/destroy/{id?}', 'NoteController@destroy')->name('note.destroy');
+
     //abscences
 
     Route::get('/abscences/', 'AbscenceController@index')->name('abscence.index');
@@ -159,6 +168,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/ajax/alletudiants', 'AjaxController@getAllStudents')->name('ajax.students');
     Route::get('/ajax/etudiants/{classe_id?}', 'AjaxController@getStudentsByClasse')->name('ajax.studentsbyclass');
     Route::get('/ajax/professeurs', 'AjaxController@getAllTeachers')->name('ajax.teachers');
+    Route::get('/ajax/devoirs/{classe_id?}', 'AjaxController@devoirsByClasse')->name('ajax.devoirsbyclasse');
 
 });
 

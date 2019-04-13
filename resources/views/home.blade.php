@@ -120,17 +120,17 @@
                 {
                     label: "Etudiants",
                     data: '{{$etudiantsnb}}',
-                    color: "rgba({{rand(10,255)}}, {{rand(10,255)}}, {{rand(10,255)}}, 0.8)"
+                    color: "green"
                 },
                 {
                     label: "Profs",
                     data: '{{$profsnb}}',
-                    color: "rgba({{rand(10,255)}}, {{rand(10,255)}}, {{rand(10,255)}}, 0.8)"
+                    color: "blue"
                 },
                 {
                     label: "Agents",
                     data: '{{$agentsnb}}',
-                    color: "rgba({{rand(10,255)}}, {{rand(10,255)}}, {{rand(10,255)}}, 0.8)"
+                    color: "grey"
                 }
             ];
             var chartUsersOptions8 = {

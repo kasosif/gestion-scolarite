@@ -53,8 +53,10 @@
                             <li>Nombre d'heures : {{$matiere->nbr_heures}}</li>
                             <li>Plafond Abscences : {{$matiere->plafond_abscences}}</li>
                             <li>Horraires : {{$matiere->horaires}}</li>
-                            <li>Ma Specialite : <b>{{$matiere->niveau->specialite->nom}}</b></li>
-                            <li>Mon Niveau : <b>{{$matiere->niveau->nom}}</b></li>
+                            @if($matiere->niveau != null)
+                                <li>Ma Specialite : <b>{{$matiere->niveau->specialite->nom}}</b></li>
+                                <li>Mon Niveau : <b>{{$matiere->niveau->nom}}</b></li>
+                            @endif
                         </ul>
                     </div>
                     @if($matiere->devoirs()->count() > 0)

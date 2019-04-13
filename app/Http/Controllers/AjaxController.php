@@ -104,6 +104,20 @@ class AjaxController extends Controller
     }
 
     /**
+     * Display devoirs by classe
+     *
+     * @param  int  $classe_id
+     * @return \Illuminate\Http\Response
+     */
+    public function devoirsByClasse($classe_id = null)
+    {
+        $classe = Classe::findorFail($classe_id);
+        $niveau = $classe->niveau;
+        $matieres = $niveau->matieres()->get();
+        return view('Ajax.devoirs',['matieres'=>$matieres]);
+    }
+
+    /**
      * Display matieres by classe
      *
      * @param Request $request

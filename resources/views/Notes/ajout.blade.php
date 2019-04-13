@@ -1,17 +1,16 @@
 @extends('layouts.app')
 @section('title')
-    Ajouter Une Abscence
+    Ajouter Une Note
 @endsection
 @section('preloader')
 @endsection
 @section('csspage')
-    <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
 @endsection
-@section('etudiantactive')
-    class="active"
+@section('parametreactive')
+    class = "active"
 @endsection
-@section('abscenceetudiantactive')
-    class="active-link"
+@section('noteetudiantactive')
+    class = "active-link"
 @endsection
 @section('HeaderPage')
     <section class="content-header">
@@ -19,12 +18,12 @@
             <i class="fa fa-list"></i>
         </div>
         <div class="header-title">
-            <h1> Ajouter Une Abscence</h1>
-            <small>Interface d'ajout d'abscence</small>
+            <h1> Ajouter Une Note</h1>
+            <small>Interface d'ajout de note</small>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('abscence.index')}}">Liste des Abscences</a></li>
-                <li>Ajouter Une Abscence</li>
+                <li><a href="{{route('note.index')}}">Liste Notes</a></li>
+                <li>Ajouter Une Note</li>
             </ul>
         </div>
     </section>
@@ -33,7 +32,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="pull-right">
-                <a href="{{route('abscence.index')}}" class="btn btn-default w-md">Retour</a>
+                <a href="{{route('note.index')}}" class="btn btn-default w-md">Retour</a>
             </div>
         </div>
         @if (count($errors) > 0)
@@ -56,7 +55,7 @@
             <br>
         @endif
         <div class="row">
-            <form action="{{route('abscence.store')}}" method="post">
+            <form action="{{route('note.store')}}" method="post" >
                 @csrf
                 <div class="card">
                     <div class="card-header">
@@ -85,19 +84,7 @@
                                         <option value="" selected disabled>Selectionnez Etudiant</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="seance_id" class="control-label">Seance</label>
-                                    <select required id="seance_id" name="seance_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Seance</option>
-                                        @foreach($seances as $seance)
-                                            <option value="{{$seance->id}}">{{date('H:i', strtotime($seance->heure_debut))}} => {{date('H:i', strtotime($seance->heure_fin))}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="date_pub">Date</label>
-                                    <input required name="date" id= "date_pub" class="validate" type="date">
-                                </div>
+
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -107,43 +94,34 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="matiere_id" class="control-label">Matiere</label>
-                                    <select required id="matiere_id" name="matiere_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Matiere</option>
+                                    <label for="devoir_id" class="control-label">Devoir</label>
+                                    <select required id="devoir_id" name="devoir_id" class="form-control">
+                                        <option value="" selected disabled>Selectionnez Devoir</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="justifie" class="control-label">Justification</label>
-                                    <select required id="justifie" name="justifie" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Justification</option>
-                                        <option value="1">Justifié</option>
-                                        <option value="0">Non Justifié</option>
-                                    </select>
+                                    <label for="mark">Note (?/20)</label>
+                                    <input required type="text" class="validate" id="mark" name="mark">
                                 </div>
                             </div>
-                            <div class="col-md-8" id="contenuJustif">
-
-                            </div>
-
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <div class="pull-right">
-                            <button type="submit" class="btn btn-labeled btn-success">
-                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Ajouter
-                            </button>
-                            <button type="reset" class="btn btn-labeled btn-danger">
-                                <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
-                            </button>
-                        </div>
-                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Ajouter
+                    </button>
+                    <button type="reset" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 @endsection
 @section('scriptpage')
-    <script src="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.js')}}"></script>
     <script>
         $(document).ready(function () {
             $('body').on('change','#spec_id',function () {
@@ -152,17 +130,17 @@
                     method: "GET",
                     success: function(response) {
                         $("#classe_id").html(response);
-                        $("#matiere_id").html('');
+                        $("#devoir_id").html('');
                         $("#user_id").html('');
                     }
                 });
             });
             $('body').on('change','#classe_id',function () {
                 $.ajax({
-                    url: '{{route('ajax.matieresbyclasse')}}'+'/'+ $('#classe_id').val(),
+                    url: '{{route('ajax.devoirsbyclasse')}}'+'/'+ $('#classe_id').val(),
                     method: "GET",
                     success: function(response) {
-                        $("#matiere_id").html(response);
+                        $("#devoir_id").html(response);
                     }
                 });
                 $.ajax({
@@ -172,23 +150,6 @@
                         $("#user_id").html(response);
                     }
                 });
-            });
-
-            $('body').on('change','#justifie',function () {
-                if ($('#justifie').val() === '1'){
-                    $('#contenuJustif').html('<label for="justification">Justification</label>\n' +
-                        '<input type="file" name="justification" id="justifphoto" required>');
-                    $("#justifphoto").fileinput({
-                        'showUpload': !1,
-                        'allowedFileExtensions': ["jpeg","jpg", "png"],
-                        'minFileSize': 5,
-                        'maxFileSize': 2200
-                    });
-                }
-                if ($('#justifie').val() === '0'){
-                    $('#contenuJustif').html('<label for="commentaire">Commentaire</label>\n' +
-                        '<textarea required name="commentaire" id="commentaire" cols="100" rows="500"></textarea>');
-                }
             });
         });
     </script>

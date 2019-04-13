@@ -329,7 +329,9 @@
                             @endcan
                             @can('view',App\Model\Abscence::class)
                                 <li @yield('abscenceetudiantactive')><a href="{{route('abscence.index')}}">Abscences</a></li>
-
+                            @endcan
+                            @can('view',App\Model\Note::class)
+                                <li @yield('noteetudiantactive')><a href="{{route('note.index')}}">Notes</a></li>
                             @endcan
                         </ul>
                     </li>
