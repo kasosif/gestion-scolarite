@@ -30,7 +30,7 @@ This file contains the common info of this theme.
             *google maps
             *table
         * Layout
-            *wrapper 
+            *wrapper
             *layout-boxed
             *Fixed layout
         * Content
@@ -44,17 +44,17 @@ This file contains the common info of this theme.
         * border color
         * background color
         * Page Header
-        * Component: 
+        * Component:
           *Main Header
-              * Content 
+              * Content
               * main-header
               * header-title
               * content-header
               * navbar-nav
            * Sidebar
            * search box
-        * Fix dropdown menu in navbars   
-        * UI Elements 
+        * Fix dropdown menu in navbars
+        * UI Elements
           * Buttons
           * Tabs
           * Notification
@@ -200,6 +200,10 @@ p {
 }
 hr {
     margin: 0;
+}
+
+label {
+    font-size: 15px !important;
 }
 .space-25 {
     margin: 12.5px 0;
@@ -983,7 +987,7 @@ ul.link li > a > i.fa {
     margin: 0 0 5px;
 }
 .card-details span{
-    color: #fff; 
+    color: #fff;
 }
 
 /*--- dashboard card ---*/
@@ -1018,7 +1022,7 @@ ul.link li > a > i.fa {
     padding: 15px;
 }
 
-@media only screen and (min-width:880px) and (max-width: 1220px) { 
+@media only screen and (min-width:880px) and (max-width: 1220px) {
     .timer {
         font-size: 20px;
         font-weight: 600;
@@ -3818,7 +3822,7 @@ ul.inbox-pagination li {
 /*table*/
 #dataTableExample1_wrapper
 {
-    margin-top: 5px;   
+    margin-top: 5px;
 }
 .table {
     width: 100%;

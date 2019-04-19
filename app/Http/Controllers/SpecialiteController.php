@@ -13,9 +13,11 @@ class SpecialiteController extends Controller
      * Display a listing of Specialties
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('view',Specialite::class);
         $specialites = Specialite::all();
         return view('Specialites.index',['specialites'=>$specialites]);
     }
@@ -24,9 +26,11 @@ class SpecialiteController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('create',Specialite::class);
         $annees = Annee::all();
         return view('Specialites.ajout',compact('annees'));
     }
@@ -36,9 +40,11 @@ class SpecialiteController extends Controller
      *
      * @param  SpecialiteRequest  $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(SpecialiteRequest $request)
     {
+        $this->authorize('create',Specialite::class);
         Specialite::create($request->all());
         return redirect()->route('specialite.index')->with('success','Specialité Ajoutée');
     }
@@ -49,10 +55,12 @@ class SpecialiteController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
         $specialite = Specialite::findorFail($id);
+        $this->authorize('view',$specialite);
         return view('Specialites.show',compact('specialite'));
     }
 
@@ -62,11 +70,13 @@ class SpecialiteController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($id)
     {
         $annees = Annee::all();
         $specialite = Specialite::findorFail($id);
+        $this->authorize('update',$specialite);
         return view('Specialites.modif',compact('specialite','annees'));
     }
 
@@ -76,11 +86,13 @@ class SpecialiteController extends Controller
      * @param  SpecialiteRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(SpecialiteRequest $request, $id)
     {
         $specialite = Specialite::findorFail($id);
         $specialite->update($request->all());
+        $this->authorize('update',$specialite);
         return redirect()->route('specialite.index')->with('success','Specialité Modifiée');
     }
 
@@ -90,10 +102,12 @@ class SpecialiteController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
         $specialite = Specialite::findorFail($id);
+        $this->authorize('delete',$specialite);
         $specialite->delete();
         return redirect()->route('specialite.index')->with('success','Specialité Supprimée');
     }

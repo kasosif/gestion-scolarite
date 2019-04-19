@@ -37,7 +37,6 @@ class EtudiantController extends Controller
     {
         $this->authorize('createEtudiant', Auth::user());
         $annees = Annee::all();
-        $specialites = Specialite::all();
         return view('Etudiants.ajout',compact('annees','specialites'));
     }
 
@@ -74,7 +73,6 @@ class EtudiantController extends Controller
         $etudiant = User::where('cin',$cin)->first();
         $this->authorize('updateEtudiant', $etudiant);
         $annees = Annee::all();
-        $specialites = Specialite::all();
         return view('Etudiants.modif',
             compact('annees','specialites',
                 'etudiant')
@@ -103,7 +101,9 @@ class EtudiantController extends Controller
             $image->move($destinationPath, $profileImage);
             $params['image'] = $profileImage;
         }
-        $etudiant->update(array_merge($request->all(),$params));
+        if ($password = $request->get('password'))
+            $etudiant->password = $password;
+        $etudiant->update(array_merge($request->except('password'),$params));
         return redirect()->route('etudiant.index')->with('success','Etudiant Modifié');
     }
 

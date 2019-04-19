@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('classe.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Une Classe</a>
-        </div>
+        @can('create',\App\Model\Classe::class)
+            <div class="row">
+                <a href="{{route('classe.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Une Classe</a>
+            </div>
+        @endcan
         <div class="row">
             @if($classes->count() != 0)
                 <div class="card">
@@ -74,9 +76,15 @@
                                             {{$classe->promotion}}
                                         </td>
                                         <td>
-                                            <a href="{{route('classe.edit',['id' => $classe->id])}}" class="btn btn-primary w-md">Modif</a>
-                                            <a href="{{route('classe.show',['id' => $classe->id])}}" class="btn btn-warning w-md">Info/Affectation</a>
-                                            <button onclick="deleteResource('{{$classe->id}}','{{$classe->abbreviation}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('update',$classe)
+                                                <a href="{{route('classe.edit',['id' => $classe->id])}}" class="btn btn-primary w-md">Modif</a>
+                                            @endcan
+                                            @can('view',$classe)
+                                                <a href="{{route('classe.show',['id' => $classe->id])}}" class="btn btn-warning w-md">Info/Affectation</a>
+                                            @endcan
+                                            @can('delete',$classe)
+                                                <button onclick="deleteResource('{{$classe->id}}','{{$classe->abbreviation}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

@@ -24,7 +24,7 @@ class NotePolicy
      * @param  \App\Model\Note  $note
      * @return mixed
      */
-    public function view(User $user, Note $note)
+    public function view(User $user, Note $note = null)
     {
         return true;
     }
@@ -60,30 +60,6 @@ class NotePolicy
      * @return mixed
      */
     public function delete(User $user, Note $note)
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can restore the note.
-     *
-     * @param  \App\Model\User  $user
-     * @param  \App\Model\Note  $note
-     * @return mixed
-     */
-    public function restore(User $user, Note $note)
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the note.
-     *
-     * @param  \App\Model\User  $user
-     * @param  \App\Model\Note  $note
-     * @return mixed
-     */
-    public function forceDelete(User $user, Note $note)
     {
         return true;
     }

@@ -44,7 +44,6 @@ class EmployeRequest extends FormRequest
                         'gendre' => ['required', 'regex:(male|female)'],
                         'email' => 'required|unique:users|email',
                         'password' => ['confirmed', 'required', 'regex:#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#'],
-                        'privileges' => 'required',
                         'privileges.*' => 'numeric'
                     ];
                 }
@@ -69,14 +68,13 @@ class EmployeRequest extends FormRequest
                         'lieu_naissance_ar' => 'nullable|min:2',
                         'lieu_naissance_en' => 'nullable|min:2',
                         'gendre' => ['required', 'regex:(male|female)'],
-                        'privileges' => 'required',
                         'privileges.*' => 'numeric',
                         'email' => [
                             'required',
                             Rule::unique('users')->ignore($user->id),
                             'email'
                         ],
-                        'password' => ['confirmed', 'required', 'regex:#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#'],
+                        'password' => ['confirmed', 'nullable', 'regex:#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#'],
                     ];
                 }
         }

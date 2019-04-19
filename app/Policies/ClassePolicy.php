@@ -26,7 +26,7 @@ class ClassePolicy
     public function view(User $user, Classe $classe = null)
     {
         $pass = false;
-        if($classe){
+        if($classe && $user->classe){
             $pass =  $user->classe->id == $classe->id;
         }
         $privilege = Privilege::where('titre','view_classes')->first();

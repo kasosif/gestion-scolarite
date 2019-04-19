@@ -23,6 +23,9 @@
     </section>
 @endsection
 @section('ContenuPage')
+    @foreach(\Illuminate\Support\Facades\Auth::user()->privileges as $privilege)
+        {{var_dump($privilege->titre)}}
+    @endforeach
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">

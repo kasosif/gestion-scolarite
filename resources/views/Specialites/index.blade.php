@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('specialite.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Specialité</a>
-        </div>
+        @can('create',\App\Model\Specialite::class)
+            <div class="row">
+                <a href="{{route('specialite.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Specialité</a>
+            </div>
+        @endcan
         <div class="row">
             @if($specialites->count() != 0)
                 <div class="card">
@@ -62,9 +64,15 @@
                                             {{$specialite->code}}
                                         </td>
                                         <td>
-                                            <a href="{{route('specialite.edit',['id' => $specialite->id])}}" class="btn btn-primary w-md">Modif</a>
-                                            <a href="{{route('specialite.show',['id' => $specialite->id])}}" class="btn btn-warning w-md">Info</a>
-                                            <button onclick="deleteRessource('{{$specialite->id}}','{{$specialite->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('update',$specialite)
+                                                <a href="{{route('specialite.edit',['id' => $specialite->id])}}" class="btn btn-primary w-md">Modif</a>
+                                            @endcan
+                                            @can('view',$specialite)
+                                                <a href="{{route('specialite.show',['id' => $specialite->id])}}" class="btn btn-warning w-md">Info</a>
+                                            @endcan
+                                            @can('delete',$specialite)
+                                                <button onclick="deleteRessource('{{$specialite->id}}','{{$specialite->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

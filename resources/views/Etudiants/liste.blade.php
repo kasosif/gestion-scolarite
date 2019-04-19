@@ -31,9 +31,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('etudiant.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Etudiant</a>
-        </div>
+        @can('createEtudiant',\App\Model\User::class)
+            <div class="row">
+                <a href="{{route('etudiant.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Etudiant</a>
+            </div>
+        @endcan
         <div class="row">
             @if($etudiants->count() != 0)
                 <div class="card">
@@ -81,9 +83,15 @@
                                             {{$etudiant->gendre  === "male" ? "Homme" : "Femme"}}
                                         </td>
                                         <td>
-                                            <a href="{{route('etudiant.edit',['cin' => $etudiant->cin])}}" class="btn btn-primary w-md">Modif/Info</a>
-                                            <button type="button" class="btn btn-warning w-md">Docs</button>
-                                            <button onclick="deleteUser({{$etudiant->cin}})" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('updateEtudiant',$etudiant)
+                                                <a href="{{route('etudiant.edit',['cin' => $etudiant->cin])}}" class="btn btn-primary w-md">Modif/Info</a>
+                                            @endcan
+                                            @can('viewEtudiant',$etudiant)
+                                                <button type="button" class="btn btn-warning w-md">Docs</button>
+                                            @endcan
+                                            @can('deleteEtudiant',\App\Model\User::class)
+                                                <button onclick="deleteUser({{$etudiant->cin}})" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

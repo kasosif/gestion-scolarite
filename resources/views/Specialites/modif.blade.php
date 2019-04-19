@@ -5,6 +5,7 @@
 @section('preloader')
 @endsection
 @section('csspage')
+    <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
 @endsection
 @section('basesactive')
     class = "active"
@@ -110,4 +111,10 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#annee').select2();
+        });
+    </script>
 @endsection

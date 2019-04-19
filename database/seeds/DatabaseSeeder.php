@@ -24,12 +24,12 @@ class DatabaseSeeder extends Seeder
             ['nom'=>'Semestre 1'],
             ['nom'=>'Semestre 2'],
         ]);
-        Factory('App\Model\Matiere',15)->create();
-        Factory('App\Model\Classe',5)->create();
+        Factory('App\Model\Matiere',100)->create();
+        Factory('App\Model\Classe',25)->create();
         Factory('App\Model\User',1)->states('admin')->create();
         Factory('App\Model\User',3)->states('employe')->create();
-        Factory('App\Model\User',150)->states('student')->create();
-        Factory('App\Model\User',10)->states('teacher')->create();
+        Factory('App\Model\User',500)->states('student')->create();
+        Factory('App\Model\User',20)->states('teacher')->create();
         DB::table('seances')->insert([
             ['heure_debut' => new \DateTime('today 09:00'),'heure_fin' => new \DateTime('today 10:30')],
             ['heure_debut' => new \DateTime('today 10:45'),'heure_fin' => new \DateTime('today 12:15')],

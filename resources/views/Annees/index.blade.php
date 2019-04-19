@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
+        @can('create',\App\Model\Annee::class)
         <div class="row">
             <a href="{{route('annee.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Année Scolaire</a>
         </div>
+        @endcan
         <div class="row">
             @if($annees->count() != 0)
                 <div class="card">
@@ -70,9 +72,15 @@
                                             {{$annee->code}}
                                         </td>
                                         <td>
-                                            <a href="{{route('annee.edit',['id' => $annee->id])}}" class="btn btn-primary w-md">Modif</a>
-                                            <a href="{{route('annee.show',['id' => $annee->id])}}" class="btn btn-warning w-md">Info</a>
-                                            <button onclick="deleteRessource('{{$annee->id}}','{{$annee->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('update',$annee)
+                                                <a href="{{route('annee.edit',['id' => $annee->id])}}" class="btn btn-primary w-md">Modif</a>
+                                            @endcan
+                                            @can('view',$annee)
+                                                <a href="{{route('annee.show',['id' => $annee->id])}}" class="btn btn-warning w-md">Info</a>
+                                            @endcan
+                                            @can('delete',$annee)
+                                                <button onclick="deleteRessource('{{$annee->id}}','{{$annee->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

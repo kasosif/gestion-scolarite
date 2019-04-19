@@ -5,6 +5,8 @@
 @section('preloader')
 @endsection
 @section('csspage')
+    <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
+
 @endsection
 @section('parametreactive')
     class = "active"
@@ -67,7 +69,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="niveau_id" class="control-label">Niveau</label>
-                                    <select required id="niveau_id" name="niveau_id" class="form-control">
+                                    <select id="niveau_id" name="niveau_id" class="form-control">
                                         <option value="" selected disabled>Selectionnez Niveau</option>
                                         @foreach($specs as $spec)
                                             <optgroup label="{{$spec->nom}}">
@@ -119,4 +121,10 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('select').select2();
+        });
+    </script>
 @endsection

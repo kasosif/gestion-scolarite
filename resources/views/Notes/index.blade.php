@@ -10,10 +10,10 @@
     <!-- iziToast alert -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 @endsection
-@section('parametreactive')
+@section('etudiantactive')
     class = "active"
 @endsection
-@section('noteactive')
+@section('noteetudiantactive')
     class = "active-link"
 @endsection
 @section('HeaderPage')

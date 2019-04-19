@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('abscence.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Une Abscence</a>
-        </div>
+        @can('create',\App\Model\Abscence::class)
+            <div class="row">
+                <a href="{{route('abscence.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Une Abscence</a>
+            </div>
+        @endcan
         <div class="row">
             <form action="{{route('abscence.index')}}" method="GET">
                 <div class="card">
@@ -127,7 +129,9 @@
                                                 {{date('d-m-Y', strtotime($abscence->date))}}
                                             </td>
                                             <td>
-                                                <button onclick="deleteAbscence('{{$abscence->id}}','{{$abscence->user->nom}} {{$abscence->user->prenom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                                @can('delete',$abscence)
+                                                    <button onclick="deleteAbscence('{{$abscence->id}}','{{$abscence->user->nom}} {{$abscence->user->prenom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

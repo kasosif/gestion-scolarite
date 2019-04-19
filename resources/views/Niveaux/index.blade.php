@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('niveau.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Niveau</a>
-        </div>
+        @can('create',\App\Model\Niveau::class)
+            <div class="row">
+                <a href="{{route('niveau.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Niveau</a>
+            </div>
+        @endcan
         <div class="row">
             @if($niveaux->count() != 0)
                 <div class="card">
@@ -66,9 +68,15 @@
                                             {{$niveau->nom}}
                                         </td>
                                         <td>
-                                            <a href="{{route('niveau.edit',['id' => $niveau->id])}}" class="btn btn-primary w-md">Modif</a>
-                                            <a href="{{route('niveau.show',['id' => $niveau->id])}}" class="btn btn-warning w-md">Info</a>
-                                            <button onclick="deleteRessource('{{$niveau->id}}','{{$niveau->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('update',$niveau)
+                                                <a href="{{route('niveau.edit',['id' => $niveau->id])}}" class="btn btn-primary w-md">Modif</a>
+                                            @endcan
+                                            @can('view',$niveau)
+                                                <a href="{{route('niveau.show',['id' => $niveau->id])}}" class="btn btn-warning w-md">Info</a>
+                                            @endcan
+                                            @can('delete',$niveau)
+                                                <button onclick="deleteRessource('{{$niveau->id}}','{{$niveau->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

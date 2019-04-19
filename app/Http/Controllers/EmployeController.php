@@ -91,7 +91,10 @@ class EmployeController extends Controller
             $image->move($destinationPath, $profileImage);
             $params['image'] = $profileImage;
         }
-        $employe->update(array_merge($request->except(['privileges']),$params));
+        if ($password = $request->get('password'))
+            $employe->password = $password;
+        $employe->update(array_merge($request->except(['privileges','password']),$params));
+        $employe->privileges()->sync([]);
         $employe->privileges()->sync($request->get('privileges'),false);
         return redirect()->route('employe.index')->with('success','Employe Modifié');
     }
@@ -108,7 +111,7 @@ class EmployeController extends Controller
         if ($employe->image && file_exists(public_path().'/images/employes/'.$employe->image)) {
             unlink(public_path().'/images/employes/'.$employe->image);
         }
-        $employe->privileges()->sync([],false);
+        $employe->privileges()->sync([]);
         $employe->delete();
         return redirect()->route('employe.index')->with('success','Employe Supprimé');
     }

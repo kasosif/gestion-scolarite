@@ -90,7 +90,9 @@ class ProfesseurController extends Controller
             $image->move($destinationPath, $profileImage);
             $params['image'] = $profileImage;
         }
-        $professeur->update(array_merge($request->all(),$params));
+        if ($password = $request->get('password'))
+            $professeur->password = $password;
+        $professeur->update(array_merge($request->except('password'),$params));
         return redirect()->route('professeur.index')->with('success','Professeur Modifié');
     }
 

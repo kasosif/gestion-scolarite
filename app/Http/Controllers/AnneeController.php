@@ -11,9 +11,11 @@ class AnneeController extends Controller
      * Display a listing of Years
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('view',Annee::class);
         $annees = Annee::all();
         return view('Annees.index',['annees'=>$annees]);
     }
@@ -22,9 +24,11 @@ class AnneeController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('create',Annee::class);
         return view('Annees.ajout');
     }
 
@@ -33,9 +37,11 @@ class AnneeController extends Controller
      *
      * @param  AnneeRequest  $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(AnneeRequest $request)
     {
+        $this->authorize('create',Annee::class);
         Annee::create($request->all());
         return redirect()->route('annee.index')->with('success','Année Scolaire Ajoutée');
     }
@@ -46,10 +52,12 @@ class AnneeController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
         $annee = Annee::findorFail($id);
+        $this->authorize('view',$annee);
         return view('Annees.show',compact('annee'));
     }
 
@@ -59,10 +67,12 @@ class AnneeController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($id)
     {
         $annee = Annee::findorFail($id);
+        $this->authorize('update',$annee);
         return view('Annees.modif',compact('annee'));
     }
 
@@ -72,10 +82,12 @@ class AnneeController extends Controller
      * @param  AnneeRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(AnneeRequest $request, $id)
     {
         $annee = Annee::findorFail($id);
+        $this->authorize('update',$annee);
         $annee->update($request->all());
         return redirect()->route('annee.index')->with('success','Année Scolaire Modifiée');
     }
@@ -86,10 +98,12 @@ class AnneeController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
         $annee = Annee::findorFail($id);
+        $this->authorize('delete',Annee::class);
         $annee->delete();
         return redirect()->route('annee.index')->with('success','Année Scolaire Supprimée');
     }

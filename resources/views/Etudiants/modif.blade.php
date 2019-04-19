@@ -5,6 +5,7 @@
 @section('preloader')
 @endsection
 @section('csspage')
+    <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
     <style>
         .file-caption-name{
@@ -72,27 +73,23 @@
                         </div>
                         <div class="card-body" style="padding: 4px;">
                             <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="annee" class="control-label">Année</label>
-                                    <select required id="annee" name="annee" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Année</option>
-                                        @foreach($annees as $annee)
-                                            <option @if($etudiant->classe->niveau->specialite->annee->id == $annee->id) selected @endif value="{{$annee->id}}">{{$annee->nom}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <label for="specialite" class="control-label">Spécialite</label>
-                                    <select id="specialite" name="specialite" class="form-control">
+                                    <select id="specialite" name="specialite" class="form-control select2">
                                         <option value="" selected disabled>Selectionnez Spécialite</option>
-                                        @foreach($specialites as $specialite)
-                                            <option @if($etudiant->classe->niveau->specialite->id == $specialite->id) selected @endif value="{{$specialite->id}}">{{$specialite->nom}}</option>
+                                        @foreach($annees as $annee)
+                                            <optgroup label="{{$annee->nom}}">
+                                                @foreach($annee->specialites as $specialite)
+                                                    <option @if($etudiant->classe->niveau->specialite->id == $specialite->id) selected @endif value="{{$specialite->id}}">{{$specialite->nom}}</option>
+                                                @endforeach
+                                            </optgroup>
                                         @endforeach
+
                                     </select>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <label for="classe" class="control-label">Classe</label>
-                                    <select id="classe" name="classe_id" class="form-control">
+                                    <select id="classe" name="classe_id" class="form-control select2">
                                         <option value="" selected disabled>Selectionner Classe</option>
                                         <option value="{{$etudiant->classe->id}}" selected>{{$etudiant->classe->abbreviation}} {{$etudiant->classe->niveau->nom}}</option>
                                     </select>
@@ -216,9 +213,11 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
     <script src="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.js')}}"></script>
     <script>
         $(document).ready(function () {
+            $('.select2').select2();
             $('#cin').keyup(function () {
                 $('#username').val('login : ' + $('#cin').val());
             })

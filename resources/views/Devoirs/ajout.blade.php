@@ -5,6 +5,7 @@
 @section('preloader')
 @endsection
 @section('csspage')
+    <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 @endsection
 @section('parametreactive')
@@ -127,8 +128,10 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
     <script>
         $(document).ready(function () {
+            $('select').select2();
             $('body').on('change','#classe_id',function () {
                 $.ajax({
                     url: '{{route('ajax.matieresbyclasse')}}'+'/'+ $('#classe_id').val(),

@@ -6,7 +6,7 @@
 @endsection
 @section('csspage')
 @endsection
-@section('parametreactive')
+@section('etudiantactive')
     class = "active"
 @endsection
 @section('noteetudiantactive')

@@ -17,9 +17,11 @@ class AbscenceController extends Controller
      * Display a listing of Years
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
     {
+        $this->authorize('view', Abscence::class);
         $annees = Annee::all();
         $abscences = false;
         if ($user_id = $request->query('user_id')) {
@@ -35,9 +37,11 @@ class AbscenceController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('create', Abscence::class);
         $annees = Annee::all();
         $seances = Seance::all();
         return view('Abscences.ajout',compact('annees','seances'));
@@ -48,9 +52,11 @@ class AbscenceController extends Controller
      *
      * @param  AbscenceRequest  $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(AbscenceRequest $request)
     {
+        $this->authorize('create', Abscence::class);
         $params = [];
         if ($image = $request->files->get('justification')) {
             $destinationPath = 'images/abscences/'; // upload path
@@ -72,8 +78,8 @@ class AbscenceController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', Abscence::class);
         $abscence = Abscence::findorFail($id);
+        $this->authorize('delete', $abscence);
         $abscence->delete();
         return redirect()->route('abscence.index')->with('success','Abscence Supprimé');
     }

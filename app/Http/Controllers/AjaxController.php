@@ -122,9 +122,12 @@ class AjaxController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function affecterProfesseur(Request $request)
     {
+        $classe = Classe::findorFail($request->get('classe_id'));
+        $this->authorize('update',$classe);
         Affectation::create($request->all());
         $matiere = Matiere::findorFail($request->get('matiere_id'));
         $professeur= User::findorFail($request->get('user_id'));

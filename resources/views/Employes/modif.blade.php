@@ -179,11 +179,11 @@
                                 <input disabled value="{{$employe->cin}}" id="username" name="username" type="text" class="form-control" required>
                             </div>
                             <div class="input-field form-input">
-                                <input id="password" name="password" type="password" class="validate" required>
+                                <input id="password" name="password" type="password" class="validate">
                                 <label for="password" class="">Mot de Passe</label>
                             </div>
                             <div class="input-field form-input">
-                                <input id="password-confirm" name="password_confirmation" type="password" class="validate" required>
+                                <input id="password-confirm" name="password_confirmation" type="password" class="validate">
                                 <label for="password-confirm" class="">Confirmation Mot de Passe</label>
                             </div>
                         </div>

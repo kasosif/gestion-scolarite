@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Model\Affectation;
 use App\Model\Privilege;
 use App\Model\Abscence;
 use App\Model\User;
@@ -29,7 +30,10 @@ class AbscencePolicy
     {
         $pass = false;
         if ($model){
-            $pass = ($user->id == $model->user->id) || ($user->id == $model->matiere->user->id);
+            $matiere = $model->matiere;
+            $etudiant = $model->user;
+            $classe = $etudiant->classe;
+            $pass = ($user->id == $etudiant->id) || (Affectation::where('matiere_id',$matiere->id)->where('classe_id',$classe->id)->where('user_id',$user->id)->count());
         }
         $privilege = Privilege::where('titre','view_abscences')->first();
         return ($user->privileges->contains($privilege->id)) || $pass;
@@ -73,8 +77,11 @@ class AbscencePolicy
     public function delete(User $user, Abscence $model)
     {
         $pass = false;
-        if($model){
-            $pass =  $user->id == $model->matiere->user->id;
+        if ($model){
+            $matiere = $model->matiere;
+            $etudiant = $model->user;
+            $classe = $etudiant->classe;
+            $pass = Affectation::where('matiere_id',$matiere->id)->where('classe_id',$classe->id)->where('user_id',$user->id)->count();
         }
         $privilege = Privilege::where('titre','delete_abscences')->first();
         return ($user->privileges->contains($privilege->id)) || $pass;

@@ -3,6 +3,7 @@
     Information Sur Classe "{{$classe->abbreviation}}"
 @endsection
 @section('csspage')
+    <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
     <!-- iziToast alert -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
     <!-- dataTables css -->
@@ -73,7 +74,7 @@
                                 </div>
                             @else
                                 <div class="row">
-                                    <form class="form" action="{{route('ajax.affectprof')}}" method="post">
+                                    <form class="form" action="@can('update',$classe){{route('ajax.affectprof')}}@endcan" method="post">
                                         <input type="hidden" name="classe_id" value="{{$classe->id}}">
                                         @csrf
                                         <div class="col-md-4">
@@ -86,18 +87,20 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="user_id" class="control-label">Professeur</label>
-                                                <select required id="user_id" name="user_id" class="form-control">
+                                                <select required id="user{{$key}}" name="user_id" class="form-control">
                                                     @foreach($professeurs as $professeur)
                                                         <option value="{{$professeur->id}}">{{$professeur->nom}} {{$professeur->prenom}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <button type="submit" class="btn btn-labeled btn-primary">
-                                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Affecter Professeur
-                                            </button>
-                                        </div>
+                                        @can('update',$classe)
+                                            <div class="col-md-4">
+                                                <button type="submit" class="btn btn-labeled btn-primary">
+                                                    <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Affecter Professeur
+                                                </button>
+                                            </div>
+                                        @endcan
                                     </form>
                                 </div>
                             @endif
@@ -137,19 +140,21 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
     <!-- dataTables js -->
     <script src="{{asset('assets/plugins/datatables/dataTables.min.js')}}" type="text/javascript"></script>
     <!-- iziToast -->
     <script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
-
+            $('.form-control').select2();
             @if($classe->niveau->matieres()->count() > 0)
             $('#matieresTable').DataTable();
             @endif
             @if($classe->users()->count() > 0)
             $('#etudiantTable').DataTable();
             @endif
+            @can('update',$classe)
             $(".form").submit(function(e) {
                 e.preventDefault(); // avoid to execute the actual submit of the form.
                 var form = $(this);
@@ -173,6 +178,7 @@
 
 
             });
+            @endcan
         });
     </script>
 

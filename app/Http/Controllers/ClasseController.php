@@ -16,9 +16,11 @@ class ClasseController extends Controller
      * Display a listing of Classes
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('view',Classe::class);
         $classes = Classe::all();
         return view('Classes.index',['classes'=>$classes]);
     }
@@ -27,9 +29,11 @@ class ClasseController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('create',Classe::class);
         $specs = Specialite::all();
         return view('Classes.ajout',compact('specs'));
     }
@@ -39,9 +43,11 @@ class ClasseController extends Controller
      *
      * @param  ClasseRequest  $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(ClasseRequest $request)
     {
+        $this->authorize('create',Classe::class);
         Classe::create($request->all());
         return redirect()->route('classe.index')->with('success','Classe Ajoutée');
     }
@@ -52,10 +58,12 @@ class ClasseController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
         $classe = Classe::findorFail($id);
+        $this->authorize('view',$classe);
         $professeurs = User::where('role','ROLE_PROFESSEUR')->get();
         return view('Classes.show',compact('classe','professeurs'));
     }
@@ -66,11 +74,13 @@ class ClasseController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($id)
     {
         $specs = Specialite::all();
         $classe = Classe::findorFail($id);
+        $this->authorize('update',$classe);
         return view('Classes.modif',compact('classe','specs'));
     }
 
@@ -80,10 +90,12 @@ class ClasseController extends Controller
      * @param  ClasseRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(ClasseRequest $request, $id)
     {
         $classe = Classe::findorFail($id);
+        $this->authorize('update',$classe);
         $classe->update($request->all());
         return redirect()->route('classe.index')->with('success','Classe Modifiée');
     }
@@ -94,10 +106,12 @@ class ClasseController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
         $classe = Classe::findorFail($id);
+        $this->authorize('delete',$classe);
         $classe->delete();
         return redirect()->route('classe.index')->with('success','Classe Supprimée');
     }

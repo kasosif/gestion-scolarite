@@ -112,6 +112,7 @@
     <script>
         $(document).ready(function () {
             $('#matieres').select2();
+            $('#specialite_id').select2();
         });
     </script>
 @endsection
