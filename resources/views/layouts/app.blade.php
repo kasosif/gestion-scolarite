@@ -272,11 +272,19 @@
             <!--user profile-->
                 <li class="dropdown">
                     <a class='dropdown-button user-pro' href='#' data-activates='dropdown-user'>
-                        <img src="{{asset('assets/dist/img/avatar5.png')}}" class="img-circle" height="45" width="50" alt="User Image">
+                        <img
+                            @if(Auth::user()->image)
+                            src="{{asset('images/employes/'.Auth::user()->image)}}"
+                            @elseif(Auth::user()->gendre == 'female')
+                            src="{{asset('assets/dist/img/avatar2.png')}}"
+                            @elseif(Auth::user()->gendre == 'male')
+                            src="{{asset('assets/dist/img/avatar5.png')}}"
+                            @endif
+                            class="img-circle" height="45" width="50" alt="User Image">
                     </a>
                     <ul id='dropdown-user' class='dropdown-content'>
                         <li>
-                            <a href="#"><i class="material-icons">perm_identity</i> Mon Profile</a>
+                            <a href="{{route('profile')}}"><i class="material-icons">perm_identity</i> Mon Profile</a>
                         </li>
                         <li>
                             <a href="{{ route('logout') }}"
@@ -359,6 +367,13 @@
                             </a>
                         </li>
                     @endif
+                    <li @yield('emploisactive')>
+                        <a><i class="fa fa-calendar"></i>Emplois Du temps <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li @yield('emploisajoutactive')><a href="{{route('emplois.create')}}" >Ajouter Un Emploi</a></li>
+                            <li @yield('emploislisteactive')><a href="{{route('emplois.classes')}}">Liste des Emplois</a></li>
+                        </ul>
+                    </li>
                     <li @yield('parametreactive')>
                         <a><i class="material-icons">settings</i>Paramètres<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">

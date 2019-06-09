@@ -56,5 +56,17 @@ class DatabaseSeeder extends Seeder
             ['titre' => 'view_salles'],['titre' => 'update_salles'],['titre' => 'delete_salles'],['titre' => 'create_salles'],
             ['titre' => 'view_niveaux'],['titre' => 'update_niveaux'],['titre' => 'delete_niveaux'],['titre' => 'create_niveaux'],
         ]);
+        for ($i=1;$i<51;$i++){
+            DB::table('salles')->insert(['nom'=>'Salle'.' '.$i]);
+        }
+
+            DB::table('jours')->insert(
+                ['nom'=>'Lundi'],
+                ['nom'=>'Mardi'],
+                ['nom'=>'Mercredi'],
+                ['nom'=>'Jeudi'],
+                ['nom'=>'Vendredi'],
+                ['nom'=>'Samedi']
+            );
     }
 }

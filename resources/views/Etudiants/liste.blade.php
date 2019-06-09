@@ -2,8 +2,6 @@
 @section('title')
     Liste des Etudiants
 @endsection
-@section('preloader')
-@endsection
 @section('csspage')
     <!-- dataTables css -->
     <link href="{{asset('assets/plugins/datatables/dataTables.min.css')}}" rel="stylesheet" type="text/css" />
@@ -64,11 +62,14 @@
                                             {{$etudiant->classe->abbreviation}} {{$etudiant->classe->niveau->nom}}
                                         </td>
                                         <td>
-                                            @if($etudiant->image)
-                                                <img src="{{asset('images/etudiants/'.$etudiant->image)}}" alt="User Image" style="width: 50px;">
-                                            @else
-                                                No Image
-                                            @endif
+                                            <img @if($etudiant->image)
+                                                 src="{{asset('images/etudiants/'.$etudiant->image)}}"
+                                                 @elseif($etudiant->gendre == 'female')
+                                                 src="{{asset('assets/dist/img/avatar2.png')}}"
+                                                 @elseif($etudiant->gendre == 'male')
+                                                 src="{{asset('assets/dist/img/avatar5.png')}}"
+                                                 @endif
+                                                alt="User Image" style="width: 50px;">
                                         </td>
                                         <td>
                                             {{$etudiant->cin}}
@@ -84,10 +85,10 @@
                                         </td>
                                         <td>
                                             @can('updateEtudiant',$etudiant)
-                                                <a href="{{route('etudiant.edit',['cin' => $etudiant->cin])}}" class="btn btn-primary w-md">Modif/Info</a>
+                                                <a href="{{route('etudiant.edit',['cin' => $etudiant->cin])}}" class="btn btn-primary w-md">Modif</a>
                                             @endcan
                                             @can('viewEtudiant',$etudiant)
-                                                <button type="button" class="btn btn-warning w-md">Docs</button>
+                                                <a href="{{route('etudiant.show',['cin' => $etudiant->cin])}}" class="btn btn-warning w-md">Info/Docs</a>
                                             @endcan
                                             @can('deleteEtudiant',\App\Model\User::class)
                                                 <button onclick="deleteUser({{$etudiant->cin}})" type="button" class="btn btn-danger w-md">Supp</button>

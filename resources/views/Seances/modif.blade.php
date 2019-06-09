@@ -61,20 +61,20 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-wpforms"></i>
-                        Formulaire d'ajout
+                        Formulaire de modification
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="heure_debut" class="">Heure Debut</label>
-                                    <input id="heure_debut"  value="{{$seance->heure_debut}}" name="heure_debut" type="time" class="validate" required>
+                                    <input id="heure_debut"  value="{{date('H:i', strtotime($seance->heure_debut))}}" name="heure_debut" type="time" class="validate" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="heure_fin" class="">Heure Fin</label>
-                                    <input id="heure_fin" value="{{$seance->heure_fin}}" name="heure_fin" type="time" class="validate" required>
+                                    <input id="heure_fin" value="{{date('H:i', strtotime($seance->heure_fin))}}" name="heure_fin" type="time" class="validate" required>
                                 </div>
                             </div>
                         </div>

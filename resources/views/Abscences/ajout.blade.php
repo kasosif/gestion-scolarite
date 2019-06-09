@@ -5,7 +5,7 @@
 @section('preloader')
 @endsection
 @section('csspage')
-    <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
 @endsection
 @section('etudiantactive')
     class="active"
@@ -61,7 +61,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-wpforms"></i>
-                        Formulaire d'ajout
+                        Selectionner Classe
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
@@ -80,12 +80,6 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="user_id" class="control-label">Etudiant</label>
-                                    <select required id="user_id" name="user_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Etudiant</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
                                     <label for="seance_id" class="control-label">Seance</label>
                                     <select required id="seance_id" name="seance_id" class="form-control">
                                         <option value="" selected disabled>Selectionnez Seance</option>
@@ -96,7 +90,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="date_pub">Date</label>
-                                    <input required name="date" id= "date_pub" class="validate" type="date">
+                                    <input required min="{{date('Y-m-d', strtotime('-3 days'))}}" max="{{date('Y-m-d', strtotime('today'))}}" name="date" id= "date_pub" class="validate" type="date">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -112,40 +106,60 @@
                                         <option value="" selected disabled>Selectionnez Matiere</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="justifie" class="control-label">Justification</label>
-                                    <select required id="justifie" name="justifie" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Justification</option>
-                                        <option value="1">Justifié</option>
-                                        <option value="0">Non Justifié</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-8" id="contenuJustif">
-
                             </div>
 
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <div class="pull-right">
-                            <button type="submit" class="btn btn-labeled btn-success">
-                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Ajouter
-                            </button>
-                            <button type="reset" class="btn btn-labeled btn-danger">
-                                <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
-                            </button>
+                </div>
+                <div id="loader" style="display: none" class="text-center">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-red">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                        <div class="spinner-layer spinner-green">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div id="listeEtudiant">
                 </div>
             </form>
         </div>
     </div>
 @endsection
 @section('scriptpage')
-    <script src="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
     <script>
         $(document).ready(function () {
+            $('select').select2();
             $('body').on('change','#spec_id',function () {
                 $.ajax({
                     url: '{{route('ajax.classesbyspec')}}'+'/'+ $('#spec_id').val(),
@@ -153,7 +167,6 @@
                     success: function(response) {
                         $("#classe_id").html(response);
                         $("#matiere_id").html('');
-                        $("#user_id").html('');
                     }
                 });
             });
@@ -165,31 +178,35 @@
                         $("#matiere_id").html(response);
                     }
                 });
+            });
+
+            $('body').on('change','#matiere_id',function () {
+                $('#loader').show();
                 $.ajax({
-                    url: '{{route('ajax.studentsbyclass')}}'+'/'+ $('#classe_id').val(),
+                    url: '{{route('ajax.etudaintsabscence')}}'+'/'+ $('#classe_id').val(),
                     method: "GET",
                     success: function(response) {
-                        $("#user_id").html(response);
+                        $('#loader').hide();
+                        $("#listeEtudiant").html(response);
                     }
                 });
             });
-
-            $('body').on('change','#justifie',function () {
-                if ($('#justifie').val() === '1'){
-                    $('#contenuJustif').html('<label for="justification">Justification</label>\n' +
-                        '<input type="file" name="justification" id="justifphoto" required>');
-                    $("#justifphoto").fileinput({
-                        'showUpload': !1,
-                        'allowedFileExtensions': ["jpeg","jpg", "png"],
-                        'minFileSize': 5,
-                        'maxFileSize': 2200
-                    });
-                }
-                if ($('#justifie').val() === '0'){
-                    $('#contenuJustif').html('<label for="commentaire">Commentaire</label>\n' +
-                        '<textarea required name="commentaire" id="commentaire" cols="100" rows="500"></textarea>');
+            $('body').on('change','.abscence',function () {
+                if ($(this).prop('checked')) {
+                    $(this).parent().parent().parent().parent()
+                        .find('td.justification div.col-md-3.m-b-20 label input:checkbox.justifie')
+                        .removeAttr('disabled');
+                }else {
+                    $(this).parent().parent().parent().parent()
+                        .find('td.justification div.col-md-3.m-b-20 label input:checkbox.justifie')
+                        .attr('disabled',true);
+                    $(this).parent().parent().parent().parent()
+                        .find('td.justification div.col-md-3.m-b-20 label input:checkbox.justifie')
+                        .prop('checked', false);
                 }
             });
+
+
         });
     </script>
 @endsection

@@ -5,6 +5,7 @@
 @section('preloader')
 @endsection
 @section('csspage')
+    <link href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('etudiantactive')
     class = "active"
@@ -78,13 +79,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="user_id" class="control-label">Etudiant</label>
-                                    <select required id="user_id" name="user_id" class="form-control">
-                                        <option value="" selected disabled>Selectionnez Etudiant</option>
-                                    </select>
-                                </div>
-
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -93,6 +87,8 @@
                                         <option value="" selected disabled>Selectionnez Classe</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="devoir_id" class="control-label">Devoir</label>
                                     <select required id="devoir_id" name="devoir_id" class="form-control">
@@ -100,30 +96,58 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    <label for="mark">Note (?/20)</label>
-                                    <input required type="text" class="validate" id="mark" name="mark">
-                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="loader" style="display: none" class="text-center">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-red">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                        <div class="spinner-layer spinner-green">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="pull-right">
-                    <button type="submit" class="btn btn-labeled btn-success">
-                        <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Ajouter
-                    </button>
-                    <button type="reset" class="btn btn-labeled btn-danger">
-                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
-                    </button>
+                <div id="listeEtudiant">
                 </div>
             </form>
         </div>
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
     <script>
         $(document).ready(function () {
+            $('select').select2();
             $('body').on('change','#spec_id',function () {
                 $.ajax({
                     url: '{{route('ajax.classesbyspec')}}'+'/'+ $('#spec_id').val(),
@@ -131,7 +155,6 @@
                     success: function(response) {
                         $("#classe_id").html(response);
                         $("#devoir_id").html('');
-                        $("#user_id").html('');
                     }
                 });
             });
@@ -143,11 +166,15 @@
                         $("#devoir_id").html(response);
                     }
                 });
+            });
+            $('body').on('change','#devoir_id',function () {
+                $('#loader').show();
                 $.ajax({
-                    url: '{{route('ajax.studentsbyclass')}}'+'/'+ $('#classe_id').val(),
+                    url: '{{route('ajax.etudaintsnotes')}}'+'/'+ $('#classe_id').val(),
                     method: "GET",
                     success: function(response) {
-                        $("#user_id").html(response);
+                        $('#loader').hide();
+                        $("#listeEtudiant").html(response);
                     }
                 });
             });

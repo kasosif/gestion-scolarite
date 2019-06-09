@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Model\Affectation;
 use App\Model\Annee;
 use App\Model\Classe;
+use App\Model\Emploi;
 use App\Model\Matiere;
 use App\Model\Specialite;
 use App\Model\User;
@@ -66,6 +67,30 @@ class AjaxController extends Controller
     }
 
     /**
+     * Display students by classe for Presence
+     * @param  int  $classe_id
+     * @return \Illuminate\Http\Response
+     */
+    public function getStudentsForPresence($classe_id)
+    {
+        $classe = Classe::findOrFail($classe_id);
+        $etudiants = $classe->users;
+        return view('Ajax.etudiantsabscence',compact('etudiants'));
+    }
+
+    /**
+     * Display students by classe for Presence
+     * @param  int  $classe_id
+     * @return \Illuminate\Http\Response
+     */
+    public function getStudentsForMark($classe_id)
+    {
+        $classe = Classe::findOrFail($classe_id);
+        $etudiants = $classe->users;
+        return view('Ajax.etudiantsnote',compact('etudiants'));
+    }
+
+    /**
      * Display all teachers
      *
      * @return \Illuminate\Http\Response
@@ -85,8 +110,8 @@ class AjaxController extends Controller
     public function classsesByAnnee($annee_id = null)
     {
         $annee = Annee::findorFail($annee_id);
-        $classes = $annee->classes()->get();
-        return view('Ajax.classes',['classes'=>$classes]);
+        $specialites = $annee->specialites;
+        return view('Ajax.classesforemplois',['specialites'=>$specialites]);
     }
 
     /**
@@ -115,6 +140,19 @@ class AjaxController extends Controller
         $niveau = $classe->niveau;
         $matieres = $niveau->matieres()->get();
         return view('Ajax.devoirs',['matieres'=>$matieres]);
+    }
+
+    /**
+     * Display dates for schedueles
+     *
+     * @param  int  $classe_id
+     * @return \Illuminate\Http\Response
+     */
+    public function datesforEmploi($annee_id = null, $classe_id = null)
+    {
+        $annee = Annee::findorFail($annee_id);
+        $emploi = Emploi::where('classe_id', $classe_id)->orderBy('date_fin', 'desc')->first();
+        return view('Ajax.dates',compact('emploi','annee'));
     }
 
     /**

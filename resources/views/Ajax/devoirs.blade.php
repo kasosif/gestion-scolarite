@@ -1,4 +1,4 @@
-<option value="" selected disabled>Selectionnez Matiere</option>
+<option value="" selected disabled>Selectionnez Devoir</option>
 @foreach($matieres as $matiere)
     <optgroup label="{{$matiere->nom}}">
         @foreach($matiere->devoirs as $devoir)

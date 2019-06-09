@@ -24,9 +24,8 @@ class NoteRequest extends FormRequest
     public function rules()
     {
         return [
-            'mark' => 'required|numeric|between:0,20',
-            'devoir_id' => 'required|numeric',
-            'user_id' => 'required|numeric'
+            'notes.*' => 'required',
+            'devoir_id' => 'required|numeric'
         ];
     }
 }

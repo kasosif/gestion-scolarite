@@ -7,6 +7,7 @@ use App\Model\Annee;
 use App\Model\Classe;
 use App\Model\Specialite;
 use App\Model\User;
+use PDF;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,6 +60,20 @@ class EtudiantController extends Controller
         }
         User::create(array_merge($request->all(), $params));
         return redirect()->route('etudiant.index')->with('success','Etudiant Ajouté');
+    }
+
+    /**
+     * Show the specified resource.
+     *
+     * @param  string  $cin
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function show($cin)
+    {
+        $etudiant = User::where('cin',$cin)->first();
+        $this->authorize('viewEtudiant', $etudiant);
+        return view('Etudiants.show', compact('etudiant'));
     }
 
     /**
@@ -123,5 +138,44 @@ class EtudiantController extends Controller
         }
         $etudiant->delete();
         return redirect()->route('etudiant.index')->with('success','Etudiant Supprimé');
+    }
+
+    /**
+     * Generate specified resource PDF Carte Etudiant.
+     * @param  string  $cin
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function generateCarte($cin) {
+        $etudiant = User::where('cin',$cin)->first();
+        $this->authorize('viewEtudiant', User::class);
+        $pdf = PDF::loadView('docs.carte_etudiant', compact('etudiant'));
+        return $pdf->download($etudiant->cin.'carte_etudiant'.'pdf');
+    }
+
+    /**
+     * Generate specified resource PDF AttestationPresence.
+     * @param  string  $cin
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function generateAttestationPresence($cin) {
+        $etudiant = User::where('cin',$cin)->first();
+        $this->authorize('viewEtudiant', User::class);
+        $pdf = PDF::loadView('docs.attestation_presence', compact('etudiant'));
+        return $pdf->download($etudiant->cin.'attestation_presence'.'pdf');
+    }
+
+    /**
+     * Generate specified resource PDF AttestationInscription.
+     * @param  string  $cin
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function generateAttestationInscription($cin) {
+        $etudiant = User::where('cin',$cin)->first();
+        $this->authorize('viewEtudiant', User::class);
+        $pdf = PDF::loadView('docs.attestation_inscription', compact('etudiant'));
+        return $pdf->download($etudiant->cin.'attestation_inscription'.'pdf');
     }
 }

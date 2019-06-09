@@ -23,9 +23,6 @@
     </section>
 @endsection
 @section('ContenuPage')
-    @foreach(\Illuminate\Support\Facades\Auth::user()->privileges as $privilege)
-        {{var_dump($privilege->titre)}}
-    @endforeach
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -89,7 +86,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-pie-chart fa-lg"></i>
-                        <h2>Nombre d'etudiants par Spécialite</h2>
+                        <h2>Nombre d'etudiants par Spécialite Cette Année</h2>
                     </div>
                     <div class="card-content">
                         <canvas id="flotChart7" width="400" height="246"></canvas>

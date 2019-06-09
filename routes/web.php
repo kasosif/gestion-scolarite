@@ -19,14 +19,23 @@ Route::group(['middleware' => 'auth'], function() {
     //dashboard
     Route::get('/', 'HomeController@index')->name('home');
 
+    //profile
+    Route::get('/profile', 'HomeController@profile')->name('profile');
+    Route::put('/profile/update', 'HomeController@updateprofile')->name('profile.update');
+    Route::patch('/profile/updatepicture', 'HomeController@updateprofilepicture')->name('profile.changepicture');
+
     //etudiants
 
     Route::get('/etudiants', 'EtudiantController@index')->name('etudiant.index');
-    Route::get('/etudiant/ajout', 'EtudiantController@create')->name('etudiant.ajout');
-    Route::post('/etudiant/store', 'EtudiantController@store')->name('etudiant.store');
-    Route::get('/etudiant/edit/{cin}', 'EtudiantController@edit')->name('etudiant.edit');
-    Route::put('/etudiant/update/{cin}', 'EtudiantController@update')->name('etudiant.update');
-    Route::delete('/etudiant/destroy/{cin?}', 'EtudiantController@destroy')->name('etudiant.destroy');
+    Route::get('/etudiants/ajout', 'EtudiantController@create')->name('etudiant.ajout');
+    Route::post('/etudiants/store', 'EtudiantController@store')->name('etudiant.store');
+    Route::get('/etudiants/edit/{cin}', 'EtudiantController@edit')->name('etudiant.edit');
+    Route::get('/etudiants/show/{cin}', 'EtudiantController@show')->name('etudiant.show');
+    Route::get('/etudiants/carte/{cin}', 'EtudiantController@generateCarte')->name('etudiant.carte');
+    Route::get('/etudiants/attestaionpresence/{cin}', 'EtudiantController@generateAttestationPresence')->name('etudiant.attestaionpresence');
+    Route::get('/etudiants/attestaioninscription/{cin}', 'EtudiantController@generateAttestationInscription')->name('etudiant.attestaioninscription');
+    Route::put('/etudiants/update/{cin}', 'EtudiantController@update')->name('etudiant.update');
+    Route::delete('/etudiants/destroy/{cin?}', 'EtudiantController@destroy')->name('etudiant.destroy');
 
     //professeurs
 
@@ -159,6 +168,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::put('/niveaux/update/{id}', 'NiveauController@update')->name('niveau.update');
     Route::delete('/niveaux/destroy/{id?}', 'NiveauController@destroy')->name('niveau.destroy');
 
+    //emplois
+
+    Route::get('/emplois/classes', 'EmploiController@index')->name('emplois.classes');
+    Route::get('/emplois/classe/{classe_id}', 'EmploiController@emploisClasse')->name('emplois.classe');
+    Route::get('/emplois/create', 'EmploiController@create')->name('emplois.create');
+
     //ajax
     Route::get('/ajax/classes/{spec_id?}', 'AjaxController@classsesBySpecialite')->name('ajax.classesbyspec');
     Route::post('/ajax/affecterprofesseur', 'AjaxController@affecterProfesseur')->name('ajax.affectprof');
@@ -167,8 +182,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/ajax/allclasses', 'AjaxController@getAllClasses')->name('ajax.classes');
     Route::get('/ajax/alletudiants', 'AjaxController@getAllStudents')->name('ajax.students');
     Route::get('/ajax/etudiants/{classe_id?}', 'AjaxController@getStudentsByClasse')->name('ajax.studentsbyclass');
+    Route::get('/ajax/etudiantsabscence/{classe_id?}', 'AjaxController@getStudentsForPresence')->name('ajax.etudaintsabscence');
+    Route::get('/ajax/etudiantsnote/{classe_id?}', 'AjaxController@getStudentsForMark')->name('ajax.etudaintsnotes');
     Route::get('/ajax/professeurs', 'AjaxController@getAllTeachers')->name('ajax.teachers');
     Route::get('/ajax/devoirs/{classe_id?}', 'AjaxController@devoirsByClasse')->name('ajax.devoirsbyclasse');
+    Route::get('/ajax/datesemplois/{annee_id?}/{classe_id?}', 'AjaxController@datesforEmploi')->name('ajax.datesforemploi');
 
 });
 

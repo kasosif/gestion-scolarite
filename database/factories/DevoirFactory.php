@@ -5,8 +5,9 @@ use App\Model\Devoir;
 use App\Model\Matiere;
 use App\Model\Classe;
 $factory->define(Devoir::class, function (Faker $faker) {
+    $randomnumber = $faker->unique()->randomNumber($nbDigits = 5);
     return [
-        'nom' => $faker->streetName,
+        'nom' => 'Devoir'.$randomnumber,
         'coeficient' => $faker->numberBetween(1,2),
         'date' => $faker->dateTimeBetween('+1 days','+30 days'),
         'type' => $faker->randomElement(['examen','ds']),

@@ -5,8 +5,9 @@ use App\Model\Matiere;
 use App\Model\Niveau;
 use App\Model\Semestre;
 $factory->define(Matiere::class, function (Faker $faker) {
+    $randomnumber = $faker->unique()->randomNumber($nbDigits = 5);
     return [
-        'nom' => $faker->jobTitle,
+        'nom' => 'Matiere'.$randomnumber,
         'coeficient' => $faker->numberBetween(1,4),
         'nbr_heures' => $faker->numberBetween(20,40),
         'plafond_abscences' => $faker->numberBetween(3,6),

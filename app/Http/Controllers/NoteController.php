@@ -43,8 +43,14 @@ class NoteController extends Controller
      */
     public function store(NoteRequest $request)
     {
-        Note::create($request->all());
-        return redirect()->route('note.index')->with('success','Note Ajouté');
+        foreach ($request->get('notes') as $etudiantid => $note){
+            Note::create([
+                'user_id' =>$etudiantid,
+                'devoir_id' =>$request->get('devoir_id'),
+                'mark' => $note
+            ]);
+        }
+        return redirect()->route('note.index')->with('success','Notes Ajouté');
     }
 
 

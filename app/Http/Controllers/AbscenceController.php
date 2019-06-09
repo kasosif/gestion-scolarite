@@ -7,6 +7,7 @@ use App\Http\Requests\AbscenceRequest;
 use App\Model\Abscence;
 use App\Model\Annee;
 use App\Model\Seance;
+use App\Model\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -57,16 +58,19 @@ class AbscenceController extends Controller
     public function store(AbscenceRequest $request)
     {
         $this->authorize('create', Abscence::class);
-        $params = [];
-        if ($image = $request->files->get('justification')) {
-            $destinationPath = 'images/abscences/'; // upload path
-            dd(date('YmdHis'));
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $params['justification'] = $profileImage;
+        foreach ($request->get('abscences') as $user){
+            $justifie = false;
+            if (in_array($user,$request->get('justifie')))
+                $justifie = true;
+            Abscence::create([
+                'date' => $request->get('date'),
+                'justifie' => $justifie,
+                'user_id' => $user,
+                'matiere_id' => $request->get('matiere_id'),
+                'seance_id' => $request->get('seance_id'),
+            ]);
         }
-        Abscence::create(array_merge($request->all(), $params));
-        return redirect()->route('abscence.index')->with('success','Abscence Ajoutée');
+        return redirect()->route('abscence.index')->with('success','Abscence(s) Ajoutée');
     }
 
     /**

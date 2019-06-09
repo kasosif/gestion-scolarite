@@ -24,11 +24,9 @@ class AbscenceRequest extends FormRequest
     public function rules()
     {
         return [
-            'date' => 'required|date|after:yesterday',
-            'justifie' => 'required|boolean',
-            'justification.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2200|min:5',
-            'commentaire' =>'nullable|min:2',
-            'user_id' => 'required|numeric',
+            'date' => 'required|date|after:-4 days|before:+1 day',
+            'abscences.*' => 'required',
+            'justifie.*' => 'nullable',
             'matiere_id' => 'required|numeric',
             'seance_id' => 'required|numeric'
         ];

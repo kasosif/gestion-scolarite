@@ -5,6 +5,7 @@
 @section('preloader')
 @endsection
 @section('csspage')
+    <link href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}" rel="stylesheet" type="text/css" />
     <!-- dataTables css -->
     <link href="{{asset('assets/plugins/datatables/dataTables.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- iziToast alert -->
@@ -164,12 +165,15 @@
     </div><!-- /.modal -->
 @endsection
 @section('scriptpage')
+    <!-- Select2 -->
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}" type="text/javascript"></script>
     <!-- dataTables js -->
     <script src="{{asset('assets/plugins/datatables/dataTables.min.js')}}" type="text/javascript"></script>
     <!-- iziToast -->
     <script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
+            $('select').select2();
             $('#notesTable').DataTable();
             @if ($message = Session::get('success'))
             iziToast.success({
