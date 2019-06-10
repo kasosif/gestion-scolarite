@@ -173,6 +173,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/emplois/classes', 'EmploiController@index')->name('emplois.classes');
     Route::get('/emplois/classe/{classe_id}', 'EmploiController@emploisClasse')->name('emplois.classe');
     Route::get('/emplois/create', 'EmploiController@create')->name('emplois.create');
+    Route::post('/emplois/store', 'EmploiController@store')->name('emplois.store');
 
     //ajax
     Route::get('/ajax/classes/{spec_id?}', 'AjaxController@classsesBySpecialite')->name('ajax.classesbyspec');
@@ -187,6 +188,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/ajax/professeurs', 'AjaxController@getAllTeachers')->name('ajax.teachers');
     Route::get('/ajax/devoirs/{classe_id?}', 'AjaxController@devoirsByClasse')->name('ajax.devoirsbyclasse');
     Route::get('/ajax/datesemplois/{annee_id?}/{classe_id?}', 'AjaxController@datesforEmploi')->name('ajax.datesforemploi');
+    Route::post('/ajax/displayemploi', 'AjaxController@displayemploi')->name('ajax.displayemploi');
 
 });
 

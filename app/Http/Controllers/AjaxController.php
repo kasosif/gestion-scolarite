@@ -7,10 +7,15 @@ use App\Model\Affectation;
 use App\Model\Annee;
 use App\Model\Classe;
 use App\Model\Emploi;
+use App\Model\Jour;
 use App\Model\Matiere;
+use App\Model\Salle;
+use App\Model\Seance;
 use App\Model\Specialite;
 use App\Model\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class AjaxController extends Controller
 {
@@ -154,6 +159,40 @@ class AjaxController extends Controller
         $emploi = Emploi::where('classe_id', $classe_id)->orderBy('date_fin', 'desc')->first();
         return view('Ajax.dates',compact('emploi','annee'));
     }
+
+    /**
+     * display proper schedule to fill
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function displayemploi(Request $request)
+    {
+        $annee = Annee::find($request->get('annee_id'));
+        $classe = Classe::find($request->get('classe_id'));
+        $semaine = $request->get('semaine');
+        $date_debut = $request->get('date_debut');
+        $date_fin = $request->get('date_fin');
+        $validateddata = $request->validate([
+            'semaine'=>['required',Rule::unique('emplois')->where('classe_id',$classe->id)],
+            'annee_id' => 'required',
+            'classe_id' => 'required',
+            'date_debut' => 'required|date|before:date_fin',
+            'date_fin' => 'required|date|before:'.$annee->date_fin,
+        ]);
+        $seances = Seance::all();
+        $jours = Jour::all();
+        $affectations = Affectation::where('classe_id',$classe->id)->get();
+        $salles = Salle::all();
+        return view('Ajax.emploi',compact(
+            'seances','jours',
+            'affectations','salles',
+            'classe','annee',
+            'date_debut','date_fin',
+            'semaine'
+        ));
+    }
+
+
 
     /**
      * Display matieres by classe

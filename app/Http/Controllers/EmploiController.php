@@ -50,4 +50,43 @@ class EmploiController extends Controller
         $salles = Salle::all();
         return view('Emplois.create',compact('seances','jours','affectations','professeurs','salles','annees'));
     }
+    public function store(Request $request) {
+        $jours = Jour::all();
+        $seances = Seance::all();
+        $select=$request->get('mat');
+        $salle=$request->get('salle');
+        $classe=Classe::find($request->get('classe_id'));
+        $semaine=$request->get('semaine');
+        $dateD=$request->get('date_debut');
+        $dateF=$request->get('date_fin');
+        foreach($jours as $j){
+            foreach($seances as $s){
+                if(isset($select[$j->id][$s->id]) && isset($salle[$j->id][$s->id])){
+                    $id_matiere=$select[$j->id][$s->id];
+                    $id_Salle=$salle[$j->id][$s->id];
+                    $affect = Affectation::where('classe_id',$classe->id)->where('matiere_id',$id_matiere)->first();
+                    $id_prof=$affect->user->id;
+                    $mat=Matiere::find($id_matiere);
+                    $sa=Salle::find($id_Salle);
+                    $pro=User::find($id_prof);
+                    $se= Seance::find($s->id);
+                    $jou=Jour::find($j->id);
+                    $emplois=new Emploi();
+
+                    $emplois->classe_id = $classe->id;
+                    $emplois->semaine  = $semaine;
+                    $emplois->jour_id = $jou->id;
+                    $emplois->matiere_id  = $mat->id;
+                    $emplois->salle_id  = $sa->id;
+                    $emplois->user_id  = $pro->id;
+                    $emplois->date_debut = $dateD;
+                    $emplois->date_fin = $dateF;
+                    $emplois->seance_id  = $se->id;
+                    $emplois->save();
+                }
+            }
+        }
+        return redirect()->route('emplois.classe',['classe_id'=>$classe->id])->with('success','Emploi ajoutée avec success');
+
+    }
 }

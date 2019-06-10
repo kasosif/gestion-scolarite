@@ -4,6 +4,8 @@
 @endsection
 @section('csspage')
     <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
+    <!-- iziToast alert -->
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 @endsection
 @section('emploisactive')
     class = "active"
@@ -40,93 +42,52 @@
                 </div>
                 <div class="card-content">
                     <div class="row" style="padding: 4px">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="semaine" class="">Semaine</label>
-                                <input id="semaine" name="semaine" type="text" class="validate" required>
+                        <form id="paramsform" action="" method="post">
+                            @csrf
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="semaine" class="">Semaine</label>
+                                    <input id="semaine" name="semaine" type="text" class="validate" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="annee" class="control-label">Année</label>
-                            <select required id="annee" name="annee_id" class="form-control select2">
-                                <option value="" selected disabled>Selectionnez Année</option>
-                                @foreach($annees as $annee)
-                                    <option value="{{$annee->id}}">{{$annee->nom}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="classe" class="control-label">Classe</label>
-                            <select required id="classe" name="classe_id" class="form-control select2">
-                                <option value="" selected disabled>Selectionnez Classe</option>
-                            </select>
-                        </div>
-                        <div id="dates-container">
+                            <div class="col-md-6">
+                                <label for="annee" class="control-label">Année</label>
+                                <select required id="annee" name="annee_id" class="form-control select2">
+                                    <option value="" selected disabled>Selectionnez Année</option>
+                                    @foreach($annees as $annee)
+                                        <option value="{{$annee->id}}">{{$annee->nom}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="classe" class="control-label">Classe</label>
+                                <select required id="classe" name="classe_id" class="form-control select2">
+                                    <option value="" selected disabled>Selectionnez Classe</option>
+                                </select>
+                            </div>
+                            <div id="dates-container">
 
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-labeled btn-primary m-t-20">
-                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Valider
-                            </button>
-                        </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button  id="validateparams" type="submit" class="btn btn-labeled btn-primary m-t-20">
+                                    <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Valider
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fa fa-table fa-lg"></i>
-                    Ajouter un Emploi
-                </div>
-                <div class="card-content">
-                    <div class="table-responsive">
-                        <table  class="table table-striped table-bordered table-hover table-checkable" id="datatable_orders" >
-                            <thead>
-                            <tr>
-                                <td>Jour/Seance</td>
-                                @foreach($seances as $seance)
-                                    <td>{{date('H:i', strtotime($seance->heure_debut))}} => {{date('H:i', strtotime($seance->heure_fin))}}</td>
-                                @endforeach
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($jours as $jour)
-                                <tr id="{{ $jour->id }}">
-                                    <td width="10%;">{{ $jour->nom }}</td>
-                                    @foreach($seances as $seance)
-                                        <td id="{{ $seance->id }}">
-                                            <div class="input-group">
-                                                <select title="Matiere" name="sel[{{ $jour->id }}][{{$seance->id }}]" class="form-control select2">
-                                                    <option value="" selected disabled>Matiere</option>
-                                                    @foreach($affectations as $affectation)
-                                                        <option value="{{ $affectation->matiere->id }}"  name="mat[{{ $jour->id }}][{{ $seance->id }}]">{{ $affectation->matiere->nom }} ({{$affectation->user->nom}} {{$affectation->user->prenom}})</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="input-group">
-                                                <select title="Salle" name="salle[{{ $jour->id }}][{{ $seance->id }}]"  class="form-control select2 col-cm-6">
-                                                    <option value="" selected disabled>Salle</option>
-                                                    @foreach($salles as $salle)
-                                                        <option value="{{ $salle->id }}"  name="prof[{{ $jour->id }}][{{ $seance->id }}]">{{ $salle->nom }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </td>
-                                    @endforeach
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div class="row" id="emploicontainer">
+
         </div>
         <!-- ./cotainer -->
     </div>
 @endsection
 @section('scriptpage')
     <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
+    <!-- iziToast -->
+    <script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
             $('.select2').select2();
@@ -148,6 +109,36 @@
                         $("#dates-container").html(response);
                     }
                 });
+            });
+            $("#paramsform").submit(function(e) {
+
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                var form = $(this);
+                var url = '{{route('ajax.displayemploi')}}';
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function(data)
+                    {
+                        $('#validateparams').remove();
+                        $("#paramsform :input").prop("disabled", true);
+                        $('#emploicontainer').html(data);
+                        $('.select2').select2();
+                        // show response from the php script.
+                    },
+                    error: function (data) {
+                        iziToast.error({
+                            title: 'Erreur',
+                            message: data.responseText,
+                            position: 'topCenter'
+                        });
+                    }
+                });
+
+
             });
 
         });
