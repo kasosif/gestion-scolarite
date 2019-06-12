@@ -61,10 +61,10 @@
                                                     {{$emploi->semaine}} (de {{date('d-m-Y', strtotime($emploi->date_debut))}} à {{date('d-m-Y', strtotime($emploi->date_fin))}})
                                                 </td>
                                                 <td>
-                                                    <a href="{{route('emplois.classe',['classe_id'=>$classe->id])}}" class="btn btn-primary w-md">Modifier</a>
-                                                    <a href="{{route('emplois.classe',['classe_id'=>$classe->id])}}" class="btn btn-info w-md">Voir</a>
-                                                    <a href="{{route('emplois.classe',['classe_id'=>$classe->id])}}" class="btn btn-danger w-md">Suprr</a>
-                                                    <a href="{{route('emplois.classe',['classe_id'=>$classe->id])}}" class="btn btn-yellow w-md">Imprimer</a>
+                                                    <a href="{{route('emplois.edit',['classe_id'=>$classe->id,'dateD'=>$emploi->date_debut])}}" class="btn btn-primary w-md">Modifier</a>
+                                                    <a target="_blank" href="{{route('emplois.show',['classe_id'=>$classe->id,'dateD'=>$emploi->date_debut])}}" class="btn btn-info w-md">Voir</a>
+                                                    <button onclick="deleteResource('{{$classe->id}}','{{$emploi->date_debut}}','{{$emploi->date_fin}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                                    <a href="{{route('emplois.printweek',['classe_id'=>$classe->id,'dateD'=>$emploi->date_debut])}}" class="btn btn-yellow w-md">Imprimer</a>
                                                 </td>
                                             </tr>
                                     @endforeach
@@ -81,6 +81,27 @@
         </div>
         <!-- ./cotainer -->
     </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content panel-warning">
+                <div class="modal-header panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Confirmation de suppression</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <form action="#" method="post" id="deleteform">
+                        @csrf
+                        <input name="_method" type="hidden" value="DELETE">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <input type="submit" class="btn btn-success" value="Oui, Supprimer" />
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 @section('scriptpage')
     <!-- dataTables js -->
@@ -97,6 +118,18 @@
                 position: 'topCenter'
             });
             @endif
+            @if ($message = Session::get('erreur'))
+            iziToast.error({
+                title: 'Erreur',
+                message: '{{ $message }}',
+                position: 'topCenter'
+            });
+            @endif
         });
+        function deleteResource(classe,dateD,dateF) {
+            $('#deleteform').attr('action','{{route('emplois.destroy')}}'+'/'+classe+'/'+dateD);
+            $('.modal-body').html('<h2>Etes-vous sûr de vouloir supprimer l\'emploi de la semaine :'+dateD+' => '+dateF+' </h2>');
+            $('#deleteModal').modal('show');
+        }
     </script>
 @endsection

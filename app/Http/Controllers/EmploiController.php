@@ -13,9 +13,11 @@ use App\Model\Seance;
 use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class EmploiController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('admin');
@@ -44,12 +46,9 @@ class EmploiController extends Controller
 
     public function create() {
         $annees = Annee::all();
-        $seances = Seance::all();
-        $jours = Jour::all();
-        $affectations = Affectation::where('classe_id',22)->get();
-        $salles = Salle::all();
         return view('Emplois.create',compact('seances','jours','affectations','professeurs','salles','annees'));
     }
+
     public function store(Request $request) {
         $jours = Jour::all();
         $seances = Seance::all();
@@ -83,10 +82,127 @@ class EmploiController extends Controller
                     $emplois->date_fin = $dateF;
                     $emplois->seance_id  = $se->id;
                     $emplois->save();
+                }else{
+                    $se= Seance::find($s->id);
+                    $jou=Jour::find($j->id);
+                    $emplois=new Emploi();
+
+                    $emplois->classe_id = $classe->id;
+                    $emplois->semaine  = $semaine;
+                    $emplois->jour_id = $jou->id;
+                    $emplois->date_debut = $dateD;
+                    $emplois->date_fin = $dateF;
+                    $emplois->seance_id  = $se->id;
+                    $emplois->save();
                 }
             }
         }
         return redirect()->route('emplois.classe',['classe_id'=>$classe->id])->with('success','Emploi ajoutée avec success');
 
     }
+
+    public function show($classe_id,$dateD)
+    {
+        $classe = Classe::find($classe_id);
+        $jours = Jour::all();
+        $seances = Seance::all();
+        $dateD=new \DateTime($dateD);
+        $pagination = Emploi::where('classe_id',$classe->id)->where('date_debut',$dateD)->orderBy('seance_id')->get();
+        $dateF = new \DateTime($pagination[0]->date_fin);
+        $titre_semaine = $pagination[0]->semaine;
+        return view('Emplois.show', compact('pagination','jours','classe','dateD','dateF','seances','titre_semaine'));
+    }
+
+    public function edit($classe_id,$dateD){
+        $classe = Classe::find($classe_id);
+        $jours = Jour::all();
+        $seances = Seance::all();
+        $salles = Salle::all();
+        $affectations = Affectation::where('classe_id',$classe->id)->get();
+        $dateD=new \DateTime($dateD);
+        $emplois = Emploi::where('classe_id',$classe->id)->where('date_debut',$dateD)->orderBy('seance_id')->get();
+        $dateF = new \DateTime($emplois[0]->date_fin);
+        $titre_semaine = $emplois[0]->semaine;
+        return view('Emplois.edit', compact('emplois','affectations','salles','jours','classe','dateD','dateF','seances','titre_semaine'));
+
+    }
+    public function update(Request $request){
+        $jours = Jour::all();
+        $seances = Seance::all();
+        $select=$request->get('mat');
+        $salle=$request->get('salle');
+        $classe=Classe::find($request->get('classe_id'));
+        $semaine=$request->get('semaine');
+        $dateD=$request->get('date_debut');
+        $dateF=$request->get('date_fin');
+        DB::table('emplois')->where('classe_id',$classe->id)->where('date_debut',$dateD)->delete();
+        foreach($jours as $j){
+            foreach($seances as $s){
+                if(isset($select[$j->id][$s->id]) && isset($salle[$j->id][$s->id])){
+                    $id_matiere=$select[$j->id][$s->id];
+                    $id_Salle=$salle[$j->id][$s->id];
+                    $affect = Affectation::where('classe_id',$classe->id)->where('matiere_id',$id_matiere)->first();
+                    $id_prof=$affect->user->id;
+                    $mat=Matiere::find($id_matiere);
+                    $sa=Salle::find($id_Salle);
+                    $pro=User::find($id_prof);
+                    $se= Seance::find($s->id);
+                    $jou=Jour::find($j->id);
+                    $emplois=new Emploi();
+
+                    $emplois->classe_id = $classe->id;
+                    $emplois->semaine  = $semaine;
+                    $emplois->jour_id = $jou->id;
+                    $emplois->matiere_id  = $mat->id;
+                    $emplois->salle_id  = $sa->id;
+                    $emplois->user_id  = $pro->id;
+                    $emplois->date_debut = $dateD;
+                    $emplois->date_fin = $dateF;
+                    $emplois->seance_id  = $se->id;
+                    $emplois->save();
+                }else{
+                    $se= Seance::find($s->id);
+                    $jou=Jour::find($j->id);
+                    $emplois=new Emploi();
+
+                    $emplois->classe_id = $classe->id;
+                    $emplois->semaine  = $semaine;
+                    $emplois->jour_id = $jou->id;
+                    $emplois->date_debut = $dateD;
+                    $emplois->date_fin = $dateF;
+                    $emplois->seance_id  = $se->id;
+                    $emplois->save();
+                }
+            }
+        }
+        return redirect()->route('emplois.classe',['classe_id'=>$classe->id])->with('success','Emploi modifié avec success');
+    }
+
+    public function printWeek($classe_id,$dateD)
+    {
+        $classe = Classe::find($classe_id);
+        $jours = Jour::all();
+        $seances = Seance::all();
+        $dateD=new \DateTime($dateD);
+        $pagination = Emploi::where('classe_id',$classe->id)->where('date_debut',$dateD)->orderBy('seance_id')->get();
+        $dateF = new \DateTime($pagination[0]->date_fin);
+        $titre_semaine = $pagination[0]->semaine;
+        $pdf = PDF::loadView('docs.emploisemaine', compact('pagination','jours','classe','dateD','dateF','seances','titre_semaine'));
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->download('emploi_classe_'.$classe->abbreviation.'_semaine_'.$dateD->format('d-m-Y').'_'.$dateF->format('d-m-Y').'pdf');
+
+
+    }
+
+    public function destroy($classe_id,$dateD){
+        if ($classe_id && $dateD){
+            DB::table('emplois')->where('classe_id',$classe_id)->where('date_debut',$dateD)->delete();
+            return redirect()->route('emplois.classe',['classe_id'=>$classe_id])->with('success','Emploi Supprimé avec success');
+        }
+        return redirect()->route('emplois.classe',['classe_id'=>$classe_id])->with('erreur','Erreur d\'operation' );
+    }
+
+
+
+
 }

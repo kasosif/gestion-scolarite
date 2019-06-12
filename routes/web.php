@@ -173,7 +173,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/emplois/classes', 'EmploiController@index')->name('emplois.classes');
     Route::get('/emplois/classe/{classe_id}', 'EmploiController@emploisClasse')->name('emplois.classe');
     Route::get('/emplois/create', 'EmploiController@create')->name('emplois.create');
+    Route::get('/emplois/printweek/{classe_id}/{dateD}', 'EmploiController@printWeek')->name('emplois.printweek');
+    Route::get('/emplois/show/{classe_id}/{dateD}', 'EmploiController@show')->name('emplois.show');
+    Route::get('/emplois/edit/{classe_id}/{dateD}', 'EmploiController@edit')->name('emplois.edit');
+    Route::delete('/emplois/destroy/{classe_id?}/{dateD?}', 'EmploiController@destroy')->name('emplois.destroy');
     Route::post('/emplois/store', 'EmploiController@store')->name('emplois.store');
+    Route::put('/emplois/update', 'EmploiController@update')->name('emplois.update');
 
     //ajax
     Route::get('/ajax/classes/{spec_id?}', 'AjaxController@classsesBySpecialite')->name('ajax.classesbyspec');
