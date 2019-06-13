@@ -59,6 +59,14 @@ class User extends Authenticatable
         return $this->hasMany(Affectation::class);
     }
 
+    public function progressionetudiants() {
+        return $this->hasMany(ProgressionEtudiant::class);
+    }
+
+    public function formations() {
+        return $this->hasMany(Formation::class);
+    }
+
     public function privileges(){
         return $this->belongsToMany(Privilege::class);
     }
