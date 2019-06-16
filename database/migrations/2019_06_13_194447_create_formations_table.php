@@ -20,6 +20,8 @@ class CreateFormationsTable extends Migration
             $table->string('image')->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('niveau_id')->unsigned();
+            $table->foreign('niveau_id')->references('id')->on('niveaux');
             $table->timestamps();
         });
     }

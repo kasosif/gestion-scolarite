@@ -16,6 +16,10 @@ class Niveau extends Model
         return $this->hasMany(Matiere::class);
     }
 
+    public function formations() {
+        return $this->hasMany(Formation::class);
+    }
+
     public function specialite(){
         return $this->belongsTo(Specialite::class);
     }

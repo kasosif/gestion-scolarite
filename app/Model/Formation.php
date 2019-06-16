@@ -12,6 +12,10 @@ class Formation extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function niveau(){
+        return $this->belongsTo(Niveau::class);
+    }
+
     public function partieformations(){
         return $this->hasMany(PartieFormation::class);
     }
