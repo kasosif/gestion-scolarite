@@ -4,8 +4,9 @@ namespace App\Model;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
@@ -24,6 +25,24 @@ class User extends Authenticatable
         'role',
         'classe_id'
     ];
+
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    public function setPasswordAttribute($password)
+    {
+        if ( !empty($password) ) {
+            $this->attributes['password'] = bcrypt($password);
+        }
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -73,10 +92,6 @@ class User extends Authenticatable
 
     public function classe(){
         return $this->belongsTo(Classe::class);
-    }
-
-    public function setPasswordAttribute($value){
-        $this->attributes['password'] = bcrypt($value);
     }
 
 
