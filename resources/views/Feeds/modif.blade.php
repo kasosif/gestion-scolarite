@@ -5,6 +5,7 @@
 @section('preloader')
 @endsection
 @section('csspage')
+    <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 @endsection
 @section('actualiteactive')
@@ -74,41 +75,44 @@
                                     <input name="date" value="{{$feed->date}}" id="date_pub" class="validate" type="date">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-field form-input">
                                     <select id="type" name="type" class="form-control" required>
                                         <option value="" selected disabled>Selectionnez Type</option>
-                                        <option @if($feed->type === 'classe') selected @endif value="classe">Classe</option>
-                                        <option @if($feed->type === 'professeur') selected @endif value="professeur">Professeur</option>
-                                        <option @if($feed->type === 'etudiant') selected @endif value="etudiant">Etudiant</option>
+                                        <option @if($feed->type === 'classes') selected @endif value="classes">Classes</option>
+                                        <option @if($feed->type === 'professeurs') selected @endif value="professeurs">Professeurs</option>
+                                        <option @if($feed->type === 'etudiants') selected @endif value="etudiants">Etudiants</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6" id="choiceContent">
-                                @if($feed->type === 'classe')
+                            <div class="col-md-12" id="choiceContent">
+                                @if($feed->type === 'classes')
                                     <div class="input-field form-input">
-                                        <select id="classe" name="classe_id" class="form-control" required>
-                                            <option value="" selected disabled>Selectionnez Classe</option>
+                                        <select id="classe" name="classes[]" class="form-control select2" required multiple>
                                             @foreach($classes as $classe)
-                                                <option @if($feed->classe->id === $classe->id) selected @endif value="{{$classe->id}}">{{$classe->abbreviation}}</option>
+                                                <option @if($feed->classes->contains($classe->id)) selected @endif value="{{$classe->id}}">
+                                                    {{$classe->niveau->specialite->nom}} {{$classe->niveau->nom}} {{$classe->abbreviation}}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                @elseif($feed->type === 'professeur')
+                                @elseif($feed->type === 'professeurs')
                                     <div class="input-field form-input">
-                                        <select id="user" name="user_id" class="form-control" required>
-                                            <option value="" selected disabled>Selectionnez Professeur</option>
+                                        <select id="user" name="users[]" class="form-control select2" required multiple>
                                             @foreach($professeurs as $professeur)
-                                                <option @if($feed->user->id === $professeur->id) selected @endif value="{{$professeur->id}}">{{$professeur->nom}} {{$professeur->prenom}}</option>
+                                                <option @if($feed->users->contains($professeur->id)) selected @endif value="{{$professeur->id}}">
+                                                    {{$professeur->nom}} {{$professeur->prenom}}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
                                 @else
                                     <div class="input-field form-input">
-                                        <select id="user" name="user_id" class="form-control" required>
-                                            <option value="" selected disabled>Selectionnez Etudiant</option>
+                                        <select id="user" name="users[]" class="form-control select2" required multiple>
                                             @foreach($etudiants as $etudiant)
-                                                <option @if($feed->user->id === $etudiant->id) selected @endif value="{{$etudiant->id}}">{{$etudiant->nom}} {{$etudiant->prenom}}</option>
+                                                <option @if($feed->users->contains($etudiant->id)) selected @endif value="{{$etudiant->id}}">
+                                                    {{$etudiant->nom}} {{$etudiant->prenom}}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -138,22 +142,24 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
     <script>
         $(document).ready(function () {
+            $('.select2').select2();
             $("#compose-textarea").wysihtml5();
             $('body').on('change','#type',function () {
                 var url = '';
                 switch ($('#type').val()){
-                    case 'classe' : {
+                    case 'classes' : {
                         url = '{{route('ajax.classes')}}';
                         break;
                     }
-                    case 'etudiant' : {
+                    case 'etudiants' : {
                         url = '{{route('ajax.students')}}';
                         break;
                     }
-                    case 'professeur' : {
+                    case 'professeurs' : {
                         url = '{{route('ajax.teachers')}}';
                         break;
                     }
@@ -163,6 +169,7 @@
                     method: "GET",
                     success: function(response) {
                         $("#choiceContent").html(response);
+                        $('.select2').select2();
                     }
                 });
             });

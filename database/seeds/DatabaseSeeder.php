@@ -37,9 +37,7 @@ class DatabaseSeeder extends Seeder
             ['heure_debut' => new \DateTime('today 15:45'),'heure_fin' => new \DateTime('today 17:15')],
         ]);
         Factory('App\Model\Devoir',10)->create();
-        Factory('App\Model\Feed',5)->states('classe')->create();
-        Factory('App\Model\Feed',5)->states('etudiant')->create();
-        Factory('App\Model\Feed',5)->states('professeur')->create();
+        Factory('App\Model\Feed',15)->create();
         DB::table('privileges')->insert([
             ['titre' => 'view_etudiants'],['titre' => 'update_etudiants'],['titre' => 'delete_etudiants'],['titre' => 'create_etudiants'],
             ['titre' => 'view_abscences'],['titre' => 'update_abscences'],['titre' => 'delete_abscences'],['titre' => 'create_abscences'],

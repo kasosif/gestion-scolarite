@@ -71,7 +71,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function feeds() {
-        return $this->hasMany(Feed::class);
+        return $this->belongsToMany(Feed::class);
     }
 
     public function affectations() {

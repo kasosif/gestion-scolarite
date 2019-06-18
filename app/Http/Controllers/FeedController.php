@@ -43,7 +43,13 @@ class FeedController extends Controller
             $date = new \DateTime('now');
             $params['date'] = $date->format('Y-m-d');
         }
-        Feed::create(array_merge($request->all(),$params));
+        $feed = Feed::create(array_merge($request->except('users','classes'),$params));
+        if ($request->get('users')){
+            $feed->users()->attach($request->get('users'));
+        }
+        if ($request->get('classes')){
+            $feed->classes()->attach($request->get('classes'));
+        }
         return redirect()->route('feed.index')->with('success','Actualité Ajouté');
     }
 
@@ -72,14 +78,21 @@ class FeedController extends Controller
     public function update(FeedRequest $request, $id)
     {
         $feed = Feed::findorFail($id);
-        $feed->user_id = null;
-        $feed->classe_id = null;
         $params = [];
         if (!$request->get('date')){
             $date = new \DateTime('now');
             $params['date'] = $date->format('Y-m-d');
         }
-        $feed->update(array_merge($request->all(),$params));
+        $feed->update(array_merge($request->except('users','classes'),$params));
+        $feed->users()->sync([]);
+        $feed->classes()->sync([]);
+        if ($request->get('users')){
+            $feed->users()->sync($request->get('users'),false);
+        }
+        if ($request->get('classes')){
+            $feed->classes()->sync($request->get('classes'),false);
+        }
+
         return redirect()->route('feed.index')->with('success','Actualité Modifié');
     }
 
@@ -93,6 +106,8 @@ class FeedController extends Controller
     public function destroy($id)
     {
         $feed = Feed::findorFail($id);
+        $feed->users()->sync([]);
+        $feed->classes()->sync([]);
         $feed->delete();
         return redirect()->route('feed.index')->with('success','Actualité Supprimé');
     }

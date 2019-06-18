@@ -20,11 +20,11 @@ class Feed extends Model
         'user_id'
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function users(){
+        return $this->belongsToMany(User::class);
     }
 
-    public function classe(){
-        return $this->belongsTo(Classe::class);
+    public function classes(){
+        return $this->belongsToMany(Classe::class);
     }
 }

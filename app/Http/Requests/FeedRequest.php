@@ -33,9 +33,9 @@ class FeedRequest extends FormRequest
                         'titre' => 'required|unique:feeds|min:5',
                         'contenu' => 'required|min:10',
                         'date' => 'nullable|date',
-                        'type' => ['required', 'regex:(classe|etudiant|professeur)'],
-                        'classe_id' => 'nullable',
-                        'user_id' => 'nullable',
+                        'type' => ['required', 'regex:(classes|etudiants|professeurs)'],
+                        'users.*' => 'numeric',
+                        'classes.*' => 'numeric'
                     ];
                 }
             case 'PUT':
@@ -49,9 +49,9 @@ class FeedRequest extends FormRequest
                         ],
                         'contenu' => 'required|min:10',
                         'date' => 'nullable|date',
-                        'type' => ['required', 'regex:(classe|etudiant|professeur)'],
-                        'classe_id' => 'nullable|numeric',
-                        'user_id' => 'nullable|numeric',
+                        'type' => ['required', 'regex:(classes|etudiants|professeurs)'],
+                        'users.*' => 'numeric',
+                        'classes.*' => 'numeric'
                     ];
                 }
         }

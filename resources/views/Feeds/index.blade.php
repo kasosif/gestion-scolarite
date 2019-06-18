@@ -46,7 +46,6 @@
                                 <tr>
                                     <th>Titre</th>
                                     <th>Date</th>
-                                    <th>Type</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -58,9 +57,6 @@
                                         </td>
                                         <td>
                                             {{$feed->date}}
-                                        </td>
-                                        <td>
-                                            {{$feed->type}}
                                         </td>
                                         <td>
                                             <a href="{{route('feed.edit',['id' => $feed->id])}}" class="btn btn-primary w-md">Modif/Info</a>

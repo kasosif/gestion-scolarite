@@ -74,17 +74,17 @@
                                     <input name="date" id= "date_pub" class="validate" type="date">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-field form-input">
                                     <select id="type" name="type" class="form-control" required>
                                         <option value="" selected disabled>Selectionnez Type</option>
-                                        <option value="classe">Classe</option>
-                                        <option value="professeur">Professeur</option>
-                                        <option value="etudiant">Etudiant</option>
+                                        <option value="classes">Classes</option>
+                                        <option value="professeurs">Professeurs</option>
+                                        <option value="etudiants">Etudiants</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6" id="choiceContent">
+                            <div class="col-md-12" id="choiceContent">
 
                             </div>
                             <div class="col-md-12">
@@ -119,15 +119,15 @@
             $('body').on('change','#type',function () {
                 var url = '';
                 switch ($('#type').val()){
-                    case 'classe' : {
+                    case 'classes' : {
                         url = '{{route('ajax.classes')}}';
                         break;
                     }
-                    case 'etudiant' : {
+                    case 'etudiants' : {
                         url = '{{route('ajax.students')}}';
                         break;
                     }
-                    case 'professeur' : {
+                    case 'professeurs' : {
                         url = '{{route('ajax.teachers')}}';
                         break;
                     }

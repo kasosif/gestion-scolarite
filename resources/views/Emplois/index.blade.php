@@ -63,7 +63,14 @@
                                                     {{\App\Model\Niveau::find($classe->niveau_id)->specialite->nom}} {{$classe->abbreviation}} {{\App\Model\Niveau::find($classe->niveau_id)->nom}}
                                                 </td>
                                                 <td>
-                                                    <a href="{{route('emplois.classe',['classe_id'=>$classe->id])}}" class="btn btn-info w-md">Emplois</a>
+                                                    <a href="{{route('emplois.classe',['classe_id'=>$classe->id])}}" class="btn btn-info w-md">Emplois({{
+                                                     DB::table('emplois')
+                                                        ->select('classe_id',DB::raw('count(*) as total'))
+                                                        ->distinct()
+                                                        ->where('classe_id',$classe->id)
+                                                        ->groupBy('classe_id')
+                                                        ->get()->count()
+                                                    }})</a>
                                                 </td>
                                             </tr>
                                         @endif
