@@ -15,9 +15,7 @@ class Feed extends Model
         'titre',
         'date',
         'contenu',
-        'type',
-        'classe_id',
-        'user_id'
+        'type'
     ];
 
     public function users(){

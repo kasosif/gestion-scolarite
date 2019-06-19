@@ -287,10 +287,10 @@
                             <a href="{{route('profile')}}"><i class="material-icons">perm_identity</i> Mon Profile</a>
                         </li>
                         <li>
-                            <a href="{{ route('logout') }}"
+                            <a style="font-size: 15px" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">
-                                <i class="material-icons">lock</i> Deconnecter</a>
+                                <i class="material-icons">lock</i> Deconnexion</a>
                         </li>
                     </ul>
                 </li>
