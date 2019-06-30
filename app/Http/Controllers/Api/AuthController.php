@@ -27,7 +27,7 @@ class AuthController extends Controller
         {
 
             auth('api')->logout();
-            return response()->json(['error' => 'Log in through admin interface'], 500);
+            return response()->json(['error' => 'Log in through admin interface'], 200);
 
         }
         return $this->respondWithToken($token);

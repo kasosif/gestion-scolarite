@@ -17,7 +17,10 @@ class DevoirController extends Controller
         $user = auth('api')->user();
 
         if ($user->role == 'ROLE_ETUDIANT'){
-            $devoirs = Devoir::where('classe_id',$user->classe_id);
+            $devoirs = Devoir::with('matiere')
+                ->where('classe_id',$user->classe_id)
+                ->orderBy('date')
+                ->get();
             return response()->json([
                 'devoirs' => $devoirs
             ]);

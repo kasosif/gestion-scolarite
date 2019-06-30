@@ -2,6 +2,7 @@
 
 use Faker\Generator as Faker;
 use App\Model\Devoir;
+use App\Model\Seance;
 use App\Model\Matiere;
 use App\Model\Classe;
 $factory->define(Devoir::class, function (Faker $faker) {

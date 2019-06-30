@@ -73,7 +73,7 @@ class ProfesseurRequest extends FormRequest
                             Rule::unique('users')->ignore($user->id),
                             'email'
                         ],
-                        'password' => ['confirmed', 'required', 'regex:#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#'],
+                        'password' => ['confirmed', 'nullable', 'regex:#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#'],
                     ];
                 }
         }

@@ -24,8 +24,8 @@ class ProfileController extends Controller
 
         if ($user->role == 'ROLE_ETUDIANT'){
             return response()->json([
-                'me'=>User::with('classe')->find($user->id),
-                'classmates' => User::where('classe_id',$user->classe_id)
+                'me'=>User::with(['classe','classe.niveau','classe.niveau.specialite'])->find($user->id),
+                'classmates' => User::where('classe_id',$user->classe_id)->where('id','!=',$user->id)->get()
             ]);
         }
 
@@ -41,10 +41,11 @@ class ProfileController extends Controller
             foreach ($classes as $classe){
                 $query = $query->orWhere('affectations.classe_id',$classe->classe_id);
             }
-            $colleagues = $query->distinct()->get();
+            $colleagues = $query->where('user_id','!=',$user->id)
+                ->distinct()->get();
             return response()->json([
                 'me'=>$user,
-                'colleagues' => $colleagues
+                'classmates' => $colleagues
             ]);
         }
         return response()->json(['error' => 'Unauthorized'], 401);
