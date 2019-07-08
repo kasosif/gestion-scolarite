@@ -33,7 +33,7 @@
                         <td>
                             <div class="form-group">
                                 <label>
-                                    <input class="form-control" placeholder="?/20"  required step="0.01" type="number" name="notes[{{$etudiant->id}}]" min="0" max="20">
+                                    <input class="form-control" placeholder="?/20"  step="0.01" type="number" name="notes[{{$etudiant->id}}]" min="0" max="20">
                                 </label>
                             </div>
                         </td>

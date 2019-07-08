@@ -13,10 +13,17 @@ class Feed extends Model
      */
     protected $fillable = [
         'titre',
+        'image',
         'date',
+        'slug',
         'contenu',
-        'type'
+        'type',
+        'user_id'
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 
     public function users(){
         return $this->belongsToMany(User::class);

@@ -374,6 +374,14 @@
                             <li @yield('emploislisteactive')><a href="{{route('emplois.classes')}}">Liste des Emplois</a></li>
                         </ul>
                     </li>
+                    {{--@can('view',App\Model\Demande::class)--}}
+                        <li @yield('demandeactive')>
+                            <a href="{{route('demande.index')}}">
+                                <i class="material-icons">picture_in_picture</i>
+                                Demandes
+                            </a>
+                        </li>
+                    {{--@endcan--}}
                     <li @yield('parametreactive')>
                         <a><i class="material-icons">settings</i>Paramètres<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">

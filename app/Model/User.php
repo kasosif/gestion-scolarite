@@ -90,6 +90,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Privilege::class);
     }
 
+    public function demandes() {
+        return $this->hasMany(Demande::class);
+    }
+
     public function classe(){
         return $this->belongsTo(Classe::class);
     }

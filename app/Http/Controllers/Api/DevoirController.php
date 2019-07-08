@@ -19,6 +19,7 @@ class DevoirController extends Controller
         if ($user->role == 'ROLE_ETUDIANT'){
             $devoirs = Devoir::with('matiere')
                 ->where('classe_id',$user->classe_id)
+                ->where('date', '>', new \DateTime('today'))
                 ->orderBy('date')
                 ->get();
             return response()->json([
@@ -26,7 +27,8 @@ class DevoirController extends Controller
             ]);
 
         } else if ($user->role == 'ROLE_PROFESSEUR') {
-            $query = DB::table('devoirs');
+            $query = DB::table('devoirs')
+                ->where('date', '>', new \DateTime('today'));
             $matieres = DB::table('affectations')->select('matiere_id')
                 ->where('user_id',$user->id)
                 ->distinct()

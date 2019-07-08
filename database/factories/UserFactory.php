@@ -17,12 +17,18 @@ use App\Model\Classe;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $nom = $faker->lastName;
+    $prenom =$faker->firstName;
+    $lieu =$faker->country;
     return [
         'cin' => strval($faker->unique()->randomNumber($nbDigits = 8,true)),
-        'nom' => $faker->firstName,
-        'prenom'=> $faker->lastName,
+        'nom' => $nom,
+        'nom_ar' => $nom,
+        'prenom'=> $prenom,
+        'prenom_ar'=> $nom,
         'date_naissance'=> $faker->dateTimeBetween('-30 years','-18 years'),
-        'lieu_naissance'=> $faker->country,
+        'lieu_naissance'=> $lieu,
+        'lieu_naissance_ar'=> $lieu,
         'gendre'=> $faker->randomElement(['male','female']),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => new DateTime(),

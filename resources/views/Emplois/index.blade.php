@@ -64,12 +64,7 @@
                                                 </td>
                                                 <td>
                                                     <a href="{{route('emplois.classe',['classe_id'=>$classe->id])}}" class="btn btn-info w-md">Emplois({{
-                                                     DB::table('emplois')
-                                                        ->select('classe_id',DB::raw('count(*) as total'))
-                                                        ->distinct()
-                                                        ->where('classe_id',$classe->id)
-                                                        ->groupBy('classe_id')
-                                                        ->get()->count()
+                                                     \App\Model\Emploi::where('classe_id', '=', $classe->id)->distinct()->get()->count() / 24
                                                     }})</a>
                                                 </td>
                                             </tr>

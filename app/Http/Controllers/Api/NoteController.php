@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Model\Abscence;
+use App\Model\Note;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AbscenceController extends Controller
+class NoteController extends Controller
 {
-    public function myabscences(){
+    public function notes(){
         if (!auth('api')->check()) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -16,9 +16,9 @@ class AbscenceController extends Controller
 
         if ($user->role == 'ROLE_ETUDIANT') {
             return response()->json([
-                'abscences' => Abscence::with( 'seance', 'matiere')
-                ->where('user_id', '=', $user->id)
-                ->get()
+                'notes' => Note::with( 'devoir.matiere', 'devoir', 'user')
+                    ->where('user_id', '=', $user->id)
+                    ->get()
             ]);
         }
         return response()->json(['error' => 'Unauthorized'], 401);

@@ -81,19 +81,11 @@
                                 </div>
                             </div>
                         @endif
-                        @if(($etudiant->nom_ar) && ($etudiant->prenom_ar) && ($etudiant->lieu_naissance_ar))
+                        @if($etudiant->classe->niveau->specialite->annee->date_fin < \Carbon\Carbon::today())
                             <div class="row">
                                 <div class="col-md-6">
                                     <button type="button" class="btn btn-info">Bulletin</button>
                                 </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-info">Attestation de reussite</button>
-                                </div>
-                            </div>
-                        @endif
-                        @if($etudiant->classe->niveau->specialite->annee->date_fin > date('today'))
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-info">Attestation de reussite</button>
                             </div>
                         @endif
                     </div>

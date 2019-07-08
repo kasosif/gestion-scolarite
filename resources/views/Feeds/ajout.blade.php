@@ -5,6 +5,7 @@
 @section('preloader')
 @endsection
 @section('csspage')
+    <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 @endsection
@@ -54,7 +55,7 @@
             <br>
         @endif
         <div class="row">
-            <form action="{{route('feed.store')}}" method="post">
+            <form action="{{route('feed.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="card">
                     <div class="card-header">
@@ -63,21 +64,29 @@
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-field form-input">
                                     <input id="titre" name="titre" type="text" class="validate" required>
                                     <label for="titre" class="">Titre</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-field form-input">
-                                    <input name="date" id= "date_pub" class="validate" type="date">
+                                    <input id="slug" name="slug" type="text" class="validate" required>
+                                    <label for="slug" class="">Slug</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h2>Image <small></small></h2>
+                                <div class="input-group">
+                                    <input type="file" name="image" id="image">
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="input-field form-input">
                                     <select id="type" name="type" class="form-control" required>
                                         <option value="" selected disabled>Selectionnez Type</option>
+                                        <option value="public">Publique</option>
                                         <option value="classes">Classes</option>
                                         <option value="professeurs">Professeurs</option>
                                         <option value="etudiants">Etudiants</option>
@@ -111,36 +120,71 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.js')}}"></script>
     <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
     <script>
         $(document).ready(function () {
             $("#compose-textarea").wysihtml5();
+            $("#image").fileinput({
+                'showUpload': !1,
+                'allowedFileExtensions': ["jpeg","jpg", "png"],
+                'showCaption':!1,
+                'minFileSize': 5,
+                'maxFileSize': 2200
+            });
+            $('body').on('keyup', '#titre', function () {
+                var feedTitle = $('#titre').val().toLowerCase();
+                var slugInput = $('#slug');
+                var label = $("label[for='slug']");
+                label.attr('class','active');
+                var titleToSlug = feedTitle.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-').toLowerCase();
+                slugInput.val(titleToSlug);
+            });
             $('body').on('change','#type',function () {
                 var url = '';
                 switch ($('#type').val()){
                     case 'classes' : {
                         url = '{{route('ajax.classes')}}';
+                        $.ajax({
+                            url: url,
+                            method: "GET",
+                            success: function(response) {
+                                $("#choiceContent").html(response);
+                                $('.select2').select2();
+                            }
+                        });
                         break;
                     }
                     case 'etudiants' : {
                         url = '{{route('ajax.students')}}';
+                        $.ajax({
+                            url: url,
+                            method: "GET",
+                            success: function(response) {
+                                $("#choiceContent").html(response);
+                                $('.select2').select2();
+                            }
+                        });
                         break;
                     }
                     case 'professeurs' : {
                         url = '{{route('ajax.teachers')}}';
+                        $.ajax({
+                            url: url,
+                            method: "GET",
+                            success: function(response) {
+                                $("#choiceContent").html(response);
+                                $('.select2').select2();
+                            }
+                        });
+                        break;
+                    }
+                    case 'public' : {
+                        $("#choiceContent").html('');
                         break;
                     }
                 }
-                $.ajax({
-                    url: url,
-                    method: "GET",
-                    success: function(response) {
-                        $("#choiceContent").html(response);
-                        $('.select2').select2();
-                    }
-                });
-
             });
         });
     </script>

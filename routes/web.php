@@ -180,6 +180,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/emplois/store', 'EmploiController@store')->name('emplois.store');
     Route::put('/emplois/update', 'EmploiController@update')->name('emplois.update');
 
+    //demandes
+    Route::get('/demandes/', 'DemandeController@index')->name('demande.index');
+    Route::patch('/demandes/treat/{demande_id?}', 'DemandeController@treat')->name('demande.treat');
+
     //ajax
     Route::get('/ajax/classes/{spec_id?}', 'AjaxController@classsesBySpecialite')->name('ajax.classesbyspec');
     Route::post('/ajax/affecterprofesseur', 'AjaxController@affecterProfesseur')->name('ajax.affectprof');

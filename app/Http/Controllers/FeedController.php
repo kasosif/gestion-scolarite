@@ -39,11 +39,18 @@ class FeedController extends Controller
     public function store(FeedRequest $request)
     {
         $params = [];
+        $params['user_id'] = auth()->id();
         if (!$request->get('date')){
-            $date = new \DateTime('now');
-            $params['date'] = $date->format('Y-m-d');
+            $params['date'] = new \DateTime('now');
+        }
+        if ($image = $request->files->get('image')) {
+            $destinationPath = 'images/feeds/'; // upload path
+            $feedImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $feedImage);
+            $params['image'] = $feedImage;
         }
         $feed = Feed::create(array_merge($request->except('users','classes'),$params));
+
         if ($request->get('users')){
             $feed->users()->attach($request->get('users'));
         }
@@ -79,9 +86,17 @@ class FeedController extends Controller
     {
         $feed = Feed::findorFail($id);
         $params = [];
+        if ($image = $request->files->get('image')) {
+            $destinationPath = 'images/feeds/'; // upload path
+            if ($feed->image && file_exists(public_path().'/images/feeds/'.$feed->image)) {
+                unlink(public_path().'/images/feeds/'.$feed->image);
+            }
+            $feedImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $feedImage);
+            $params['image'] = $feedImage;
+        }
         if (!$request->get('date')){
-            $date = new \DateTime('now');
-            $params['date'] = $date->format('Y-m-d');
+            $params['date'] = new \DateTime('now');
         }
         $feed->update(array_merge($request->except('users','classes'),$params));
         $feed->users()->sync([]);

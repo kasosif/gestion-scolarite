@@ -86,20 +86,14 @@
                                     <input id="nom" name="nom" type="text" class="validate" required>
                                     <label for="nom" class="">Nom</label>
                                 </div>
-                                <div class="input-field form-input">
-                                    <input id="nbr_heures" name="nbr_heures" type="number" class="validate" required>
-                                    <label for="nbr_heures" class="">Nombre d'heures</label>
-                                </div>
-                                <div class="input-field form-input">
-                                    <input id="horaires" name="horaires" type="number" class="validate" required>
-                                    <label for="horaires" class="">Horaires</label>
-                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
                                     <input id="coeficient" name="coeficient" type="number" class="validate" required>
                                     <label for="coeficient" class="">Coefficient</label>
                                 </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="input-field form-input">
                                     <input id="plafond_abscences" name="plafond_abscences" type="number" class="validate" required>
                                     <label for="plafond_abscences" class="">Plafond Absences</label>

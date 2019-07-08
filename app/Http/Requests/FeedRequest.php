@@ -30,10 +30,12 @@ class FeedRequest extends FormRequest
             case 'POST':
                 {
                     return [
+                        'slug' => 'required|unique:feeds',
+                        'image.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2200|min:5',
                         'titre' => 'required|unique:feeds|min:5',
                         'contenu' => 'required|min:10',
                         'date' => 'nullable|date',
-                        'type' => ['required', 'regex:(classes|etudiants|professeurs)'],
+                        'type' => ['required', 'regex:(public|classes|etudiants|professeurs)'],
                         'users.*' => 'numeric',
                         'classes.*' => 'numeric'
                     ];
@@ -47,9 +49,14 @@ class FeedRequest extends FormRequest
                             'min:5',
                             Rule::unique('feeds')->ignore($feed->id)
                         ],
+                        'slug' => [
+                            'required',
+                            Rule::unique('feeds')->ignore($feed->id)
+                        ],
+                        'image.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2200|min:5',
                         'contenu' => 'required|min:10',
                         'date' => 'nullable|date',
-                        'type' => ['required', 'regex:(classes|etudiants|professeurs)'],
+                        'type' => ['required', 'regex:(public|classes|etudiants|professeurs)'],
                         'users.*' => 'numeric',
                         'classes.*' => 'numeric'
                     ];

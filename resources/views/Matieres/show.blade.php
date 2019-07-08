@@ -49,10 +49,8 @@
                     <div class="row">
                         <ul>
                             <li>Nom : {{$matiere->nom}}</li>
-                            <li>Coeficcient : {{$matiere->coeficient}}</li>
-                            <li>Nombre d'heures : {{$matiere->nbr_heures}}</li>
+                            <li>Coeficient : {{$matiere->coeficient}}</li>
                             <li>Plafond Abscences : {{$matiere->plafond_abscences}}</li>
-                            <li>Horraires : {{$matiere->horaires}}</li>
                             @if($matiere->niveau != null)
                                 <li>Ma Specialite : <b>{{$matiere->niveau->specialite->nom}}</b></li>
                                 <li>Mon Niveau : <b>{{$matiere->niveau->nom}}</b></li>
@@ -66,7 +64,6 @@
                                 <table id="devoirsTable" class="table table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
-                                        <th>Nom</th>
                                         <th>Coeficient</th>
                                         <th>Type</th>
                                     </tr>
@@ -74,9 +71,6 @@
                                     <tbody>
                                     @foreach($matiere->devoirs as $devoir)
                                         <tr>
-                                            <td>
-                                                {{$devoir->nom}}
-                                            </td>
                                             <td>
                                                 {{$devoir->coeficient}}
                                             </td>

@@ -60,8 +60,10 @@ class AbscenceController extends Controller
         $this->authorize('create', Abscence::class);
         foreach ($request->get('abscences') as $user){
             $justifie = false;
-            if (in_array($user,$request->get('justifie')))
-                $justifie = true;
+            if ($request->get('justifie')){
+                if (in_array($user,$request->get('justifie')))
+                    $justifie = true;
+            }
             Abscence::create([
                 'date' => $request->get('date'),
                 'justifie' => $justifie,

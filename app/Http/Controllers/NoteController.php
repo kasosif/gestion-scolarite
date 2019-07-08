@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NoteRequest;
 use App\Model\Annee;
+use App\Model\Devoir;
 use App\Model\Note;
+use App\Model\User;
+use App\Notifications\MarkAdded;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
@@ -44,11 +47,17 @@ class NoteController extends Controller
     public function store(NoteRequest $request)
     {
         foreach ($request->get('notes') as $etudiantid => $note){
-            Note::create([
-                'user_id' =>$etudiantid,
-                'devoir_id' =>$request->get('devoir_id'),
-                'mark' => $note
-            ]);
+            if ($note) {
+                Note::create([
+                    'user_id' =>$etudiantid,
+                    'devoir_id' =>$request->get('devoir_id'),
+                    'mark' => $note
+                ]);
+                User::find($etudiantid)
+                    ->notify(
+                        new MarkAdded('icon-note text-success',Devoir::find($request->get('devoir_id')),'Nouvelle Note')
+                );
+            }
         }
         return redirect()->route('note.index')->with('success','Notes Ajouté');
     }

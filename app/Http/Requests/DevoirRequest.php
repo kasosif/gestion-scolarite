@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\DB;
 
 class DevoirRequest extends FormRequest
 {
@@ -23,13 +25,18 @@ class DevoirRequest extends FormRequest
      */
     public function rules()
     {
+        $annee = DB::table('annees')
+            ->select('annees.*')
+            ->where('annees.date_debut','<',Carbon::today())
+            ->where('annees.date_fin','>',Carbon::today())
+            ->first();
+        $date = $annee->date_fin;
         return [
-            'nom' => 'required|min:2',
             'coeficient' => 'required|numeric',
-            'date' => 'required|date|after: today',
+            'date' => 'required|date|after: today|before: '.$date,
             'type' => [
                 'required',
-                'regex:(cc|ds|examen)'
+                'regex:(controle|examen)'
             ],
             'matiere_id' => 'required|numeric'
         ];

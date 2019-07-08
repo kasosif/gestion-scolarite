@@ -5,6 +5,7 @@
 @section('preloader')
 @endsection
 @section('csspage')
+    <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 @endsection
@@ -54,7 +55,7 @@
             <br>
         @endif
         <div class="row">
-            <form action="{{route('feed.update',['id' => $feed->id])}}" method="post">
+            <form action="{{route('feed.update',['id' => $feed->id])}}" method="post" enctype="multipart/form-data">
                 <input name="_method" type="hidden" value="PUT">
                 @csrf
                 <div class="card">
@@ -64,21 +65,32 @@
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-field form-input">
                                     <input id="titre" name="titre" value="{{$feed->titre}}" type="text" class="validate" required>
                                     <label for="titre" class="">Titre</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-field form-input">
-                                    <input name="date" value="{{$feed->date}}" id="date_pub" class="validate" type="date">
+                                    <input value="{{$feed->slug}}" id="slug" name="slug" type="text" class="validate" required>
+                                    <label for="slug" class="">Slug</label>
                                 </div>
+                            </div>
+                            <div class="col-md-8">
+                                    <h2>Image <small></small></h2>
+                                    @if($feed->image)
+                                        <img src="{{asset('images/feeds/'.$feed->image)}}" alt="feed image" class="thumbnail" style="max-width: 200px">
+                                    @endif
+                                    <div class="input-group">
+                                        <input type="file" name="image" id="image">
+                                    </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="input-field form-input">
                                     <select id="type" name="type" class="form-control" required>
                                         <option value="" selected disabled>Selectionnez Type</option>
+                                        <option @if($feed->type === 'public') selected @endif value="public">Publique</option>
                                         <option @if($feed->type === 'classes') selected @endif value="classes">Classes</option>
                                         <option @if($feed->type === 'professeurs') selected @endif value="professeurs">Professeurs</option>
                                         <option @if($feed->type === 'etudiants') selected @endif value="etudiants">Etudiants</option>
@@ -106,7 +118,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                @else
+                                @elseif($feed->type === 'etudiants')
                                     <div class="input-field form-input">
                                         <select id="user" name="users[]" class="form-control select2" required multiple>
                                             @foreach($etudiants as $etudiant)
@@ -142,36 +154,73 @@
     </div>
 @endsection
 @section('scriptpage')
+    <script src="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.js')}}"></script>
     <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('.select2').select2();
+            $("#image").fileinput({
+                'showUpload': !1,
+                'allowedFileExtensions': ["jpeg","jpg", "png"],
+                'showCaption':!1,
+                'minFileSize': 5,
+                'maxFileSize': 2200
+            });
             $("#compose-textarea").wysihtml5();
+            $('body').on('keyup', '#titre', function () {
+                var feedTitle = $('#titre').val().toLowerCase();
+                var slugInput = $('#slug');
+                var label = $("label[for='slug']");
+                label.attr('class','active');
+                var titleToSlug = feedTitle.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-').toLowerCase();
+                slugInput.val(titleToSlug);
+            });
             $('body').on('change','#type',function () {
                 var url = '';
                 switch ($('#type').val()){
                     case 'classes' : {
                         url = '{{route('ajax.classes')}}';
+                        $.ajax({
+                            url: url,
+                            method: "GET",
+                            success: function(response) {
+                                $("#choiceContent").html(response);
+                                $('.select2').select2();
+                            }
+                        });
                         break;
                     }
                     case 'etudiants' : {
                         url = '{{route('ajax.students')}}';
+                        $.ajax({
+                            url: url,
+                            method: "GET",
+                            success: function(response) {
+                                $("#choiceContent").html(response);
+                                $('.select2').select2();
+                            }
+                        });
                         break;
                     }
                     case 'professeurs' : {
                         url = '{{route('ajax.teachers')}}';
+                        $.ajax({
+                            url: url,
+                            method: "GET",
+                            success: function(response) {
+                                $("#choiceContent").html(response);
+                                $('.select2').select2();
+                            }
+                        });
+                        break;
+                    }
+                    case 'public' : {
+                        $("#choiceContent").html('');
                         break;
                     }
                 }
-                $.ajax({
-                    url: url,
-                    method: "GET",
-                    success: function(response) {
-                        $("#choiceContent").html(response);
-                        $('.select2').select2();
-                    }
-                });
+
             });
         });
     </script>

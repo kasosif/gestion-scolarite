@@ -15,8 +15,7 @@ class CreateDevoirsTable extends Migration
     {
         Schema::create('devoirs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('coeficient');
-            $table->string('nom');
+            $table->double('coeficient');
             $table->string('type');
             $table->dateTime('date');
             $table->integer('matiere_id')->unsigned();

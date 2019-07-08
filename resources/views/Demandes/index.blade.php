@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Liste des Professeurs
+    Liste des Demandes
 @endsection
 @section('preloader')
 @endsection
@@ -10,10 +10,7 @@
     <!-- iziToast alert -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 @endsection
-@section('professeuractive')
-    class = "active"
-@endsection
-@section('listeprofesseuractive')
+@section('demandeactive')
     class = "active-link"
 @endsection
 @section('HeaderPage')
@@ -22,10 +19,10 @@
             <i class="fa fa-list"></i>
         </div>
         <div class="header-title">
-            <h1> Liste des Professeurs</h1>
+            <h1> Liste des Demandes</h1>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('professeur.index')}}">Liste Professeurs</a></li>
+                <li><a href="{{route('demande.index')}}">Liste des Demandes</a></li>
             </ul>
         </div>
     </section>
@@ -33,53 +30,41 @@
 @section('ContenuPage')
     <div class="container-fluid">
         <div class="row">
-            <a href="{{route('professeur.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Professeur</a>
-        </div>
-        <div class="row">
-            @if($professeurs->count() != 0)
+            @if($demandes->count() != 0)
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-table fa-lg"></i>
-                        Liste des Professeurs
+                        Liste des Années Scolaires
                     </div>
                     <div class="card-content">
                         <div class="table-responsive">
-                            <table id="professeursTable" class="table table-bordered table-striped table-hover">
+                            <table id="demandesTable" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>CIN</th>
-                                    <th>Prénom</th>
-                                    <th>Nom</th>
-                                    <th>Gendre</th>
+                                    <th>Date Demande</th>
+                                    <th>Type</th>
+                                    <th>Etudiant</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($professeurs as $professeur)
+                                @foreach($demandes as $demande)
                                     <tr>
                                         <td>
-                                            @if($professeur->image)
-                                                <img src="{{asset('images/professeurs/'.$professeur->image)}}" alt="User Image" style="width: 50px;">
-                                            @else
-                                                No Image
-                                            @endif
+                                            {{$demande->created_at}}
                                         </td>
                                         <td>
-                                            {{$professeur->cin}}
+                                            {{$demande->type == 'Presence' ? 'Attestation de Presence' : 'Attestation d\'Inscription' }}
                                         </td>
                                         <td>
-                                            {{$professeur->prenom}}
+                                            <a target="_blank" href="{{route('etudiant.show',['cin'=> $demande->user->cin])}}">
+                                                {{$demande->user->prenom}} {{$demande->user->nom}}
+                                            </a>
                                         </td>
                                         <td>
-                                            {{$professeur->nom}}
-                                        </td>
-                                        <td>
-                                            {{$professeur->gendre  === "male" ? "Homme" : "Femme"}}
-                                        </td>
-                                        <td>
-                                            <a href="{{route('professeur.edit',['cin' => $professeur->cin])}}" class="btn btn-primary w-md">Modif/Info</a>
-                                            <button onclick="deleteUser({{$professeur->cin}})" type="button" class="btn btn-danger w-md">Supp</button>
+                                            {{--@can('delete',$demande)--}}
+                                                <button onclick="treatRessource('{{$demande->user->cin}}', '{{$demande->type}}', '{{$demande->id}}')" type="button" class="btn btn-success w-md">Traiter</button>
+                                            {{--@endcan--}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -90,7 +75,7 @@
                 </div>
             @else
                 <div class="alert alert-warning z-depth-1">
-                    <strong>Oops!</strong> Aucun Professeur Trouvé.
+                    <strong>Oops!</strong> Aucune Demande Trouvé.
                 </div>
             @endif
         </div>
@@ -101,17 +86,17 @@
             <div class="modal-content panel-warning">
                 <div class="modal-header panel-heading">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Confirmation de suppression</h4>
+                    <h4 class="modal-title">Confirmation de Traitement</h4>
                 </div>
                 <div class="modal-body">
 
                 </div>
                 <div class="modal-footer">
-                    <form action="#" method="post" id="deleteform">
+                    <form action="#" method="post" id="treatform">
+                        {{method_field('patch')}}
                         @csrf
-                        <input name="_method" type="hidden" value="DELETE">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                        <input type="submit" class="btn btn-success" value="Oui, Supprimer" />
+                        <input type="submit" class="btn btn-success" value="Oui, Traiter" />
                     </form>
                 </div>
             </div><!-- /.modal-content -->
@@ -125,7 +110,7 @@
     <script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
-            $('#professeursTable').DataTable();
+            $('#demandesTable').DataTable();
             @if ($message = Session::get('success'))
             iziToast.success({
                 title: 'Success',
@@ -134,9 +119,9 @@
             });
             @endif
         });
-        function deleteUser(cin) {
-            $('#deleteform').attr('action','{{route('professeur.destroy')}}'+'/'+cin);
-            $('.modal-body').html('<h2>Etes-vous sûr de vouloir supprimer le Professeur muni du CIN :'+cin+'</h2>');
+        function treatRessource(cin, type, id) {
+            $('#treatform').attr('action','{{route('demande.treat')}}'+'/'+id);
+            $('.modal-body').html('<h2>Vous avez génerer la demande d\'attestation de "'+type+'" de l\'etudiant ayant le cin : "'+cin+'" ? </h2>');
             $('#deleteModal').modal('show');
         }
     </script>

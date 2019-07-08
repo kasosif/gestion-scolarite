@@ -16,10 +16,8 @@ class CreateMatieresTable extends Migration
         Schema::create('matieres', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nom');
-            $table->integer('coeficient');
-            $table->integer('nbr_heures');
+            $table->double('coeficient');
             $table->integer('plafond_abscences');
-            $table->integer('horaires');
             $table->integer('niveau_id')->unsigned()->nullable();
             $table->foreign('niveau_id')->references('id')->on('niveaux');
             $table->timestamps();

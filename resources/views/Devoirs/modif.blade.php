@@ -82,11 +82,8 @@
                                     </select>
                                 </div>
                                 <div class="input-field form-input">
-                                    <input id="coeficient" value="{{$devoir->coeficient}}" name="coeficient" type="number" class="validate" required>
+                                    <input id="coeficient" step="0.1" value="{{$devoir->coeficient}}" name="coeficient" type="number" class="validate" required>
                                     <label for="coeficient" class="">Coeficient</label>
-                                </div>
-                                <div class="input-field form-input">
-                                    <input value="{{$devoir->date}}" name="date" id= "date_pub" class="validate" type="date">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -100,17 +97,23 @@
                                     <label for="type" class="control-label">Type</label>
                                     <select required id="type" name="type" class="form-control">
                                         <option value="" selected disabled>Selectionnez Type</option>
-                                        <option @if($devoir->type == 'cc') selected @endif value="cc">Cc</option>
-                                        <option @if($devoir->type == 'ds') selected @endif value="ds">Ds</option>
+                                        <option @if($devoir->type == 'controle') selected @endif value="controle">Devoir de Controle</option>
                                         <option @if($devoir->type == 'examen') selected @endif value="examen">Examen</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="date_pub" class="">Date et heure</label>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="input-field form-input">
-                                    <input id="nom" value="{{$devoir->nom}}" name="nom" type="text" class="validate" required>
-                                    <label for="nom" class="">Nom</label>
+                                    <input name="date"
+                                           value="{{date('Y-m-d\Th:i', strtotime($devoir->date))}}"
+                                           id= "date_pub" class="validate" type="datetime-local"
+                                           min="{{date('Y-m-d\Th:i', strtotime(Carbon\Carbon::now()->toDateTimeString()))}}"
+                                           max="{{date('Y-m-d\Th:i', strtotime($annee->date_fin))}}">
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="card-footer">

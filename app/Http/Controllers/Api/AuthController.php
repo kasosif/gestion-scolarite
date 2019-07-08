@@ -40,6 +40,23 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+    public function lastnotifs() {
+        if (!auth('api')->check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $user = auth('api')->user();
+
+        if ($user->role == 'ROLE_ETUDIANT' || $user->role == 'ROLE_PROFESSEUR') {
+            $notifsUnread = $user->unreadNotifications->count();
+            $notifs = $user->notifications()->take(4)->get();
+            return response()->json([
+                'unread' => $notifsUnread,
+                'notifs' => $notifs
+            ]);
+        }
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
     protected function respondWithToken($token)
     {
         return response()->json([

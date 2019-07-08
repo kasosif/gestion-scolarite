@@ -9,6 +9,8 @@ use App\Model\Classe;
 use App\Model\Devoir;
 use App\Model\Matiere;
 use App\Model\Niveau;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DevoirController extends Controller
 {
@@ -31,7 +33,12 @@ class DevoirController extends Controller
     public function create()
     {
         $niveaux = Niveau::all();
-        return view('Devoirs.ajout',compact('niveaux'));
+        $annee = DB::table('annees')
+            ->select('annees.*')
+            ->where('annees.date_debut','<',Carbon::today())
+            ->where('annees.date_fin','>',Carbon::today())
+            ->first();
+        return view('Devoirs.ajout',compact('niveaux','annee'));
     }
 
     /**
@@ -55,8 +62,13 @@ class DevoirController extends Controller
     public function edit($id)
     {
         $niveaux = Niveau::all();
+        $annee = DB::table('annees')
+            ->select('annees.*')
+            ->where('annees.date_debut','<',Carbon::today())
+            ->where('annees.date_fin','>',Carbon::today())
+            ->first();
         $devoir = Devoir::findorFail($id);
-        return view('Devoirs.modif',compact('devoir','niveaux'));
+        return view('Devoirs.modif',compact('devoir','niveaux','annee'));
     }
 
     /**

@@ -81,12 +81,10 @@
                                     </select>
                                 </div>
                                 <div class="input-field form-input">
-                                    <input id="coeficient" name="coeficient" type="number" class="validate" required>
+                                    <input id="coeficient" step="0.1" name="coeficient" type="number" class="validate" required>
                                     <label for="coeficient" class="">Coeficient</label>
                                 </div>
-                                <div class="input-field form-input">
-                                    <input name="date" id= "date_pub" class="validate" type="date">
-                                </div>
+
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -99,14 +97,19 @@
                                     <label for="type" class="control-label">Type</label>
                                     <select required id="type" name="type" class="form-control">
                                         <option value="" selected disabled>Selectionnez Type</option>
-                                        <option value="cc">Cc</option>
-                                        <option value="ds">Ds</option>
+                                        <option value="controle">Devoir de controle</option>
                                         <option value="examen">Examen</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="date_pub" class="">Date et heure</label>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="input-field form-input">
-                                    <input id="nom" name="nom" type="text" class="validate" required>
-                                    <label for="nom" class="">Nom</label>
+                                    <input name="date" id= "date_pub" class="validate" type="datetime-local"
+                                           min="{{date('Y-m-d\Th:i', strtotime(Carbon\Carbon::now()->toDateTimeString()))}}"
+                                           max="{{date('Y-m-d\Th:i', strtotime($annee->date_fin))}}">
                                 </div>
                             </div>
 

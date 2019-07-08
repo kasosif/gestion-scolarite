@@ -11,6 +11,7 @@ use App\Model\Matiere;
 use App\Model\Salle;
 use App\Model\Seance;
 use App\Model\User;
+use App\Notifications\ScheduleModified;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -174,6 +175,9 @@ class EmploiController extends Controller
                     $emplois->save();
                 }
             }
+        }
+        foreach ($classe->users as $user) {
+            $user->notify(new ScheduleModified('icon-grid text-warning', $dateD. ' => '.$dateF, 'Emploi Modifié'));
         }
         return redirect()->route('emplois.classe',['classe_id'=>$classe->id])->with('success','Emploi modifié avec success');
     }

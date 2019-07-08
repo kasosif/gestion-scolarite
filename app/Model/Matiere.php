@@ -12,7 +12,7 @@ class Matiere extends Model
      * @var array
      */
     protected $fillable = [
-        'nom','coeficient','nbr_heures','plafond_abscences','horaires',
+        'nom','coeficient','plafond_abscences',
         'niveau_id'
     ];
 
