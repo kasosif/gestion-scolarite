@@ -14,17 +14,20 @@ class CreateAbscencesTable extends Migration
     public function up()
     {
         Schema::create('abscences', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->date('date');
             $table->boolean('justifie');
             $table->string('justification')->nullable();
             $table->longText('commentaire')->nullable();
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('matiere_id')->unsigned();
-            $table->foreign('matiere_id')->references('id')->on('matieres')->onDelete('cascade');
-            $table->integer('seance_id')->unsigned();
-            $table->foreign('seance_id')->references('id')->on('seances')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('classe_id')->nullable();
+            //$table->foreign('classe_id')->references('id')->on('classes');
+            $table->unsignedBigInteger('matiere_id');
+            //$table->foreign('matiere_id')->references('id')->on('matieres')->onDelete('cascade');
+            $table->unsignedBigInteger('seance_id');
+            //$table->foreign('seance_id')->references('id')->on('seances')->onDelete('cascade');
             $table->timestamps();
         });
     }

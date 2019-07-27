@@ -18,6 +18,7 @@ class Abscence extends Model
         'justification',
         'user_id',
         'matiere_id',
+        'classe_id',
         'seance_id',
     ];
 
@@ -31,5 +32,9 @@ class Abscence extends Model
 
     public function seance(){
         return $this->belongsTo(Seance::class);
+    }
+
+    public function classe(){
+        return $this->belongsTo(Classe::class);
     }
 }

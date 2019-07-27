@@ -14,14 +14,15 @@ class CreateDevoirsTable extends Migration
     public function up()
     {
         Schema::create('devoirs', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->double('coeficient');
             $table->string('type');
             $table->dateTime('date');
-            $table->integer('matiere_id')->unsigned();
-            $table->foreign('matiere_id')->references('id')->on('matieres')->onDelete('cascade');
-            $table->integer('classe_id')->unsigned();
-            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->unsignedBigInteger('matiere_id');
+            ////$table->foreign('matiere_id')->references('id')->on('matieres')->onDelete('cascade');
+            $table->unsignedBigInteger('classe_id');
+            ////$table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
             $table->timestamps();
         });
     }

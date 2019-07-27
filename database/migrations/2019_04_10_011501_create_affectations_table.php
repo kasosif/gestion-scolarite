@@ -14,13 +14,14 @@ class CreateAffectationsTable extends Migration
     public function up()
     {
         Schema::create('affectations', function (Blueprint $table) {
+
             $table->bigIncrements('id');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('matiere_id')->unsigned();
-            $table->foreign('matiere_id')->references('id')->on('matieres')->onDelete('cascade');
-            $table->integer('classe_id')->unsigned();
-            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('matiere_id');
+            //$table->foreign('matiere_id')->references('id')->on('matieres')->onDelete('cascade');
+            $table->unsignedBigInteger('classe_id');
+            //$table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
             $table->timestamps();
         });
     }

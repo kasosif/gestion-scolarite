@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Notifications\ApiResetPasswordNotification;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -50,7 +52,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'id','password', 'remember_token',
+        'password', 'remember_token',
     ];
 
     /**
@@ -96,6 +98,21 @@ class User extends Authenticatable implements JWTSubject
 
     public function classe(){
         return $this->belongsTo(Classe::class);
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        if(($this->role == 'ROLE_ADMIN') || ($this->role == 'ROLE_EMPLOYE')) {
+            $this->notify(new ResetPasswordNotification($token));
+        } else {
+            $this->notify(new ApiResetPasswordNotification($token));
+        }
     }
 
 

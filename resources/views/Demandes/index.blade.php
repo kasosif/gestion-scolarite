@@ -34,7 +34,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-table fa-lg"></i>
-                        Liste des Années Scolaires
+                        Liste des Demandes d'attestation
                     </div>
                     <div class="card-content">
                         <div class="table-responsive">
@@ -65,6 +65,9 @@
                                             {{--@can('delete',$demande)--}}
                                                 <button onclick="treatRessource('{{$demande->user->cin}}', '{{$demande->type}}', '{{$demande->id}}')" type="button" class="btn btn-success w-md">Traiter</button>
                                             {{--@endcan--}}
+                                            {{--@can('delete',$demande)--}}
+                                            <button onclick="deleteRessource('{{$demande->user->cin}}', '{{$demande->type}}', '{{$demande->id}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            {{--@endcan--}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -81,7 +84,7 @@
         </div>
         <!-- ./cotainer -->
     </div>
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+    <div class="modal fade" id="treatModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content panel-warning">
                 <div class="modal-header panel-heading">
@@ -97,6 +100,27 @@
                         @csrf
                         <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                         <input type="submit" class="btn btn-success" value="Oui, Traiter" />
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content panel-warning">
+                <div class="modal-header panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Confirmation de Suppression</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <form action="#" method="post" id="deleteform">
+                        {{method_field('delete')}}
+                        @csrf
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <input type="submit" class="btn btn-danger" value="Oui, Supprimer" />
                     </form>
                 </div>
             </div><!-- /.modal-content -->
@@ -122,6 +146,11 @@
         function treatRessource(cin, type, id) {
             $('#treatform').attr('action','{{route('demande.treat')}}'+'/'+id);
             $('.modal-body').html('<h2>Vous avez génerer la demande d\'attestation de "'+type+'" de l\'etudiant ayant le cin : "'+cin+'" ? </h2>');
+            $('#treatModal').modal('show');
+        }
+        function deleteRessource(cin, type, id) {
+            $('#deleteform').attr('action','{{route('demande.destroy')}}'+'/'+id);
+            $('.modal-body').html('<h2>Etes vous sur de supprimer la demande d\'attestation de "'+type+'" de l\'etudiant ayant le cin : "'+cin+'" ? </h2>');
             $('#deleteModal').modal('show');
         }
     </script>

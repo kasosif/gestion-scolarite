@@ -31,17 +31,18 @@ class ProfileController extends Controller
 
         if ($user->role == 'ROLE_PROFESSEUR'){
 
-            $classes = DB::table('affectations')->select('classe_id')->where('user_id',$user->id)
+            $classes = DB::table('affectations')->select(DB::raw('DISTINCT(classe_id)'))->where('user_id',$user->id)
                 ->distinct()
                 ->get();
-
+            $classe_ids = [];
+            foreach ($classes as $classe) {
+                array_push($classe_ids, $classe->classe_id);
+            }
             $query = DB::table('affectations')
                 ->join('users', 'users.id', '=', 'affectations.user_id')
-                ->select('users.*');
-            foreach ($classes as $classe){
-                $query = $query->orWhere('affectations.classe_id',$classe->classe_id);
-            }
-            $colleagues = $query->where('user_id','!=',$user->id)
+                ->select('users.*')
+                ->whereIn('affectations.classe_id', $classe_ids);
+            $colleagues = $query->where('users.id','!=',$user->id)
                 ->distinct()->get();
             return response()->json([
                 'me'=>$user,
@@ -75,5 +76,22 @@ class ProfileController extends Controller
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+    }
+
+    public function getUser($cin) {
+        if (!auth('api')->check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $me = auth('api')->user();
+        if (($me->role == 'ROLE_ETUDIANT') || ($me->role == 'ROLE_PROFESSEUR')){
+            $user = User::with('classe.niveau.specialite','formations')
+                ->where('cin',$cin)
+                ->first();
+            return response()->json([
+                'user' => $user
+            ]);
+        }
+        return response()->json(['error' => 'Unauthorized'], 401);
+
     }
 }

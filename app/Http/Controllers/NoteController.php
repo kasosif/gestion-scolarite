@@ -22,7 +22,7 @@ class NoteController extends Controller
         $annees = Annee::all();
         $notes = false;
         if ($user_id = $request->query('user_id')) {
-            $notes = Note::where('user_id',$user_id);
+            $notes = Note::where('user_id',$user_id)->get();
         }
         return view('Notes.index',['notes'=>$notes,'annees'=>$annees]);
     }

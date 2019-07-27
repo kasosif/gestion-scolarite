@@ -14,11 +14,12 @@ class CreateFeedUserTable extends Migration
     public function up()
     {
         Schema::create('feed_user', function (Blueprint $table) {
+
             $table->bigIncrements('id');
-            $table->integer('feed_id')->unsigned();
-            $table->foreign('feed_id')->references('id')->on('feeds');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('feed_id');
+            //$table->foreign('feed_id')->references('id')->on('feeds')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

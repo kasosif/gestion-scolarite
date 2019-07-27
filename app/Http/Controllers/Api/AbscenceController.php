@@ -14,9 +14,9 @@ class AbscenceController extends Controller
         }
         $user = auth('api')->user();
 
-        if ($user->role == 'ROLE_ETUDIANT') {
+        if (($user->role == 'ROLE_ETUDIANT') || ($user->role == 'ROLE_PROFESSEUR')) {
             return response()->json([
-                'abscences' => Abscence::with( 'seance', 'matiere')
+                'abscences' => Abscence::with( 'classe.niveau.specialite','seance', 'matiere')
                 ->where('user_id', '=', $user->id)
                 ->get()
             ]);

@@ -14,11 +14,15 @@ class CreatePartieFormationsTable extends Migration
     public function up()
     {
         Schema::create('partie_formations', function (Blueprint $table) {
+
             $table->bigIncrements('id');
+            $table->uuid('uuid')->nullable();
+            $table->integer('indice');
             $table->string('titre');
-            $table->string('videolink');
-            $table->integer('formation_id')->unsigned();
-            $table->foreign('formation_id')->references('id')->on('formations');
+            $table->string('cover');
+            $table->string('coverimage')->nullable();
+            $table->unsignedBigInteger('formation_id');
+            //$table->foreign('formation_id')->references('id')->on('formations')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -14,6 +14,7 @@ class CreateJoursTable extends Migration
     public function up()
     {
         Schema::create('jours', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->string('nom');
             $table->timestamps();

@@ -14,14 +14,17 @@ class CreateFormationsTable extends Migration
     public function up()
     {
         Schema::create('formations', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->string('titre');
+            $table->string('slug')->unique();
+            $table->double('duration')->default(0);
             $table->longText('description');
             $table->string('image')->nullable();
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('niveau_id')->unsigned();
-            $table->foreign('niveau_id')->references('id')->on('niveaux');
+            $table->unsignedBigInteger('user_id');
+            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('niveau_id');
+            //$table->foreign('niveau_id')->references('id')->on('niveaux')->onDelete('cascade');
             $table->timestamps();
         });
     }

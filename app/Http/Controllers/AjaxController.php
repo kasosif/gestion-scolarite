@@ -9,12 +9,14 @@ use App\Model\Classe;
 use App\Model\Emploi;
 use App\Model\Jour;
 use App\Model\Matiere;
+use App\Model\Niveau;
 use App\Model\Salle;
 use App\Model\Seance;
 use App\Model\Specialite;
 use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class AjaxController extends Controller
@@ -212,5 +214,12 @@ class AjaxController extends Controller
             'matiere' => $matiere->nom,
             'professeur' => $professeur->nom.' '.$professeur->prenom
         ]);
+    }
+
+    public function displayparites($nb) {
+        if ($nb > 10 ) {
+            return 'Nombre maximum';
+        }
+        return view('Ajax.parties',compact('nb'));
     }
 }

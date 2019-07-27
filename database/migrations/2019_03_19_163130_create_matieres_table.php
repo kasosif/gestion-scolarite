@@ -14,12 +14,13 @@ class CreateMatieresTable extends Migration
     public function up()
     {
         Schema::create('matieres', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->string('nom');
             $table->double('coeficient');
             $table->integer('plafond_abscences');
-            $table->integer('niveau_id')->unsigned()->nullable();
-            $table->foreign('niveau_id')->references('id')->on('niveaux');
+            $table->unsignedBigInteger('niveau_id')->nullable();
+            ////$table->foreign('niveau_id')->references('id')->on('niveaux')->onDelete('cascade');
             $table->timestamps();
         });
     }

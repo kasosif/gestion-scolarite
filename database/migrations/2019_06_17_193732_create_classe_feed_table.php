@@ -14,11 +14,12 @@ class CreateClasseFeedTable extends Migration
     public function up()
     {
         Schema::create('classe_feed', function (Blueprint $table) {
+
             $table->bigIncrements('id');
-            $table->integer('classe_id')->unsigned();
-            $table->foreign('classe_id')->references('id')->on('classes');
-            $table->integer('feed_id')->unsigned();
-            $table->foreign('feed_id')->references('id')->on('feeds');
+            $table->unsignedBigInteger('classe_id');
+            //$table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->unsignedBigInteger('feed_id');
+            //$table->foreign('feed_id')->references('id')->on('feeds')->onDelete('cascade');
             $table->timestamps();
         });
     }

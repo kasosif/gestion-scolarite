@@ -14,6 +14,7 @@ class CreatePrivilegesTable extends Migration
     public function up()
     {
         Schema::create('privileges', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->string('titre')->unique();
             $table->timestamps();

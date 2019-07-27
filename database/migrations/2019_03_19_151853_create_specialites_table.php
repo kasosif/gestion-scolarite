@@ -14,13 +14,14 @@ class CreateSpecialitesTable extends Migration
     public function up()
     {
         Schema::create('specialites', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->string('nom');
             $table->string('nom_ar')->nullable();
             $table->string('nom_en')->nullable();
             $table->string('code')->nullable();
-            $table->integer('annee_id')->unsigned()->nullable();
-            $table->foreign('annee_id')->references('id')->on('annees')->onDelete('set null');
+            $table->unsignedBigInteger('annee_id')->nullable();
+            ////$table->foreign('annee_id')->references('id')->on('annees')->onDelete('cascade');
 
             $table->timestamps();
         });

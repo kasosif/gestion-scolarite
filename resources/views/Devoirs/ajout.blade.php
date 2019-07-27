@@ -109,7 +109,7 @@
                                 <div class="input-field form-input">
                                     <input name="date" id= "date_pub" class="validate" type="datetime-local"
                                            min="{{date('Y-m-d\Th:i', strtotime(Carbon\Carbon::now()->toDateTimeString()))}}"
-                                           max="{{date('Y-m-d\Th:i', strtotime($annee->date_fin))}}">
+                                           max="{{date('Y-m-d\Th:i', strtotime($annee->date_fin))}}" required>
                                 </div>
                             </div>
 

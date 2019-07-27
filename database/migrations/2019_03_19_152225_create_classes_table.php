@@ -18,8 +18,8 @@ class CreateClassesTable extends Migration
             $table->integer('promotion');
             $table->string('code')->nullable();
             $table->string('abbreviation')->nullable();
-            $table->integer('niveau_id')->unsigned()->nullable();
-            $table->foreign('niveau_id')->references('id')->on('niveaux')->onDelete('set null');
+            $table->unsignedBigInteger('niveau_id')->nullable();
+            //$table->foreign('niveau_id')->references('id')->on('niveaux')->onDelete('cascade');
             $table->timestamps();
         });
     }

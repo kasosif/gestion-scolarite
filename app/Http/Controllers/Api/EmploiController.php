@@ -32,13 +32,15 @@ class EmploiController extends Controller
                 'seances' => $seances
             ]);
         } else if ($user->role == 'ROLE_PROFESSEUR') {
-            $cases = Emploi::with('matiere','classe','salle')
+            $cases = Emploi::with('matiere','classe.niveau.specialite','salle','seance','jour')
                 ->where('user_id',$user->id)
-                ->whereDate('date_debut','<',$date)
-                ->whereDate('date_fin','>',$date)
+                ->whereDate('date_debut','<=',$date)
+                ->whereDate('date_fin','>=',$date)
                 ->get();
             return response()->json([
-                'emplois'=>$cases
+                'cases'=>$cases,
+                'jours' => $jours,
+                'seances' => $seances
             ]);
         }
         return response()->json(['error' => 'Unauthorized'], 401);

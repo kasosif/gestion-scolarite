@@ -151,6 +151,17 @@ Route::group(['middleware' => 'auth'], function() {
     Route::put('/notes/update/{id}', 'NoteController@update')->name('note.update');
     Route::delete('/notes/destroy/{id?}', 'NoteController@destroy')->name('note.destroy');
 
+    //formations
+
+    Route::get('/formations/', 'FormationController@index')->name('formation.index');
+    Route::get('/formations/ajout', 'FormationController@create')->name('formation.ajout');
+    Route::post('/formations/store', 'FormationController@store')->name('formation.store');
+    Route::get('/formations/edit/{id}', 'FormationController@edit')->name('formation.edit');
+    Route::get('/formations/show/{id}', 'FormationController@show')->name('formation.show');
+    Route::get('/formations/view/{uuid}', 'FormationController@view')->name('formation.view');
+    Route::put('/formations/update/{id}', 'FormationController@update')->name('formation.update');
+    Route::delete('/formations/destroy/{id?}', 'FormationController@destroy')->name('formation.destroy');
+
     //abscences
 
     Route::get('/abscences/', 'AbscenceController@index')->name('abscence.index');
@@ -158,7 +169,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/abscences/store', 'AbscenceController@store')->name('abscence.store');
     Route::delete('/abscences/destroy/{id?}', 'AbscenceController@destroy')->name('abscence.destroy');
 
-    //années
+    //niveaux
 
     Route::get('/niveaux/', 'NiveauController@index')->name('niveau.index');
     Route::get('/niveaux/ajout', 'NiveauController@create')->name('niveau.ajout');
@@ -183,6 +194,7 @@ Route::group(['middleware' => 'auth'], function() {
     //demandes
     Route::get('/demandes/', 'DemandeController@index')->name('demande.index');
     Route::patch('/demandes/treat/{demande_id?}', 'DemandeController@treat')->name('demande.treat');
+    Route::delete('/demandes/destroy/{demande_id?}', 'DemandeController@destroy')->name('demande.destroy');
 
     //ajax
     Route::get('/ajax/classes/{spec_id?}', 'AjaxController@classsesBySpecialite')->name('ajax.classesbyspec');
@@ -198,6 +210,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/ajax/devoirs/{classe_id?}', 'AjaxController@devoirsByClasse')->name('ajax.devoirsbyclasse');
     Route::get('/ajax/datesemplois/{annee_id?}/{classe_id?}', 'AjaxController@datesforEmploi')->name('ajax.datesforemploi');
     Route::post('/ajax/displayemploi', 'AjaxController@displayemploi')->name('ajax.displayemploi');
-
+    Route::get('/ajax/displayparites/{nb?}', 'AjaxController@displayparites')->name('ajax.displayparites');
 });
 

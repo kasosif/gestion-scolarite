@@ -10,15 +10,20 @@ use Illuminate\Notifications\Messages\MailMessage;
 class FormationAdded extends Notification
 {
     use Queueable;
+    protected $icone;
+    protected $formation;
+    protected $texte;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($icone, $formation, $texte)
     {
-        //
+        $this->icone = $icone;
+        $this->formation = $formation;
+        $this->texte = $texte;
     }
 
     /**
@@ -27,9 +32,9 @@ class FormationAdded extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via()
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -55,7 +60,9 @@ class FormationAdded extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'icone' => $this->icone,
+            'devoir' => $this->formation->titre,
+            'texte' => $this->texte,
         ];
     }
 }

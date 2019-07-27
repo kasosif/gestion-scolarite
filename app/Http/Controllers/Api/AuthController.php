@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -30,7 +31,8 @@ class AuthController extends Controller
             return response()->json(['error' => 'Log in through admin interface'], 200);
 
         }
-        return $this->respondWithToken($token);
+        $role = auth('api')->user()->role;
+        return $this->respondWithToken($token, $role);
     }
 
     public function logout()
@@ -57,9 +59,10 @@ class AuthController extends Controller
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
-    protected function respondWithToken($token)
+    protected function respondWithToken($token, $role)
     {
         return response()->json([
+            'role' => $role,
             'access_token' => $token,
             'token_type'   => 'bearer',
             'expires_in'   => auth('api')->factory()->getTTL() * 60

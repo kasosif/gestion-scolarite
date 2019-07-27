@@ -359,6 +359,14 @@
                             </a>
                         </li>
                     @endcan
+                    {{--@can('view',App\Model\Formation::class)--}}
+                        <li @yield('formationactive')>
+                            <a href="{{route('formation.index')}}">
+                                <i class="material-icons">play_arrow</i>
+                                Formations
+                            </a>
+                        </li>
+                    {{--@endcan--}}
                     @if(Auth::user()->role == 'ROLE_ADMIN')
                         <li @yield('accesactive')>
                             <a href="{{route('employe.index')}}">

@@ -14,13 +14,14 @@ class CreateProgressionEtudiantsTable extends Migration
     public function up()
     {
         Schema::create('progression_etudiants', function (Blueprint $table) {
+
             $table->bigIncrements('id');
-            $table->string('time');
+            $table->double('time');
             $table->double('progress');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('partieformation_id')->unsigned();
-            $table->foreign('partieformation_id')->references('id')->on('partieformations');
+            $table->unsignedBigInteger('user_id');
+            //$table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('partie_formation_id');
+            //$table->foreign('partie_formation_id')->references('id')->on('partieformations')->onDelete('cascade');
             $table->timestamps();
         });
     }

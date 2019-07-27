@@ -14,6 +14,7 @@ class CreateAnneesTable extends Migration
     public function up()
     {
         Schema::create('annees', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->string('nom');
             $table->string('nom_ar')->nullable();

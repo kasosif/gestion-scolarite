@@ -14,10 +14,11 @@ class CreateNiveauxTable extends Migration
     public function up()
     {
         Schema::create('niveaux', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->string('nom');
-            $table->integer('specialite_id')->unsigned()->nullable();
-            $table->foreign('specialite_id')->references('id')->on('specialites')->onDelete('cascade');
+            $table->unsignedBigInteger('specialite_id')->nullable();
+            //$table->foreign('specialite_id')->references('id')->on('specialites')->onDelete('cascade');
             $table->timestamps();
         });
     }

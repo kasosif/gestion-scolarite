@@ -14,6 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->string('cin',8)->unique();
             $table->string('email')->unique();
@@ -32,8 +33,8 @@ class CreateUsersTable extends Migration
             $table->string('lieu_naissance_en')->nullable();
             $table->date('date_naissance');
             $table->string('role');
-            $table->integer('classe_id')->unsigned()->nullable();
-            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('set null');
+            $table->unsignedBigInteger('classe_id');
+            ////$table->foreign('classe_id')->references('id')->on('classes');
             $table->rememberToken();
             $table->timestamps();
         });

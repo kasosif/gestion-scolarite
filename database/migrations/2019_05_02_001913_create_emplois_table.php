@@ -14,24 +14,25 @@ class CreateEmploisTable extends Migration
     public function up()
     {
         Schema::create('emplois', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->date('date_debut');
             $table->date('date_fin');
             $table->string('semaine');
-            $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('classe_id')->unsigned();
-            $table->foreign('classe_id')->references('id')->on('classes');
-            $table->integer('matiere_id')->unsigned()->nullable();
-            $table->foreign('matiere_id')->references('id')->on('matieres');
-            $table->integer('salle_id')->unsigned()->nullable();
-            $table->foreign('salle_id')->references('id')->on('salles');
-            $table->integer('jour_id')->unsigned();
-            $table->foreign('jour_id')->references('id')->on('jours');
-            $table->integer('seance_id')->unsigned();
-            $table->foreign('seance_id')->references('id')->on('seances');
-            $table->integer('semestre_id')->unsigned()->nullable();
-            $table->foreign('semestre_id')->references('id')->on('semestres');
+            $table->unsignedBigInteger('user_id')->nullable();
+            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('classe_id');
+            //$table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->unsignedBigInteger('matiere_id')->nullable();
+            //$table->foreign('matiere_id')->references('id')->on('matieres')->onDelete('cascade');
+            $table->unsignedBigInteger('salle_id')->nullable();
+            //$table->foreign('salle_id')->references('id')->on('salles')->onDelete('cascade');
+            $table->unsignedBigInteger('jour_id');
+            //$table->foreign('jour_id')->references('id')->on('jours')->onDelete('cascade');
+            $table->unsignedBigInteger('seance_id');
+            //$table->foreign('seance_id')->references('id')->on('seances')->onDelete('cascade');
+            $table->unsignedBigInteger('semestre_id')->nullable();
+            //$table->foreign('semestre_id')->references('id')->on('semestres')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -26,6 +26,10 @@ class Classe extends Model
         return $this->hasMany(User::class);
     }
 
+    public function abscences() {
+        return $this->hasMany(Abscence::class);
+    }
+
     public function feeds() {
         return $this->belongsToMany(Feed::class);
     }

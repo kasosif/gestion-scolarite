@@ -14,11 +14,12 @@ class CreatePrivilegeUserTable extends Migration
     public function up()
     {
         Schema::create('privilege_user', function (Blueprint $table) {
+
             $table->increments('id');
-            $table->integer('privilege_id')->unsigned();
-            $table->foreign('privilege_id')->references('id')->on('privileges');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('privilege_id');
+            //$table->foreign('privilege_id')->references('id')->on('privileges')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -14,6 +14,7 @@ class CreateSeancesTable extends Migration
     public function up()
     {
         Schema::create('seances', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->time('heure_debut');
             $table->time('heure_fin');

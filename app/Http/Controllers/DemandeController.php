@@ -21,4 +21,10 @@ class DemandeController extends Controller
         $demande->delete();
         return redirect()->route('demande.index')->with('success','Demande traité');
     }
+
+    public function destroy($demande_id) {
+        $demande = Demande::find($demande_id);
+        $demande->delete();
+        return redirect()->route('demande.index')->with('success','Demande Supprimé');
+    }
 }

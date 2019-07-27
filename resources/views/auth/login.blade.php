@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="{{asset('assets/dist/img/ico/fav.png')}}">
     <title>Gestion Scolarite - Connexion</title>
     <!-- Favicon and touch icons -->
 
@@ -28,8 +30,8 @@
 <div class="container sign-cont animated zoomIn">
     <div class="row sign-row">
         <div class="sign-title">
+            <center><img src="{{asset('assets/dist/img/logo3.png')}}" alt="logo"></center>
             <h2 class="teal-text"><i class="fa fa-user-circle-o"></i></h2>
-            <h2 class="teal-text">Gestion Scolarite</h2>
         </div>
 
         <form class="col s12" id="reg-form" method="POST" action="{{ route('login') }}">
@@ -38,13 +40,13 @@
 
                 <div class="input-field col s12">
                     <input id="u_name" type="email"  name="email" value="{{ old('email') }}" class="validate {{ $errors->has('email') ? ' is-invalid' : '' }}" required autofocus>
-                    <label for="u_name">{{ __('E-Mail Address') }}</label>
+                    <label for="u_name">{{ __('Adresse E-mail') }}</label>
                 </div>
             </div>
             <div class="row sign-row">
                 <div class="input-field col s12">
                     <input name="password" id="password" type="password" class="validate {{ $errors->has('password') ? ' is-invalid' : '' }}" required>
-                    <label for="password">{{ __('Password') }}</label>
+                    <label for="password">{{ __('Mot de Passe') }}</label>
                 </div>
             </div>
             @if (Route::has('password.request'))
@@ -52,7 +54,7 @@
                     <div class="input-field col s12 m-b-30">
                         <label class="pull-left">
                             <a class='pink-text' href="{{ route('password.request') }}">
-                                <b>{{ __('Forgot Your Password?') }}</b>
+                                <b>{{ __('Mot de passe Oublié?') }}</b>
                             </a>
                         </label>
                     </div>
@@ -62,11 +64,11 @@
                 <div class="input-field col s6">
                     <div class="sign-confirm">
                         <input type="checkbox" id="sign-confirm" name="remember" {{ old('remember') ? 'checked' : '' }}/>
-                        <label for="sign-confirm">{{ __('Remember Me') }}</label>
+                        <label for="sign-confirm">{{ __('Se souvenir de moi') }}</label>
                     </div>
                 </div>
                 <div class="input-field col s6">
-                    <button class="btn btn-large btn-register waves-effect waves-light green" type="submit" name="action">Login
+                    <button class="btn btn-large btn-register waves-effect waves-light green" type="submit" name="action">Se Connecter
                         <i class="material-icons right">done_all</i>
                     </button>
                 </div>
@@ -105,6 +107,13 @@
         iziToast.warning({
             title: 'Non Autorisé',
             message: '{{ $errors->first("email") }}',
+            position: 'topCenter'
+        });
+        @endif
+        @if (session()->has('status'))
+        iziToast.success({
+            title: 'Succees',
+            message: '{{ Session::get('status') }}',
             position: 'topCenter'
         });
         @endif
