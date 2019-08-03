@@ -26,12 +26,8 @@ class DevoirPolicy
      */
     public function view(User $user, Devoir $devoir = null)
     {
-        $pass = false;
-        if ($devoir){
-            $pass = $user->id == $devoir->matiere->user->id;
-        }
         $privilege = Privilege::where('titre','view_devoirs')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 
     /**
@@ -53,12 +49,8 @@ class DevoirPolicy
      */
     public function update(User $user, Devoir $devoir = null)
     {
-        $pass = false;
-        if ($devoir){
-            $pass = $user->id == $devoir->matiere->user->id;
-        }
         $privilege = Privilege::where('titre','update_devoirs')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 
     /**
@@ -69,11 +61,7 @@ class DevoirPolicy
      */
     public function delete(User $user, Devoir $devoir = null)
     {
-        $pass = false;
-        if ($devoir){
-            $pass = $user->id == $devoir->matiere->user->id;
-        }
         $privilege = Privilege::where('titre','delete_devoirs')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 }

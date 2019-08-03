@@ -10,6 +10,7 @@ use App\Notifications\FormationAdded;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use JWTAuth;
 use Webpatser\Uuid\Uuid;
 
 class FormationController extends Controller
@@ -104,23 +105,34 @@ class FormationController extends Controller
                     'message' => 'Donnée(s) Incorrecte(s)'
                 ]);
             }
-            ProgressionEtudiant::updateOrCreate(
+            $progress = ProgressionEtudiant::updateOrCreate(
                 ['user_id' => $user->id, 'partie_formation_id' => $request->get('partie')],
                 ['progress' => $request->get('progress'), 'time' => $request->get('time')]
             );
             return response()->json([
-                'message' => 'Progrées enregistré'
+                'progress' => $progress
             ]);
         }
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
-    public function view($uuid)
+    public function view(Request $request, $uuid)
     {
-        $partieformation = PartieFormation::where('uuid',$uuid)->first();
-        $pathToFile = storage_path('app/formations/' . $partieformation->cover);
-        return response()->file($pathToFile);
-
+        if ($request->query->get('token')){
+            try {
+                $user = JWTAuth::parseToken()->toUser();
+                $partieformation = PartieFormation::where('uuid',$uuid)->first();
+                if (($user->id == $partieformation->formation->user_id) || ($user->classe->niveau_id == $partieformation->formation->niveau_id)) {
+                    $pathToFile = storage_path('app/formations/' . $partieformation->cover);
+                    return response()->file($pathToFile);
+                } else {
+                    return response()->file(public_path('108944745.mp4'));
+                }
+            }catch (\Exception $e) {
+                return response()->file(public_path('108944745.mp4'));
+            }
+        }
+        return response()->file(public_path('108944745.mp4'));
     }
 
     public function add(Request $request) {

@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('devoir.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Un Devoir</a>
-        </div>
+        @can('create', \App\Model\Devoir::class)
+            <div class="row">
+                <a href="{{route('devoir.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Un Devoir</a>
+            </div>
+        @endcan
         <div class="row">
             @if($devoirs->count() != 0)
                 <div class="card">
@@ -66,8 +68,12 @@
                                             {{$devoir->date}}
                                         </td>
                                         <td>
-                                            <a href="{{route('devoir.edit',['id' => $devoir->id])}}" class="btn btn-primary w-md">Modif/Info</a>
-                                            <button onclick="deleteDevoir('{{$devoir->id}}','{{$devoir->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('update', $devoir)
+                                                <a href="{{route('devoir.edit',['id' => $devoir->id])}}" class="btn btn-primary w-md">Modif/Info</a>
+                                            @endcan
+                                            @can('delete', $devoir)
+                                                <button onclick="deleteDevoir('{{$devoir->id}}','{{$devoir->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

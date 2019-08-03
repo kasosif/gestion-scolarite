@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Model\Privilege;
 use App\Model\User;
 use App\Model\Note;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -26,7 +27,9 @@ class NotePolicy
      */
     public function view(User $user, Note $note = null)
     {
-        return true;
+        $privilege = Privilege::where('titre','view_notes')->first();
+        return $user->privileges->contains($privilege->id);
+
     }
 
     /**
@@ -37,7 +40,8 @@ class NotePolicy
      */
     public function create(User $user)
     {
-        return true;
+        $privilege = Privilege::where('titre','create_notes')->first();
+        return $user->privileges->contains($privilege->id);
     }
 
     /**
@@ -49,7 +53,8 @@ class NotePolicy
      */
     public function update(User $user, Note $note)
     {
-        return true;
+        $privilege = Privilege::where('titre','update_notes')->first();
+        return $user->privileges->contains($privilege->id);
     }
 
     /**
@@ -61,6 +66,7 @@ class NotePolicy
      */
     public function delete(User $user, Note $note)
     {
-        return true;
+        $privilege = Privilege::where('titre','delete_notes')->first();
+        return $user->privileges->contains($privilege->id);
     }
 }

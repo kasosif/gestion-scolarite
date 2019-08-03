@@ -29,9 +29,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('feed.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Une Actualitée</a>
-        </div>
+        @can('create',\App\Model\Feed::class)
+            <div class="row">
+                <a href="{{route('feed.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Une Actualitée</a>
+            </div>
+        @endcan
         <div class="row">
             @if($feeds->count() != 0)
                 <div class="card">
@@ -59,8 +61,12 @@
                                             {{$feed->date}}
                                         </td>
                                         <td>
-                                            <a href="{{route('feed.edit',['id' => $feed->id])}}" class="btn btn-primary w-md">Modif/Info</a>
-                                            <button onclick="deleteFeed('{{$feed->id}}','{{$feed->titre}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('update',$feed)
+                                                <a href="{{route('feed.edit',['id' => $feed->id])}}" class="btn btn-primary w-md">Modif/Info</a>
+                                            @endcan
+                                            @can('delete',$feed)
+                                                <button onclick="deleteFeed('{{$feed->id}}','{{$feed->titre}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

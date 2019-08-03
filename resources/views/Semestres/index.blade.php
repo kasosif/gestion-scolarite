@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('semestre.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Semestre</a>
-        </div>
+        @can('create',\App\Model\Semestre::class)
+            <div class="row">
+                <a href="{{route('semestre.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Semestre</a>
+            </div>
+        @endcan
         <div class="row">
             @if($semestres->count() != 0)
                 <div class="card">
@@ -58,9 +60,13 @@
                                             {{$semestre->nom}}
                                         </td>
                                         <td>
-                                            <a href="{{route('semestre.edit',['id' => $semestre->id])}}" class="btn btn-primary w-md">Modif</a>
+                                            @can('update',$semestre)
+                                                <a href="{{route('semestre.edit',['id' => $semestre->id])}}" class="btn btn-primary w-md">Modif</a>
+                                            @endcan
                                             <a href="{{route('semestre.show',['id' => $semestre->id])}}" class="btn btn-warning w-md">Info</a>
-                                            <button onclick="deleteRessource('{{$semestre->id}}','{{$semestre->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('delete',$semestre)
+                                                <button onclick="deleteRessource('{{$semestre->id}}','{{$semestre->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

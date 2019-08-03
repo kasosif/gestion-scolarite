@@ -20,6 +20,7 @@ class MatiereController extends Controller
      */
     public function index()
     {
+        $this->authorize('view', Matiere::class);
         $matieres = Matiere::all();
         return view('Matieres.index',['matieres'=>$matieres]);
     }
@@ -31,6 +32,7 @@ class MatiereController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Matiere::class);
         $specs = Specialite::all();
         return view('Matieres.ajout',compact('specs'));
     }
@@ -43,6 +45,7 @@ class MatiereController extends Controller
      */
     public function store(MatiereRequest $request)
     {
+        $this->authorize('create', Matiere::class);
         Matiere::create($request->all());
         return redirect()->route('matiere.index')->with('success','Matiere Ajouté');
     }
@@ -56,6 +59,7 @@ class MatiereController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('view', Matiere::class);
         $matiere = Matiere::findorFail($id);
         return view('Matieres.show',compact('matiere'));
     }
@@ -69,6 +73,7 @@ class MatiereController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('update', Matiere::class);
         $specs = Specialite::all();
         $matiere = Matiere::findorFail($id);
         return view('Matieres.modif',compact('matiere','specs'));
@@ -83,6 +88,7 @@ class MatiereController extends Controller
      */
     public function update(MatiereRequest $request, $id)
     {
+        $this->authorize('update', Matiere::class);
         $matiere = Matiere::findorFail($id);
         $matiere->update($request->all());
         return redirect()->route('matiere.index')->with('success','Matiere Modifié');
@@ -97,6 +103,7 @@ class MatiereController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', Matiere::class);
         $matiere = Matiere::findorFail($id);
         $matiere->delete();
         return redirect()->route('matiere.index')->with('success','Matiere Supprimé');

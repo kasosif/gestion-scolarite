@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('seance.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Seance</a>
-        </div>
+        @can('create', \App\Model\Seance::class)
+            <div class="row">
+                <a href="{{route('seance.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Seance</a>
+            </div>
+        @endcan
         <div class="row">
             @if($seances->count() != 0)
                 <div class="card">
@@ -58,8 +60,12 @@
                                             {{date('H:i', strtotime($seance->heure_debut))}} => {{date('H:i', strtotime($seance->heure_fin))}}
                                         </td>
                                         <td>
-                                            <a href="{{route('seance.edit',['id' => $seance->id])}}" class="btn btn-primary w-md">Modif/Info</a>
-                                            <button onclick="deleteRessource('{{$seance->id}}','{{date('H:i', strtotime($seance->heure_debut))}} => {{date('H:i', strtotime($seance->heure_fin))}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('update', $seance)
+                                                <a href="{{route('seance.edit',['id' => $seance->id])}}" class="btn btn-primary w-md">Modif/Info</a>
+                                            @endcan
+                                            @can('delete', $seance)
+                                                <button onclick="deleteRessource('{{$seance->id}}','{{date('H:i', strtotime($seance->heure_debut))}} => {{date('H:i', strtotime($seance->heure_fin))}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

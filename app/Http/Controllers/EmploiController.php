@@ -18,13 +18,12 @@ use PDF;
 
 class EmploiController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('admin');
-    }
-
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index(){
+        $this->authorize('view', Emploi::class);
         $classes = DB::table('classes')
             ->select('annees.id as annee_id','annees.nom','annees.date_debut','annees.date_fin','classes.*')
             ->join('niveaux','classes.niveau_id','=','niveaux.id')
@@ -35,7 +34,13 @@ class EmploiController extends Controller
         return view('Emplois.index',compact('classes','annees'));
     }
 
+    /**
+     * @param $classe_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function emploisClasse($classe_id){
+        $this->authorize('view', Emploi::class);
         $classe = Classe::find($classe_id);
         $emplois = DB::table('emplois')
             ->select('semaine','classe_id','date_debut','date_fin')
@@ -45,12 +50,23 @@ class EmploiController extends Controller
         return view('Emplois.classe',compact('classe','emplois'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function create() {
+        $this->authorize('create', Emploi::class);
         $annees = Annee::all();
         return view('Emplois.create',compact('seances','jours','affectations','professeurs','salles','annees'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function store(Request $request) {
+        $this->authorize('create', Emploi::class);
         $jours = Jour::all();
         $seances = Seance::all();
         $select=$request->get('mat');
@@ -102,8 +118,15 @@ class EmploiController extends Controller
 
     }
 
+    /**
+     * @param $classe_id
+     * @param $dateD
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function show($classe_id,$dateD)
     {
+        $this->authorize('view', Emploi::class);
         $classe = Classe::find($classe_id);
         $jours = Jour::all();
         $seances = Seance::all();
@@ -114,7 +137,14 @@ class EmploiController extends Controller
         return view('Emplois.show', compact('pagination','jours','classe','dateD','dateF','seances','titre_semaine'));
     }
 
+    /**
+     * @param $classe_id
+     * @param $dateD
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function edit($classe_id,$dateD){
+        $this->authorize('update', Emploi::class);
         $classe = Classe::find($classe_id);
         $jours = Jour::all();
         $seances = Seance::all();
@@ -127,7 +157,14 @@ class EmploiController extends Controller
         return view('Emplois.edit', compact('emplois','affectations','salles','jours','classe','dateD','dateF','seances','titre_semaine'));
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update(Request $request){
+        $this->authorize('update', Emploi::class);
         $jours = Jour::all();
         $seances = Seance::all();
         $select=$request->get('mat');
@@ -182,8 +219,16 @@ class EmploiController extends Controller
         return redirect()->route('emplois.classe',['classe_id'=>$classe->id])->with('success','Emploi modifié avec success');
     }
 
+    /**
+     * @param $classe_id
+     * @param $dateD
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+
     public function printWeek($classe_id,$dateD)
     {
+        $this->authorize('view', Emploi::class);
         $classe = Classe::find($classe_id);
         $jours = Jour::all();
         $seances = Seance::all();
@@ -198,7 +243,15 @@ class EmploiController extends Controller
 
     }
 
+    /**
+     * @param $classe_id
+     * @param $dateD
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+
     public function destroy($classe_id,$dateD){
+        $this->authorize('delete', Emploi::class);
         if ($classe_id && $dateD){
             DB::table('emplois')->where('classe_id',$classe_id)->where('date_debut',$dateD)->delete();
             return redirect()->route('emplois.classe',['classe_id'=>$classe_id])->with('success','Emploi Supprimé avec success');

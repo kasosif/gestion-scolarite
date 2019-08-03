@@ -28,15 +28,8 @@ class AbscencePolicy
      */
     public function view(User $user, Abscence $model = null)
     {
-        $pass = false;
-        if ($model){
-            $matiere = $model->matiere;
-            $etudiant = $model->user;
-            $classe = $etudiant->classe;
-            $pass = ($user->id == $etudiant->id) || (Affectation::where('matiere_id',$matiere->id)->where('classe_id',$classe->id)->where('user_id',$user->id)->count());
-        }
         $privilege = Privilege::where('titre','view_abscences')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 
 
@@ -47,25 +40,8 @@ class AbscencePolicy
      */
     public function create(User $user)
     {
-
         $privilege = Privilege::where('titre','create_abscences')->first();
         return ($user->privileges->contains($privilege->id)) || ($user->role == 'ROLE_PROFESSEUR');
-    }
-
-    /**
-     * Determine whether the user can update the abscence.
-     * @param \App\Model\User $user
-     * @param \App\Model\Abscence $model
-     * @return mixed
-     */
-    public function update(User $user,Abscence $model)
-    {
-        $pass = false;
-        if($model){
-            $pass =  $user->id == $model->matiere->user->id;
-        }
-        $privilege = Privilege::where('titre','update_abscences')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
     }
 
     /**
@@ -76,15 +52,8 @@ class AbscencePolicy
      */
     public function delete(User $user, Abscence $model)
     {
-        $pass = false;
-        if ($model){
-            $matiere = $model->matiere;
-            $etudiant = $model->user;
-            $classe = $etudiant->classe;
-            $pass = Affectation::where('matiere_id',$matiere->id)->where('classe_id',$classe->id)->where('user_id',$user->id)->count();
-        }
         $privilege = Privilege::where('titre','delete_abscences')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 
 

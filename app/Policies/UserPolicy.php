@@ -26,12 +26,8 @@ class UserPolicy
      */
     public function viewEtudiant(User $user, User $model = null)
     {
-        $pass = false;
-        if ($model){
-            $pass =  $user->id == $model->id;
-        }
         $privilege = Privilege::where('titre','view_etudiants')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 
     /**
@@ -42,9 +38,6 @@ class UserPolicy
      */
     public function viewProfesseur(User $user, User $model = null)
     {
-        if ($model){
-            return $user->id == $model->id;
-        }
         $privilege = Privilege::where('titre','view_professeurs')->first();
         return $user->privileges->contains($privilege->id);
     }
@@ -69,12 +62,8 @@ class UserPolicy
      */
     public function updateEtudiant(User $user, User $model = null)
     {
-        $pass = false;
-        if ($model){
-            $pass = $user->id == $model->id;
-        }
         $privilege = Privilege::where('titre','update_etudiants')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 
     /**
@@ -110,12 +99,8 @@ class UserPolicy
      */
     public function updateProfesseur(User $user, User $model)
     {
-        $pass = false;
-        if ($model){
-            $pass = $user->id == $model->id;
-        }
         $privilege = Privilege::where('titre','update_professeurs')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 
     /**
@@ -128,6 +113,38 @@ class UserPolicy
         $privilege = Privilege::where('titre','delete_professeurs')->first();
         return $user->privileges->contains($privilege->id);
     }
+
+    public function generatePresence(User $user)
+    {
+        $privilege = Privilege::where('titre','generate_presence')->first();
+        return $user->privileges->contains($privilege->id);
+    }
+
+    /**
+     * Determine whether the user can update the professeur.
+     *
+     * @param  \App\Model\User  $user
+     * @param  \App\Model\User  $model
+     * @return mixed
+     */
+    public function generateInscription(User $user, User $model)
+    {
+        $privilege = Privilege::where('titre','generate_inscription')->first();
+        return ($user->privileges->contains($privilege->id));
+    }
+
+    /**
+     * Determine whether the user can delete the professeur.
+     * @param  \App\Model\User  $user
+     * @return mixed
+     */
+    public function generateReussite(User $user)
+    {
+        $privilege = Privilege::where('titre','generate_reussite')->first();
+        return $user->privileges->contains($privilege->id);
+    }
+
+
 
 
 

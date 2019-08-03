@@ -359,14 +359,14 @@
                             </a>
                         </li>
                     @endcan
-                    {{--@can('view',App\Model\Formation::class)--}}
+                    @can('view',App\Model\Formation::class)
                         <li @yield('formationactive')>
                             <a href="{{route('formation.index')}}">
                                 <i class="material-icons">play_arrow</i>
                                 Formations
                             </a>
                         </li>
-                    {{--@endcan--}}
+                    @endcan
                     @if(Auth::user()->role == 'ROLE_ADMIN')
                         <li @yield('accesactive')>
                             <a href="{{route('employe.index')}}">
@@ -378,18 +378,22 @@
                     <li @yield('emploisactive')>
                         <a><i class="fa fa-calendar"></i>Emplois Du temps <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li @yield('emploisajoutactive')><a href="{{route('emplois.create')}}" >Ajouter Un Emploi</a></li>
-                            <li @yield('emploislisteactive')><a href="{{route('emplois.classes')}}">Liste des Emplois</a></li>
+                            @can('create',App\Model\Emploi::class)
+                                <li @yield('emploisajoutactive')><a href="{{route('emplois.create')}}" >Ajouter Un Emploi</a></li>
+                            @endcan
+                            @can('view',App\Model\Emploi::class)
+                                <li @yield('emploislisteactive')><a href="{{route('emplois.classes')}}">Liste des Emplois</a></li>
+                            @endcan
                         </ul>
                     </li>
-                    {{--@can('view',App\Model\Demande::class)--}}
+                    @can('view',App\Model\Demande::class)
                         <li @yield('demandeactive')>
                             <a href="{{route('demande.index')}}">
                                 <i class="material-icons">picture_in_picture</i>
                                 Demandes
                             </a>
                         </li>
-                    {{--@endcan--}}
+                    @endcan
                     <li @yield('parametreactive')>
                         <a><i class="material-icons">settings</i>Paramètres<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">

@@ -33,9 +33,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('note.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Note</a>
-        </div>
+        @can('create',\App\Model\Note::class)
+            <div class="row">
+                <a href="{{route('note.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Note</a>
+            </div>
+        @endcan
         <div class="row">
             <form action="{{route('note.index')}}" method="GET">
                 <div class="card">

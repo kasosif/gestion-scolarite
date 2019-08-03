@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('professeur.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Professeur</a>
-        </div>
+        @can('createProfesseur', \App\Model\User::class)
+            <div class="row">
+                <a href="{{route('professeur.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Professeur</a>
+            </div>
+        @endcan
         <div class="row">
             @if($professeurs->count() != 0)
                 <div class="card">
@@ -78,8 +80,12 @@
                                             {{$professeur->gendre  === "male" ? "Homme" : "Femme"}}
                                         </td>
                                         <td>
-                                            <a href="{{route('professeur.edit',['cin' => $professeur->cin])}}" class="btn btn-primary w-md">Modif/Info</a>
-                                            <button onclick="deleteUser({{$professeur->cin}})" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('updateProfesseur',$professeur)
+                                                <a href="{{route('professeur.edit',['cin' => $professeur->cin])}}" class="btn btn-primary w-md">Modif/Info</a>
+                                            @endcan
+                                            @can('deleteProfesseur',$professeur)
+                                                <button onclick="deleteUser({{$professeur->cin}})" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

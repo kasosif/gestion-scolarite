@@ -27,12 +27,8 @@ class MatierePolicy
      */
     public function view(User $user,Matiere $matiere = null)
     {
-        $pass = false;
-        if ($matiere){
-            $pass = ($matiere->classe->contains($user->id)) || ($user->id == $matiere->user->id);
-        }
         $privilege = Privilege::where('titre','view_matieres')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 
     /**
@@ -54,12 +50,8 @@ class MatierePolicy
      */
     public function update(User $user,Matiere $matiere = null)
     {
-        $pass = false;
-        if ($matiere){
-            $pass = $user->id == $matiere->user->id;
-        }
         $privilege = Privilege::where('titre','update_matieres')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 
     /**

@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('salle.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Salle</a>
-        </div>
+        @can('create', \App\Model\Salle::class)
+            <div class="row">
+                <a href="{{route('salle.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Salle</a>
+            </div>
+        @endcan
         <div class="row">
             @if($salles->count() != 0)
                 <div class="card">
@@ -58,8 +60,12 @@
                                             {{$salle->nom}}
                                         </td>
                                         <td>
+                                            @can('update', $salle)
                                             <a href="{{route('salle.edit',['id' => $salle->id])}}" class="btn btn-primary w-md">Modif/Info</a>
+                                            @endcan
+                                            @can('delete', $salle)
                                             <button onclick="deleteRessource('{{$salle->id}}','{{$salle->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                        @endcan
                                         </td>
                                     </tr>
                                 @endforeach

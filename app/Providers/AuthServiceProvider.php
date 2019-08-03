@@ -5,8 +5,11 @@ namespace App\Providers;
 use App\Model\Abscence;
 use App\Model\Annee;
 use App\Model\Classe;
+use App\Model\Demande;
 use App\Model\Devoir;
+use App\Model\Emploi;
 use App\Model\Feed;
+use App\Model\Formation;
 use App\Model\Matiere;
 use App\Model\Niveau;
 use App\Model\Note;
@@ -18,8 +21,11 @@ use App\Model\User;
 use App\Policies\AbscencePolicy;
 use App\Policies\AnneePolicy;
 use App\Policies\ClassePolicy;
+use App\Policies\DemandePolicy;
 use App\Policies\DevoirPolicy;
+use App\Policies\EmploiPolicy;
 use App\Policies\FeedPolicy;
+use App\Policies\FormationPolicy;
 use App\Policies\MatierePolicy;
 use App\Policies\NiveauPolicy;
 use App\Policies\NotePolicy;
@@ -52,6 +58,9 @@ class AuthServiceProvider extends ServiceProvider
         Abscence::class => AbscencePolicy::class,
         Niveau::class => NiveauPolicy::class,
         Note::class => NotePolicy::class,
+        Formation::class => FormationPolicy::class,
+        Emploi::class => EmploiPolicy::class,
+        Demande::class => DemandePolicy::class,
     ];
 
     /**

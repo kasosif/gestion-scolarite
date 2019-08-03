@@ -8,6 +8,7 @@ use App\Model\Abscence;
 use App\Model\Annee;
 use App\Model\Seance;
 use App\Model\User;
+use App\Notifications\MissedAdded;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ class AbscenceController extends Controller
     {
         $this->authorize('view', Abscence::class);
         $annees = Annee::all();
-        $abscences = false;
+        $abscences = Abscence::take(5)->get();
         if ($user_id = $request->query('user_id')) {
             $query = Abscence::where('user_id',$user_id);
             if ($date = $request->query('date'))
@@ -64,13 +65,14 @@ class AbscenceController extends Controller
                 if (in_array($user,$request->get('justifie')))
                     $justifie = true;
             }
-            Abscence::create([
+            $abscence = Abscence::create([
                 'date' => $request->get('date'),
                 'justifie' => $justifie,
                 'user_id' => $user,
                 'matiere_id' => $request->get('matiere_id'),
                 'seance_id' => $request->get('seance_id'),
             ]);
+            $abscence->user->notify(new MissedAdded('icon-clock', $abscence->seance, 'Vous étiez absent le '.$request->get('date')));
         }
         return redirect()->route('abscence.index')->with('success','Abscence(s) Ajoutée');
     }

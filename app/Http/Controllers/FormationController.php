@@ -14,12 +14,22 @@ use Webpatser\Uuid\Uuid;
 
 class FormationController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index() {
+        $this->authorize('view', Formation::class);
         $formations = Formation::all();
         return view('Formations.index',compact('formations'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function create() {
+        $this->authorize('create', Formation::class);
         $users = User::where('role', 'ROLE_PROFESSEUR')->get();
         $niveaux = Niveau::all();
         return view('Formations.ajout', compact('users','niveaux'));
@@ -28,9 +38,11 @@ class FormationController extends Controller
     /**
      * @param FormationRequest $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \getid3_exception
      */
     public function store(FormationRequest $request) {
+        $this->authorize('create', Formation::class);
         $params = [];
         if ($image = $request->files->get('image')) {
             $destinationPath = 'images/formations/'; // upload path
@@ -71,14 +83,30 @@ class FormationController extends Controller
         return redirect()->route('formation.index')->with('success','Formation Ajoutée');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+
     public function edit($id) {
+        $this->authorize('update', Formation::class);
         $formation = Formation::findOrFail($id);
         $users = User::where('role', 'ROLE_PROFESSEUR')->get();
         $niveaux = Niveau::all();
         return view('Formations.modif', compact('formation','users','niveaux'));
     }
 
+    /**
+     * @param $id
+     * @param FormationRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \getid3_exception
+     */
+
     public function update($id, FormationRequest $request) {
+        $this->authorize('update', Formation::class);
         $formation = Formation::findOrFail($id);
         $params = [];
         if ($image = $request->files->get('image')) {
@@ -117,10 +145,11 @@ class FormationController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-    //     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
+        $this->authorize('delete', Formation::class);
         $formation = Formation::findorFail($id);
 //        $this->authorize('delete',Formation::class);
         if ($formation->image && file_exists(public_path().'/images/formations/'.$formation->image)) {

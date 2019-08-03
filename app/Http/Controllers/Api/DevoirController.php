@@ -124,10 +124,11 @@ class DevoirController extends Controller
                 ->where('user_id',$user->id)
                 ->distinct()
                 ->get();
+            $matiere_ids = [];
             foreach ($matieres as $matiere){
-                $query->orWhere('matiere_id',$matiere->matiere_id);
+                array_push($matiere_ids, $matiere->matiere_id);
             }
-            $devoirs = $query->distinct()->get();
+            $devoirs = $query->WhereIn('matiere_id', $matiere_ids)->distinct()->get();
             return response()->json([
                 'devoirs' => $devoirs
             ]);

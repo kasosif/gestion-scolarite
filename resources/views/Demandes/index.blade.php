@@ -62,12 +62,12 @@
                                             </a>
                                         </td>
                                         <td>
-                                            {{--@can('delete',$demande)--}}
+                                            @can('update',$demande)
                                                 <button onclick="treatRessource('{{$demande->user->cin}}', '{{$demande->type}}', '{{$demande->id}}')" type="button" class="btn btn-success w-md">Traiter</button>
-                                            {{--@endcan--}}
-                                            {{--@can('delete',$demande)--}}
+                                            @endcan
+                                            @can('delete',$demande)
                                             <button onclick="deleteRessource('{{$demande->user->cin}}', '{{$demande->type}}', '{{$demande->id}}')" type="button" class="btn btn-danger w-md">Supp</button>
-                                            {{--@endcan--}}
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

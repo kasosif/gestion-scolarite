@@ -26,15 +26,8 @@ class FeedPolicy
      */
     public function view(User $user, Feed $feed = null)
     {
-        $pass = false;
-        if ($feed){
-            if ($feed->user)
-                $pass = $feed->user->id == $user->id;
-            if (($feed->classe) && ($user->classe))
-                $pass = $feed->classe->id == $user->classe->id;
-        }
         $privilege = Privilege::where('titre','view_feeds')->first();
-        return ($user->privileges->contains($privilege->id)) || $pass;
+        return ($user->privileges->contains($privilege->id));
     }
 
     /**

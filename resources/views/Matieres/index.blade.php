@@ -32,9 +32,11 @@
 @endsection
 @section('ContenuPage')
     <div class="container-fluid">
-        <div class="row">
-            <a href="{{route('matiere.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Matiere</a>
-        </div>
+        @can('create', \App\Model\Matiere::class)
+            <div class="row">
+                <a href="{{route('matiere.ajout')}}" class="waves-effect waves-light btn m-b-10 m-t-5">Ajouter Matiere</a>
+            </div>
+        @endcan
         <div class="row">
             @if($matieres->count() != 0)
                 <div class="card">
@@ -66,9 +68,13 @@
                                             {{$matiere->coeficient}}
                                         </td>
                                         <td>
-                                            <a href="{{route('matiere.edit',['id' => $matiere->id])}}" class="btn btn-primary w-md">Modif</a>
+                                            @can('update', $matiere)
+                                                <a href="{{route('matiere.edit',['id' => $matiere->id])}}" class="btn btn-primary w-md">Modif</a>
+                                            @endcan
                                             <a href="{{route('matiere.show',['id' => $matiere->id])}}" class="btn btn-warning w-md">Info</a>
-                                            <button onclick="deleteRessource('{{$matiere->id}}','{{$matiere->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @can('delete', $matiere)
+                                                <button onclick="deleteRessource('{{$matiere->id}}','{{$matiere->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach
