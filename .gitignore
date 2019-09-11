@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
+composer.phar
 .env
 .phpunit.result.cache
 .phpstorm.meta.php
