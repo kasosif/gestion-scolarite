@@ -30,6 +30,14 @@
         <link href="{{asset('assets/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css')}}" rel="stylesheet" type="text/css" />
         <!-- custom CSS -->
         <link href="{{asset('assets/dist/css/stylematerial.css')}}" rel="stylesheet">
+        <style>
+            .card-body {
+                padding: 15px !important;
+            }
+            .card-content {
+                padding: 30px !important;
+            }
+        </style>
     @show
     @yield('csspage')
 </head>
@@ -284,7 +292,7 @@
                     </a>
                     <ul id='dropdown-user' class='dropdown-content'>
                         <li>
-                            <a href="{{route('profile')}}"><i class="material-icons">perm_identity</i> Mon Profile</a>
+                            <a href="{{route('profile')}}"><i class="material-icons">perm_identity</i> Mon Profil</a>
                         </li>
                         <li>
                             <a style="font-size: 15px" href="{{ route('logout') }}"
@@ -335,22 +343,25 @@
                             @can('viewEtudiant',App\Model\User::class)
                                 <li @yield('listeetudiantactive')><a href="{{route('etudiant.index')}}">Liste des Etudiants</a></li>
                             @endcan
-                            @can('view',App\Model\Abscence::class)
-                                <li @yield('abscenceetudiantactive')><a href="{{route('abscence.index')}}">Abscences</a></li>
+                            @can('viewEtudiant',App\Model\Abscence::class)
+                                <li @yield('abscenceetudiantactive')><a href="{{route('abscencesetudiant.index')}}">Abscences</a></li>
                             @endcan
                             @can('view',App\Model\Note::class)
                                 <li @yield('noteetudiantactive')><a href="{{route('note.index')}}">Notes</a></li>
                             @endcan
                         </ul>
                     </li>
-                    @can('viewProfesseur',App\Model\User::class)
-                        <li @yield('professeuractive')>
-                            <a><i class="material-icons">contact_mail</i>Professeurs<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                    <li @yield('professeuractive')>
+                        <a><i class="material-icons">contact_mail</i>Professeurs<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            @can('viewProfesseur',App\Model\User::class)
                                 <li @yield('listeprofesseuractive')><a href="{{route('professeur.index')}}">Liste des Professeurs</a></li>
-                            </ul>
-                        </li>
-                    @endcan
+                            @endcan
+                            @can('viewProfesseur',App\Model\Abscence::class)
+                                <li @yield('abscenceprofesseuractive')><a href="{{route('abscencesprofesseur.index')}}">Abscences</a></li>
+                            @endcan
+                        </ul>
+                    </li>
                     @can('view',App\Model\Feed::class)
                         <li @yield('actualiteactive')>
                             <a href="{{route('feed.index')}}">
@@ -412,6 +423,20 @@
                             @can('view',App\Model\Salle::class)
                                 <li @yield('salleactive')><a href="{{route('salle.index')}}">Salles</a></li>
                             @endcan
+                        </ul>
+                    </li>
+                    <li class=" @yield('compteactive') hidden-lg hidden-md hidden-sm">
+                        <a><i class="material-icons">account_circle</i>Compte</a>
+                        <ul class="nav nav-second-level">
+                            <li @yield('profilactive')>
+                                <a href="{{route('profile')}}"><i class="material-icons">perm_identity</i>Profil</a>
+                            </li>
+                            <li>
+                                <a style="font-size: 15px" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                                    <i class="material-icons">lock</i> Deconnexion</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="side-last"></li>

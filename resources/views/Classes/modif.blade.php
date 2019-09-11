@@ -84,20 +84,20 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="abbreviation" value="{{$classe->abbreviation}}" name="abbreviation" type="text" class="validate" required>
                                     <label for="abbreviation" class="">Abbreviation</label>
+                                    <input id="abbreviation" value="{{$classe->abbreviation}}" name="abbreviation" type="text" class="validate" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="code" value="{{$classe->code}}" name="code" type="text" class="validate" required>
                                     <label for="code" class="">Code</label>
+                                    <input id="code" value="{{$classe->code}}" name="code" type="text" class="validate" required>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="input-field form-input">
-                                    <input id="promotion" value="{{$classe->promotion}}" name="promotion" type="text" class="validate" required>
                                     <label for="promotion" class="">Promotion</label>
+                                    <input id="promotion" value="{{$classe->promotion}}" name="promotion" type="text" class="validate" required>
                                 </div>
                             </div>
                         </div>

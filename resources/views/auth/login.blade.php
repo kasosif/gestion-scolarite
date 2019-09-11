@@ -30,7 +30,7 @@
 <div class="container sign-cont animated zoomIn">
     <div class="row sign-row">
         <div class="sign-title">
-            <center><img src="{{asset('assets/dist/img/logo3.png')}}" alt="logo"></center>
+            <center><img style="width: 280px" src="{{asset('assets/dist/img/logo3.png')}}" alt="logo"></center>
             <h2 class="teal-text"><i class="fa fa-user-circle-o"></i></h2>
         </div>
 

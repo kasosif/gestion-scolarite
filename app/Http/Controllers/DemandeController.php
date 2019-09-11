@@ -28,7 +28,7 @@ class DemandeController extends Controller
         $this->authorize('update', Demande::class);
         $demande = Demande::find($demande_id);
         $user = $demande->user;
-        $user->notify(new DocumentReady('icon-doc text-success','Demande d\'attestation de '.$demande->type.' Prete !'));
+        $user->notify(new DocumentReady('icon-doc text-success','Demande d\'attestation '.$demande->type.' Prete !','/app/demandes'));
         $demande->delete();
         return redirect()->route('demande.index')->with('success','Demande traité');
     }

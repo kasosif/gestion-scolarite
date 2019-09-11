@@ -7,7 +7,10 @@
     <!-- iziToast alert -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 @endsection
-@section('dashactive')
+@section('compteactive')
+    active
+@endsection
+@section('profilactive')
     class= "active-link"
 @endsection
 @section('HeaderPage')
@@ -184,6 +187,38 @@
                         </div>
                     </div>
                 @endif
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Sécurité <small>Changer Votre Mot de Passe</small></h2>
+                    </div>
+                    <div class="card-body" style="padding: 20px">
+                            <div class="row">
+                                <form action="{{route('profile.changepassword')}}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <div class="input-field form-input">
+                                        <input id="password" type="password" placeholder="Mot de passe Actuel" class="validate" name="password" required>
+                                        <label for="password" class="">Mot de passe Actuel</label>
+                                    </div>
+                                    <div class="input-field form-input">
+                                        <input id="new_password" type="password" placeholder="Nouveau Mot de passe" name="new_password" class="validate" required>
+                                        <label for="new_password" class="">Nouveau Mot de passe</label>
+                                    </div>
+                                    <div class="input-field form-input">
+                                        <input id="new_password_confirmation" type="password" name="new_password_confirmation" placeholder="Confirmer Nouveau Mot de passe" class="validate" required>
+                                        <label for="new_password_confirmation" class="">Confirmer Nouveau Mot de passe</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-labeled btn-success">
+                                        <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Changer
+                                    </button>
+                                </form>
+                            </div>
+                    </div>
+                </div>
+                <form action="{{route('profile.update')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="_method" value="PUT">
+                </form>
             </div>
         </div>
     </div>
@@ -198,6 +233,14 @@
             @if ($message = Session::get('success'))
             iziToast.success({
                 title: 'Success',
+                message: '{{ $message }}',
+                position: 'topCenter'
+            });
+            @endif
+
+            @if ($message = Session::get('error'))
+            iziToast.error({
+                title: 'Error',
                 message: '{{ $message }}',
                 position: 'topCenter'
             });

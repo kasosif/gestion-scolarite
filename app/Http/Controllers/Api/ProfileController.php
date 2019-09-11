@@ -64,17 +64,17 @@ class ProfileController extends Controller
                 'new_password' => ['confirmed', 'required', 'regex:#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#','different:password'],
             ]);
         } catch (ValidationException $e) {
-            return response()->json(['error' => 'Password Missmatch']);
+            return response()->json(['error' => $e->errors()['new_password'][0]]);
         }
 
         if (Hash::check($request->password, $user->password)) {
             $user->fill([
-                'password' => $request->password
+                'password' => $request->new_password
             ])->save();
-            return response()->json(['success' => 'Password Changed']);
+            return response()->json(['success' => 'Mot de Passe changé']);
 
         } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Mot de Passe Courant Incorrect']);
         }
     }
 

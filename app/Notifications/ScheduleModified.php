@@ -14,11 +14,13 @@ class ScheduleModified extends Notification
     protected $icone;
     protected $date;
     protected $texte;
-    public function __construct($icone, $date, $texte)
+    protected $lien;
+    public function __construct($icone, $date, $texte, $lien)
     {
         $this->icone = $icone;
         $this->date = $date;
         $this->texte = $texte;
+        $this->lien = $lien;
     }
     public function via()
     {
@@ -30,6 +32,7 @@ class ScheduleModified extends Notification
             'icone' => $this->icone,
             'date' => $this->date,
             'texte' => $this->texte,
+            'lien' => $this->lien,
         ];
     }
 }

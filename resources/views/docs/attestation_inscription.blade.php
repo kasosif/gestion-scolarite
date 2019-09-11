@@ -7,7 +7,7 @@
 
 </head>
 <body style="background:transparent; position:relative;">
-<div class="container" style="height: 100%; position:relative; margin-top: 25px;">
+<div class="container" style="position:relative; margin-top: 25px;">
     <div>
         <center><strong style="font-weight: bold; font-size: 24px;">Attestation d'inscription <br>{{ $etudiant->classe->niveau->specialite->annee->nom }}</strong></center>
         <br>
@@ -21,6 +21,8 @@
         <p>
             Cette attestation est délivrée à l’intéressé(e) pour servir et valoir ce que droit.
         </p>
+        <br>
+        <br>
         <div align="right" >
             <div>
                 Le {{date('d-m-Y', strtotime('today'))}}<br>

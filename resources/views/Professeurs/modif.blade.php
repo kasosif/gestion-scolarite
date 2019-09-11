@@ -74,44 +74,45 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="input-field form-input">
-                                        <input id="prenom" value="{{$professeur->prenom}}" name="prenom" type="text" class="validate" required>
                                         <label for="prenom" class="">Prénom</label>
+                                        <input id="prenom" value="{{$professeur->prenom}}" name="prenom" type="text" class="validate" required>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="prenom_ar" value="{{$professeur->prenom_ar}}" name="prenom_ar" type="text" class="validate" >
                                         <label for="prenom_ar" class="">Prénom Arabe</label>
+                                        <input id="prenom_ar" value="{{$professeur->prenom_ar}}" name="prenom_ar" type="text" class="validate" >
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="prenom_en" value="{{$professeur->prenom_en}}" name="prenom_en" type="text" class="validate" >
                                         <label for="prenom_en" class="">Prénom Anglais</label>
+                                        <input id="prenom_en" value="{{$professeur->prenom_en}}" name="prenom_en" type="text" class="validate" >
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="cin" value="{{$professeur->cin}}" name="cin" type="text" class="validate" required>
                                         <label for="cin" class="">CIN</label>
+                                        <input id="cin" value="{{$professeur->cin}}" name="cin" type="text" class="validate" required>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="lieu_naissance" value="{{$professeur->lieu_naissance}}" name="lieu_naissance" type="text" class="validate" required>
                                         <label for="lieu_naissance" class="">Lieu de Naissance</label>
+                                        <input id="lieu_naissance" value="{{$professeur->lieu_naissance}}" name="lieu_naissance" type="text" class="validate" required>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="lieu_naissance_en" value="{{$professeur->lieu_naissance_en}}" name="lieu_naissance_en" type="text" class="validate">
                                         <label for="lieu_naissance_en" class="">Lieu de Naissance Anglais</label>
+                                        <input id="lieu_naissance_en" value="{{$professeur->lieu_naissance_en}}" name="lieu_naissance_en" type="text" class="validate">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-field form-input">
-                                        <input id="nom" value="{{$professeur->nom}}" name="nom" type="text" class="validate" required>
                                         <label for="nom" class="">Nom</label>
+                                        <input id="nom" value="{{$professeur->nom}}" name="nom" type="text" class="validate" required>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="nom_ar" value="{{$professeur->nom_ar}}" name="nom_ar" type="text" class="validate" >
                                         <label for="nom_ar" class="">Nom Arabe</label>
+                                        <input id="nom_ar" value="{{$professeur->nom_ar}}" name="nom_ar" type="text" class="validate" >
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="nom_en" value="{{$professeur->nom_en}}" name="nom_en" type="text" class="validate" >
                                         <label for="nom_en" class="">Nom Anglais</label>
+                                        <input id="nom_en" value="{{$professeur->nom_en}}" name="nom_en" type="text" class="validate" >
                                     </div>
-                                    <div class="input-field form-input">
+                                    <div class="form-group">
+                                        <label for="gendre">Gendre</label>
                                         <select id="gendre" name="gendre" class="form-control" required>
                                             <option value="" disabled>Selectionnez Gendre</option>
                                             <option @if($professeur->gendre == 'male') selected @endif value="male">Homme</option>
@@ -119,8 +120,8 @@
                                         </select>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="lieu_naissance_ar" value="{{$professeur->lieu_naissance_ar}}" name="lieu_naissance_ar" type="text" class="validate">
                                         <label for="lieu_naissance_ar" class="">Lieu de Naissance Arabe</label>
+                                        <input id="lieu_naissance_ar" value="{{$professeur->lieu_naissance_ar}}" name="lieu_naissance_ar" type="text" class="validate">
                                     </div>
                                     <div class="form-group">
                                         <label for="date_naissance" class="">Date de Naissance</label>
@@ -159,19 +160,19 @@
                         </div>
                         <div class="card-body" style="padding: 4px">
                             <div class="input-field form-input">
-                                <input id="email" value="{{$professeur->email}}" name="email" type="email" class="validate" required>
                                 <label for="email" class="">Email</label>
+                                <input id="email" value="{{$professeur->email}}" name="email" type="email" class="validate" required>
                             </div>
                             <div class="input-field form-input">
                                 <input disabled value="{{$professeur->cin}}" id="username" name="username" type="text" class="form-control" required>
                             </div>
                             <div class="input-field form-input">
-                                <input id="password" name="password" type="password" class="validate">
                                 <label for="password" class="">Mot de Passe</label>
+                                <input id="password" name="password" type="password" class="validate">
                             </div>
                             <div class="input-field form-input">
-                                <input id="password-confirm" name="password_confirmation" type="password" class="validate">
                                 <label for="password-confirm" class="">Confirmation Mot de Passe</label>
+                                <input id="password-confirm" name="password_confirmation" type="password" class="validate">
                             </div>
                         </div>
                     </div>

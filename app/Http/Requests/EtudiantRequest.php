@@ -45,8 +45,7 @@ class EtudiantRequest extends FormRequest
                         'lieu_naissance_ar' => 'nullable|min:2',
                         'lieu_naissance_en' => 'nullable|min:2',
                         'gendre' => ['required', 'regex:(male|female)'],
-                        'email' => 'required|unique:users|email',
-                        'password' => ['confirmed', 'required', 'regex:#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#'],
+                        'email' => 'required|unique:users|email'
                     ];
                 }
             case 'PUT':

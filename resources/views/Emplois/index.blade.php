@@ -63,9 +63,10 @@
                                                     {{\App\Model\Niveau::find($classe->niveau_id)->specialite->nom}} {{$classe->abbreviation}} {{\App\Model\Niveau::find($classe->niveau_id)->nom}}
                                                 </td>
                                                 <td>
-                                                    <a href="{{route('emplois.classe',['classe_id'=>$classe->id])}}" class="btn btn-info w-md">Emplois({{
-                                                     \App\Model\Emploi::where('classe_id', '=', $classe->id)->distinct()->get()->count() / 24
-                                                    }})</a>
+                                                    <a href="{{route('emplois.classe',['classe_id'=>$classe->id])}}" class="btn btn-info w-md">Emplois (
+                                                        {{count(\Illuminate\Support\Facades\DB::table('emplois')->select([\Illuminate\Support\Facades\DB::RAW('DISTINCT(classe_id)'),'semaine','date_debut','date_fin'])
+                                                        ->where('classe_id',$classe->id)
+                                                        ->get())}} ) </a>
                                                 </td>
                                             </tr>
                                         @endif

@@ -66,16 +66,11 @@
                         <div class="row" style="padding: 4px">
                             <div class="col-md-12">
                                 <div class="input-field form-input">
-                                    <input id="titre" value="{{$formation->titre}}" name="titre" type="text" class="validate" required>
                                     <label for="titre" class="">Titre</label>
+                                    <input id="titre" value="{{$formation->titre}}" name="titre" type="text" class="validate" required>
                                 </div>
                             </div>
-                            <div class="col-md-8" style="display: none">
-                                <div class="input-field form-input">
-                                    <input id="slug" value="{{$formation->slug}}" name="slug" type="text" class="validate" required>
-                                    <label for="slug" class="">Slug</label>
-                                </div>
-                            </div>
+                            <input id="slug" value="{{$formation->slug}}" name="slug" type="hidden" class="validate" required>
                             <div class="col-md-4">
                                 <h2>Image <small></small></h2>
                                 @if($formation->image)
@@ -138,8 +133,8 @@
                                     <div class="partie{{$key + 1}}">
                                         <div class="col-md-8">
                                             <div class="input-field form-input">
-                                                <input disabled value="{{$partie->titre}}" id="titrepartie{{$key + 1}}" name="partie[{{$key + 1}}][titre]" type="text" class="validate" required>
                                                 <label for="titrepartie{{$key + 1}}" class="">Titre</label>
+                                                <input disabled value="{{$partie->titre}}" id="titrepartie{{$key + 1}}" name="partie[{{$key + 1}}][titre]" type="text" class="validate" required>
                                             </div>
                                             <video width="400" controls>
                                                 <source src="{{route('formation.view',['uuid'=> $partie->uuid])}}" type="video/mp4">

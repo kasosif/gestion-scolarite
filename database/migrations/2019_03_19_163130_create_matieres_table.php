@@ -20,7 +20,9 @@ class CreateMatieresTable extends Migration
             $table->double('coeficient');
             $table->integer('plafond_abscences');
             $table->unsignedBigInteger('niveau_id')->nullable();
+            $table->unsignedBigInteger('semestre_id')->nullable();
             ////$table->foreign('niveau_id')->references('id')->on('niveaux')->onDelete('cascade');
+            ////$table->foreign('semestre_id')->references('id')->on('semestres')->onDelete('cascade');
             $table->timestamps();
         });
     }

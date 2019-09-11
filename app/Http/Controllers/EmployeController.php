@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\EmployeRequest;
+use App\Mail\WelcomeMailGs;
 use App\Model\Privilege;
 use App\Model\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class EmployeController extends Controller
 {
@@ -34,8 +37,8 @@ class EmployeController extends Controller
      */
     public function create()
     {
-        $privileges = Privilege::all();
-        return view('Employes.ajout',compact('privileges'));
+        $ressources = Privilege::distinct('ressource')->get('ressource');
+        return view('Employes.ajout',compact('ressources'));
     }
 
     /**
@@ -46,7 +49,8 @@ class EmployeController extends Controller
      */
     public function store(EmployeRequest $request)
     {
-        $params = ['role' => 'ROLE_EMPLOYE'];
+        $plainpass = Str::random(8);
+        $params = ['role' => 'ROLE_EMPLOYE', 'password' => $plainpass];
         if ($image = $request->files->get('image')) {
             $destinationPath = 'images/employes/'; // upload path
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
@@ -55,6 +59,7 @@ class EmployeController extends Controller
         }
         $employe = User::create(array_merge($request->except(['privileges']), $params));
         $employe->privileges()->attach($request->get('privileges'));
+        Mail::to($employe->email)->send(new WelcomeMailGs($employe,$plainpass));
         return redirect()->route('employe.index')->with('success','Employe Ajouté');
     }
 
@@ -66,9 +71,9 @@ class EmployeController extends Controller
      */
     public function edit($cin)
     {
-        $privileges = Privilege::all();
+        $ressources = Privilege::distinct('ressource')->get('ressource');
         $employe = User::where('cin',$cin)->first();
-        return view('Employes.modif', compact('employe','privileges'));
+        return view('Employes.modif', compact('employe','ressources'));
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Model\ProgressionEtudiant;
 use App\Notifications\FormationAdded;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 use Webpatser\Uuid\Uuid;
@@ -35,7 +36,10 @@ class FormationController extends Controller
             ]);
         } else if ($user->role == 'ROLE_PROFESSEUR') {
             $formations = Formation::
-            with('niveau.specialite', 'partieformations','partieformations.progressionetudiants')
+            with(['niveau.specialite', 'partieformations','partieformations.progressionetudiants',
+                'niveau.classes.users' => function ($query) {
+                    $query->take(4);
+                }])
                 ->where('user_id', '=', $user->id)
                 ->get();
             return response()->json([
@@ -187,7 +191,8 @@ class FormationController extends Controller
                         new FormationAdded(
                             'fa fa-play text-success',
                             $formation,
-                            'Nouvelle Formation disponible'
+                            'Nouvelle Formation disponible',
+                            '/app/formations'
                         )
                     );
                 }
@@ -195,6 +200,31 @@ class FormationController extends Controller
             return response()->json([
                 'success' => 'formation ajouté'
             ]);
+        }
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    public function deleteformation($slug) {
+        if (!auth('api')->check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $user = auth('api')->user();
+        if ($user->role == 'ROLE_PROFESSEUR') {
+            $formation = Formation::where('slug', $slug)->first();
+            if ($formation && $formation->user->id == $user->id) {
+                if ($formation->image && file_exists(public_path().'/images/formations/'.$formation->image)) {
+                    unlink(public_path().'/images/formations/'.$formation->image);
+                }
+                if ($formation->partieformations) {
+                    foreach ($formation->partieformations as $partiesformation) {
+                        Storage::delete('formations/'.$partiesformation->cover);
+                        $partiesformation->delete();
+                    }
+                }
+                $formation->delete();
+                return response()->json(['success' => true]);
+            }
         }
         return response()->json(['error' => 'Unauthorized'], 401);
     }

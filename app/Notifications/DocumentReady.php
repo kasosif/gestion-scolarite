@@ -12,10 +12,12 @@ class DocumentReady extends Notification
     use Queueable;
     protected $icone;
     protected $texte;
-    public function __construct($icone, $texte)
+    protected $lien;
+    public function __construct($icone, $texte, $lien)
     {
         $this->icone = $icone;
         $this->texte = $texte;
+        $this->lien = $lien;
     }
     public function via()
     {
@@ -26,6 +28,7 @@ class DocumentReady extends Notification
         return [
             'icone' => $this->icone,
             'texte' => $this->texte,
+            'lien' => $this->lien,
         ];
     }
 }

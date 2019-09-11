@@ -69,7 +69,7 @@
                                             {{$formation->titre}}
                                         </td>
                                         <td>
-                                            {{$formation->niveau->nom}}
+                                            {{$formation->niveau->specialite->nom }} {{$formation->niveau->nom}}
                                         </td>
                                         <td>
                                             {{$formation->user->gendre == 'male' ? 'Mr.' : 'Mme.' }}{{$formation->user->prenom}} {{$formation->user->nom}}

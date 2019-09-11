@@ -13,17 +13,19 @@ class FormationAdded extends Notification
     protected $icone;
     protected $formation;
     protected $texte;
+    protected $lien;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($icone, $formation, $texte)
+    public function __construct($icone, $formation, $texte, $lien)
     {
         $this->icone = $icone;
         $this->formation = $formation;
         $this->texte = $texte;
+        $this->lien = $lien;
     }
 
     /**
@@ -63,6 +65,7 @@ class FormationAdded extends Notification
             'icone' => $this->icone,
             'devoir' => $this->formation->titre,
             'texte' => $this->texte,
+            'lien' => $this->lien,
         ];
     }
 }

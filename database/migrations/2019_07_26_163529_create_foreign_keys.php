@@ -22,6 +22,7 @@ class CreateForeignKeys extends Migration
         DB::Statement('alter table `devoirs` add constraint `devoirs_matiere_id_foreign` foreign key (`matiere_id`) references `matieres` (`id`) on delete cascade');
         DB::Statement('alter table `devoirs` add constraint `devoirs_classe_id_foreign` foreign key (`classe_id`) references `classes` (`id`) on delete cascade');
         DB::Statement('alter table `matieres` add constraint `matieres_niveau_id_foreign` foreign key (`niveau_id`) references `niveaux` (`id`) on delete cascade');
+        DB::Statement('alter table `matieres` add constraint `matieres_semestre_id_foreign` foreign key (`semestre_id`) references `semestres` (`id`) on delete cascade');
         DB::Statement('alter table `feeds` add constraint `feeds_user_id_foreign` foreign key (`user_id`) references `users` (`id`) on delete cascade');
         DB::Statement('alter table `privilege_user` add constraint `privilege_user_privilege_id_foreign` foreign key (`privilege_id`) references `privileges` (`id`) on delete cascade');
         DB::Statement('alter table `privilege_user` add constraint `privilege_user_user_id_foreign` foreign key (`user_id`) references `users` (`id`) on delete cascade');

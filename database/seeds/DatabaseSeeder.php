@@ -220,25 +220,26 @@ class DatabaseSeeder extends Seeder
 ////        ]);
 ////        Factory('App\Model\Devoir',10)->create();
 ////        Factory('App\Model\Feed',15)->create();
-//        DB::table('privileges')->insert([
-//            ['titre' => 'view_etudiants'],['titre' => 'update_etudiants'],['titre' => 'delete_etudiants'],['titre' => 'create_etudiants'],
-//            ['titre' => 'view_abscences'],['titre' => 'delete_abscences'],['titre' => 'create_abscences'],
-//            ['titre' => 'view_notes'],['titre' => 'update_notes'],['titre' => 'delete_notes'],['titre' => 'create_notes'],
-//            ['titre' => 'view_professeurs'],['titre' => 'update_professeurs'],['titre' => 'delete_professeurs'],['titre' => 'create_professeurs'],
-//            ['titre' => 'view_feeds'],['titre' => 'update_feeds'],['titre' => 'delete_feeds'],['titre' => 'create_feeds'],
-//            ['titre' => 'view_annees'],['titre' => 'update_annees'],['titre' => 'delete_annees'],['titre' => 'create_annees'],
-//            ['titre' => 'view_semestres'],['titre' => 'update_semestres'],['titre' => 'delete_semestres'],['titre' => 'create_semestres'],
-//            ['titre' => 'view_specialites'],['titre' => 'update_specialites'],['titre' => 'delete_specialites'],['titre' => 'create_specialites'],
-//            ['titre' => 'view_classes'],['titre' => 'update_classes'],['titre' => 'delete_classes'],['titre' => 'create_classes'],
-//            ['titre' => 'view_seances'],['titre' => 'update_seances'],['titre' => 'delete_seances'],['titre' => 'create_seances'],
-//            ['titre' => 'view_devoirs'],['titre' => 'update_devoirs'],['titre' => 'delete_devoirs'],['titre' => 'create_devoirs'],
-//            ['titre' => 'view_matieres'],['titre' => 'update_matieres'],['titre' => 'delete_matieres'],['titre' => 'create_matieres'],
-//            ['titre' => 'view_salles'],['titre' => 'update_salles'],['titre' => 'delete_salles'],['titre' => 'create_salles'],
-//            ['titre' => 'view_niveaux'],['titre' => 'update_niveaux'],['titre' => 'delete_niveaux'],['titre' => 'create_niveaux'],
-//            ['titre' => 'view_formations'],['titre' => 'update_formations'],['titre' => 'delete_formations'],['titre' => 'create_formations'],
-//            ['titre' => 'view_demandes'],['titre' => 'update_demandes'],['titre' => 'delete_demandes'],
-//            ['titre' => 'view_emplois'],['titre' => 'update_emplois'],['titre' => 'delete_emplois'],['titre' => 'create_emplois'],
-//        ]);
+        DB::table('privileges')->insert([
+            ['titre' => 'view_etudiants', 'ressource' => 'Etudiants'],['titre' => 'update_etudiants', 'ressource' => 'Etudiants'],['titre' => 'delete_etudiants', 'ressource' => 'Etudiants'],['titre' => 'create_etudiants', 'ressource' => 'Etudiants'],
+            ['titre' => 'view_abscences_etudiant', 'ressource' => 'Abcences'],['titre' => 'delete_abscences_etudiant', 'ressource' => 'Abcences'],['titre' => 'create_abscences_etudiant', 'ressource' => 'Abcences'],
+            ['titre' => 'view_abscences_professeur', 'ressource' => 'Abcences'],['titre' => 'delete_abscences_professeur', 'ressource' => 'Abcences'],['titre' => 'create_abscences_professeur', 'ressource' => 'Abcences'],
+            ['titre' => 'view_notes', 'ressource' => 'Notes'],['titre' => 'update_notes', 'ressource' => 'Notes'],['titre' => 'delete_notes', 'ressource' => 'Notes'],['titre' => 'create_notes', 'ressource' => 'Notes'],
+            ['titre' => 'view_professeurs', 'ressource' => 'Professeurs'],['titre' => 'update_professeurs', 'ressource' => 'Professeurs'],['titre' => 'delete_professeurs', 'ressource' => 'Professeurs'],['titre' => 'create_professeurs', 'ressource' => 'Professeurs'],
+            ['titre' => 'view_feeds', 'ressource' => 'Actualitées'],['titre' => 'update_feeds', 'ressource' => 'Actualitées'],['titre' => 'delete_feeds', 'ressource' => 'Actualitées'],['titre' => 'create_feeds', 'ressource' => 'Actualitées'],
+            ['titre' => 'view_annees', 'ressource' => 'Années scolaires'],['titre' => 'update_annees', 'ressource' => 'Années scolaires'],['titre' => 'delete_annees', 'ressource' => 'Années scolaires'],['titre' => 'create_annees', 'ressource' => 'Années scolaires'],
+            ['titre' => 'view_semestres', 'ressource' => 'Semestres'],['titre' => 'update_semestres', 'ressource' => 'Semestres'],['titre' => 'delete_semestres', 'ressource' => 'Semestres'],['titre' => 'create_semestres', 'ressource' => 'Semestres'],
+            ['titre' => 'view_specialites', 'ressource' => 'Spécialités'],['titre' => 'update_specialites', 'ressource' => 'Spécialités'],['titre' => 'delete_specialites', 'ressource' => 'Spécialités'],['titre' => 'create_specialites', 'ressource' => 'Spécialités'],
+            ['titre' => 'view_classes', 'ressource' => 'Classes'],['titre' => 'update_classes', 'ressource' => 'Classes'],['titre' => 'delete_classes', 'ressource' => 'Classes'],['titre' => 'create_classes', 'ressource' => 'Classes'],
+            ['titre' => 'view_seances', 'ressource' => 'Séances'],['titre' => 'update_seances', 'ressource' => 'Séances'],['titre' => 'delete_seances', 'ressource' => 'Séances'],['titre' => 'create_seances', 'ressource' => 'Séances'],
+            ['titre' => 'view_devoirs', 'ressource' => 'Devoirs'],['titre' => 'update_devoirs', 'ressource' => 'Devoirs'],['titre' => 'delete_devoirs', 'ressource' => 'Devoirs'],['titre' => 'create_devoirs', 'ressource' => 'Devoirs'],
+            ['titre' => 'view_matieres', 'ressource' => 'Matieres'],['titre' => 'update_matieres', 'ressource' => 'Matieres'],['titre' => 'delete_matieres', 'ressource' => 'Matieres'],['titre' => 'create_matieres', 'ressource' => 'Matieres'],
+            ['titre' => 'view_salles', 'ressource' => 'Salles'],['titre' => 'update_salles', 'ressource' => 'Salles'],['titre' => 'delete_salles', 'ressource' => 'Salles'],['titre' => 'create_salles', 'ressource' => 'Salles'],
+            ['titre' => 'view_niveaux', 'ressource' => 'Niveaux scolaires'],['titre' => 'update_niveaux', 'ressource' => 'Niveaux scolaires'],['titre' => 'delete_niveaux', 'ressource' => 'Niveaux scolaires'],['titre' => 'create_niveaux', 'ressource' => 'Niveaux scolaires'],
+            ['titre' => 'view_formations', 'ressource' => 'Formations'],['titre' => 'update_formations', 'ressource' => 'Formations'],['titre' => 'delete_formations', 'ressource' => 'Formations'],['titre' => 'create_formations', 'ressource' => 'Formations'],
+            ['titre' => 'view_demandes', 'ressource' => 'Demandes'],['titre' => 'update_demandes', 'ressource' => 'Demandes'],['titre' => 'delete_demandes', 'ressource' => 'Demandes'],
+            ['titre' => 'view_emplois', 'ressource' => 'Emplois de temps'],['titre' => 'update_emplois', 'ressource' => 'Emplois de temps'],['titre' => 'delete_emplois', 'ressource' => 'Emplois de temps'],['titre' => 'create_emplois', 'ressource' => 'Emplois de temps']
+        ]);
 ////        DB::table('jours')->insert([
 ////            ['nom'=>'Lundi'],
 ////            ['nom'=>'Mardi'],

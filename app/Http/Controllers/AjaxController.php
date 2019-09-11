@@ -90,10 +90,21 @@ class AjaxController extends Controller
      * @param  int  $classe_id
      * @return \Illuminate\Http\Response
      */
+    public function getTeachersForPresence($classe_id)
+    {
+        $affectations = Affectation::where('classe_id',$classe_id)->get();
+        return view('Ajax.professeursabscence',compact('affectations'));
+    }
+
+
+    /**
+     * Display students by classe for Presence
+     * @param  int  $classe_id
+     * @return \Illuminate\Http\Response
+     */
     public function getStudentsForMark($classe_id)
     {
-        $classe = Classe::findOrFail($classe_id);
-        $etudiants = $classe->users;
+        $etudiants = User::where('classe_id',$classe_id)->get();
         return view('Ajax.etudiantsnote',compact('etudiants'));
     }
 

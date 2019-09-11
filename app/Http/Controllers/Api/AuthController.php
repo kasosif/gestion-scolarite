@@ -32,7 +32,8 @@ class AuthController extends Controller
 
         }
         $role = auth('api')->user()->role;
-        return $this->respondWithToken($token, $role);
+        $cin = auth('api')->user()->cin;
+        return $this->respondWithToken($token, $role, $cin);
     }
 
     public function logout()
@@ -59,9 +60,10 @@ class AuthController extends Controller
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
-    protected function respondWithToken($token, $role)
+    protected function respondWithToken($token, $role, $cin)
     {
         return response()->json([
+            'cin' => $cin,
             'role' => $role,
             'access_token' => $token,
             'token_type'   => 'bearer',

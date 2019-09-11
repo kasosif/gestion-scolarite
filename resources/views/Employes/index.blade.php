@@ -76,7 +76,7 @@
                                         </td>
                                         <td>
                                             <a href="{{route('employe.edit',['cin' => $employe->cin])}}" class="btn btn-primary w-md">Modif/Info</a>
-                                            <button onclick="deleteUser({{$employe->cin}})" type="button" class="btn btn-danger w-md">Supp</button>
+                                            <button onclick="deleteUser('{{$employe->cin}}')" type="button" class="btn btn-danger w-md">Supp</button>
                                         </td>
                                     </tr>
                                 @endforeach

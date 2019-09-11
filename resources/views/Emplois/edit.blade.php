@@ -61,49 +61,46 @@
                                 @foreach($jours as $jour)
                                     <tr id="{{ $jour->id }}">
                                         <td width="10%;">{{ $jour->nom }}</td>
-                                        @foreach($emplois as $ligne)
-                                            @if($ligne->jour->id == $jour->id)
-                                                @if($ligne->matiere)
-                                                    <td id="{{ $ligne->seance->id }}">
-                                                        <div class="input-group">
-                                                            <select title="Matiere" name="mat[{{ $jour->id }}][{{$ligne->seance->id }}]" class="form-control select2">
-                                                                <option value="" selected disabled>Matiere</option>
-                                                                @foreach($affectations as $affectation)
-                                                                    <option @if($ligne->matiere->id == $affectation->matiere->id) selected @endif value="{{ $affectation->matiere->id }}">{{ $affectation->matiere->nom }} ({{$affectation->user->nom}} {{$affectation->user->prenom}})</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="input-group">
-                                                            <select title="Salle" name="salle[{{ $jour->id }}][{{ $ligne->seance->id }}]"  class="form-control select2 col-cm-6">
-                                                                <option value="" selected disabled>Salle</option>
-                                                                @foreach($salles as $salle)
-                                                                    <option @if($ligne->salle->id == $salle->id) selected @endif value="{{ $salle->id }}">{{ $salle->nom }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                @else
-                                                    <td id="{{ $ligne->seance->id }}">
-                                                        <div class="input-group">
-                                                            <select title="Matiere" name="mat[{{ $jour->id }}][{{$ligne->seance->id }}]" class="form-control select2">
-                                                                <option value="" selected disabled>Matiere</option>
-                                                                @foreach($affectations as $affectation)
-                                                                    <option value="{{ $affectation->matiere->id }}">{{ $affectation->matiere->nom }} ({{$affectation->user->nom}} {{$affectation->user->prenom}})</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="input-group">
-                                                            <select title="Salle" name="salle[{{ $jour->id }}][{{ $ligne->seance->id }}]"  class="form-control select2 col-cm-6">
-                                                                <option value="" selected disabled>Salle</option>
-                                                                @foreach($salles as $salle)
-                                                                    <option value="{{ $salle->id }}">{{ $salle->nom }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                @endif
-
-                                            @endif
+                                        @foreach($seances as $seance)
+                                            @forelse(\App\Http\Controllers\EmploiController::caseSeanceJour($seance->id, $jour->id, $classe->id, $dateD) as $case)
+                                                <td>
+                                                    <div class="input-group">
+                                                        <select title="Matiere" name="mat[{{ $jour->id }}][{{$case->seance->id }}]" class="form-control select2">
+                                                            <option value="" selected>Aucune Matiere</option>
+                                                            @foreach($affectations as $affectation)
+                                                                <option @if($case->matiere->id == $affectation->matiere->id) selected @endif value="{{ $affectation->matiere->id }}">{{ $affectation->matiere->nom }} ({{$affectation->user->nom}} {{$affectation->user->prenom}})</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <select title="Salle" name="salle[{{ $jour->id }}][{{ $case->seance->id }}]"  class="form-control select2 col-cm-6">
+                                                            <option value="" selected>Aucune Salle</option>
+                                                            @foreach($salles as $salle)
+                                                                <option @if($case->salle->id == $salle->id) selected @endif value="{{ $salle->id }}">{{ $salle->nom }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            @empty
+                                                <td>
+                                                    <div class="input-group">
+                                                        <select title="Matiere" name="mat[{{ $jour->id }}][{{$seance->id }}]" class="form-control select2">
+                                                            <option value="" selected>Matiere</option>
+                                                            @foreach($affectations as $affectation)
+                                                                <option value="{{ $affectation->matiere->id }}">{{ $affectation->matiere->nom }} ({{$affectation->user->nom}} {{$affectation->user->prenom}})</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <select title="Salle" name="salle[{{ $jour->id }}][{{ $seance->id }}]"  class="form-control select2 col-cm-6">
+                                                            <option value="" selected>Salle</option>
+                                                            @foreach($salles as $salle)
+                                                                <option value="{{ $salle->id }}">{{ $salle->nom }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            @endforelse
                                         @endforeach
                                     </tr>
                                 @endforeach

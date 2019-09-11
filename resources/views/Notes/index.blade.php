@@ -97,6 +97,7 @@
                                 <table id="notesTable" class="table table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
+                                        <th>Image</th>
                                         <th>Etudiant</th>
                                         <th>Matiere</th>
                                         <th>Devoir</th>
@@ -107,6 +108,16 @@
                                     <tbody>
                                     @foreach($notes as $note)
                                         <tr>
+                                            <td>
+                                                <img @if($note->user->image)
+                                                     src="{{asset('images/etudiants/'.$note->user->image)}}"
+                                                     @elseif($note->user->gendre == 'female')
+                                                     src="{{asset('assets/dist/img/avatar2.png')}}"
+                                                     @elseif($note->user->gendre == 'male')
+                                                     src="{{asset('assets/dist/img/avatar5.png')}}"
+                                                     @endif
+                                                     alt="User Image" style="width: 50px;">
+                                            </td>
                                             <td>
                                                 {{$note->user->nom}} {{$note->user->prenom}}
                                             </td>

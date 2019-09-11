@@ -24,10 +24,15 @@ Route::post('/demandes', 'Api\DemandeController@add');
 Route::get('/demandes', 'Api\DemandeController@mydemandes');
 //Emploi
 Route::get('/schedule', 'Api\EmploiController@myschedule');
+Route::get('/schedules', 'Api\EmploiController@schedules');
+Route::post('/oneschedule', 'Api\EmploiController@oneschedule');
+Route::post('/schedulePDF', 'Api\EmploiController@PDFschedule');
 //Notifications
 Route::get('/lastnotifs', 'Api\AuthController@lastnotifs');
 Route::get('/notifs', 'Api\NotifController@notifs');
 Route::patch('/notifs', 'Api\NotifController@allread');
+Route::delete('/notifs/{id}', 'Api\NotifController@delete');
+Route::delete('/notifs', 'Api\NotifController@deleteall');
 //Devoirs
 Route::get('/exams', 'Api\DevoirController@myexams');
 Route::post('/exams', 'Api\DevoirController@add');
@@ -47,6 +52,7 @@ Route::get('/formations', 'Api\FormationController@formations');
 Route::post('/formations', 'Api\FormationController@add');
 Route::put('/formations', 'Api\FormationController@progress');
 Route::get('/formations/{slug}', 'Api\FormationController@singleformation');
+Route::delete('/formations/{slug}', 'Api\FormationController@deleteformation');
 Route::get('/{uuid}/view', 'Api\FormationController@view');
 //Affectations
 Route::get('/affectations', 'Api\AffectationController@affectations');

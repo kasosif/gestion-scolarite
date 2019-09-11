@@ -18,11 +18,14 @@
                 @foreach($etudiants as $etudiant)
                     <tr>
                         <td>
-                            @if($etudiant->image)
-                                <img src="{{asset('images/etudiants/'.$etudiant->image)}}" alt="User Image" style="width: 50px;">
-                            @else
-                                No Image
-                            @endif
+                            <img @if($etudiant->image)
+                                 src="{{asset('images/etudiants/'.$etudiant->image)}}"
+                                 @elseif($etudiant->gendre == 'female')
+                                 src="{{asset('assets/dist/img/avatar2.png')}}"
+                                 @elseif($etudiant->gendre == 'male')
+                                 src="{{asset('assets/dist/img/avatar5.png')}}"
+                                 @endif
+                                 alt="User Image" style="width: 50px;">
                         </td>
                         <td>
                             {{$etudiant->prenom}}

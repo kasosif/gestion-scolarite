@@ -23,7 +23,7 @@
             <small>Interface d'ajout d'abscence</small>
             <ul class="link hidden-xs">
                 <li><i class="fa fa-home"></i>Accueil</li>
-                <li><a href="{{route('abscence.index')}}">Liste des Abscences</a></li>
+                <li><a href="{{route('abscencesetudiant.index')}}">Liste des Abscences</a></li>
                 <li>Ajouter Une Abscence</li>
             </ul>
         </div>
@@ -33,7 +33,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="pull-right">
-                <a href="{{route('abscence.index')}}" class="btn btn-default w-md">Retour</a>
+                <a href="{{route('abscencesetudiant.index')}}" class="btn btn-default w-md">Retour</a>
             </div>
         </div>
         @if (count($errors) > 0)
@@ -56,7 +56,7 @@
             <br>
         @endif
         <div class="row">
-            <form action="{{route('abscence.store')}}" method="post">
+            <form action="{{route('abscencesetudiant.store')}}" method="post">
                 @csrf
                 <div class="card">
                     <div class="card-header">

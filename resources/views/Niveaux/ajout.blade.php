@@ -78,8 +78,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="nom" name="nom" type="text" class="validate" required>
                                     <label for="nom" class="">Nom</label>
+                                    <input id="nom" name="nom" type="text" class="validate" required>
                                 </div>
                             </div>
                             <div class="col-md-8">

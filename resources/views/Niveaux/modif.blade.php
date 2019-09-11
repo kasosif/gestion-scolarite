@@ -79,11 +79,11 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="nom" value="{{$niveau->nom}}" name="nom" type="text" class="validate" required>
                                     <label for="nom" class="">Nom</label>
+                                    <input id="nom" value="{{$niveau->nom}}" name="nom" type="text" class="validate" required>
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="matieres" class="control-label">Matieres</label>
                                     <select id="matieres" name="matieres[]" multiple>
@@ -114,6 +114,7 @@
         $(document).ready(function () {
             $('#matieres').select2();
             $('#specialite_id').select2();
+            $('.select2').css('width','100%');
         });
     </script>
 @endsection

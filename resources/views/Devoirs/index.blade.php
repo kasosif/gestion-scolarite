@@ -51,6 +51,7 @@
                                 <tr>
                                     <th>Classe</th>
                                     <th>Matiere</th>
+                                    <th>Type</th>
                                     <th>Date</th>
                                     <th>Actions</th>
                                 </tr>
@@ -59,10 +60,13 @@
                                 @foreach($devoirs as $devoir)
                                     <tr>
                                         <td>
-                                            {{$devoir->classe->abbreviation}} {{$devoir->classe->niveau->nom}}
+                                            {{$devoir->classe->niveau->specialite->nom}} {{$devoir->classe->abbreviation}} {{$devoir->classe->niveau->nom}}
                                         </td>
                                         <td>
                                             {{$devoir->matiere->nom}}
+                                        </td>
+                                        <td>
+                                            {{$devoir->type}}
                                         </td>
                                         <td>
                                             {{$devoir->date}}

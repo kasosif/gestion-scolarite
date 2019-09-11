@@ -77,22 +77,22 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="nom" value="{{$specialite->nom}}" name="nom" type="text" class="validate" required>
                                     <label for="nom" class="">Nom</label>
+                                    <input id="nom" value="{{$specialite->nom}}" name="nom" type="text" class="validate" required>
                                 </div>
                                 <div class="input-field form-input">
-                                    <input id="nom_en" value="{{$specialite->nom_en}}" name="nom_en" type="text" class="validate">
                                     <label for="nom_en" class="">Nom Anglais</label>
+                                    <input id="nom_en" value="{{$specialite->nom_en}}" name="nom_en" type="text" class="validate">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="nom_ar" value="{{$specialite->nom_ar}}" name="nom_ar" type="text" class="validate">
                                     <label for="nom_ar" class="">Nom Arabe</label>
+                                    <input id="nom_ar" value="{{$specialite->nom_ar}}" name="nom_ar" type="text" class="validate">
                                 </div>
                                 <div class="input-field form-input">
-                                    <input id="code"  value="{{$specialite->code}}" name="code" type="text" class="validate" required>
                                     <label for="code" class="">Code</label>
+                                    <input id="code"  value="{{$specialite->code}}" name="code" type="text" class="validate" required>
                                 </div>
                             </div>
                         </div>

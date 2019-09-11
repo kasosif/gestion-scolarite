@@ -65,16 +65,11 @@
                         <div class="row" style="padding: 4px">
                             <div class="col-md-12">
                                 <div class="input-field form-input">
-                                    <input id="titre" name="titre" type="text" class="validate" required>
                                     <label for="titre" class="">Titre</label>
+                                    <input id="titre" name="titre" type="text" class="validate" required>
                                 </div>
                             </div>
-                            <div class="col-md-8" style="display: none">
-                                <div class="input-field form-input">
-                                    <input id="slug" name="slug" type="text" class="validate" required>
-                                    <label for="slug" class="">Slug</label>
-                                </div>
-                            </div>
+                            <input id="slug" name="slug" type="hidden" class="validate" required>
                             <div class="col-md-4">
                                 <h2>Image <small></small></h2>
                                 <div class="input-group">

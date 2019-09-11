@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EtudiantRequest;
+use App\Mail\WelcomeMailWelearn;
+use App\Model\Abscence;
 use App\Model\Annee;
 use App\Model\Classe;
+use App\Model\Matiere;
+use App\Model\Semestre;
 use App\Model\Specialite;
 use App\Model\User;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use PDF;
 use File;
 use Illuminate\Http\Request;
@@ -51,14 +57,16 @@ class EtudiantController extends Controller
     public function store(EtudiantRequest $request)
     {
         $this->authorize('createEtudiant', Auth::user());
-        $params = ['role' => 'ROLE_ETUDIANT'];
+        $plainpass = Str::random(8);
+        $params = ['role' => 'ROLE_ETUDIANT', 'password' => $plainpass];
         if ($image = $request->files->get('image')) {
             $destinationPath = 'images/etudiants/'; // upload path
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $params['image'] = $profileImage;
         }
-        User::create(array_merge($request->all(), $params));
+        $user = User::create(array_merge($request->all(), $params));
+        Mail::to($user->email)->send(new WelcomeMailWelearn($user,$plainpass));
         return redirect()->route('etudiant.index')->with('success','Etudiant Ajouté');
     }
 
@@ -177,5 +185,31 @@ class EtudiantController extends Controller
         $this->authorize('viewEtudiant', User::class);
         $pdf = PDF::loadView('docs.attestation_inscription', compact('etudiant'));
         return $pdf->download($etudiant->cin.'attestation_inscription'.'pdf');
+    }
+
+    /**
+     * Generate specified resource PDF AttestationInscription.
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function generateBulletin($cin, $semestre_id) {
+        $etudiant = User::where('cin',$cin)->first();
+        $this->authorize('viewEtudiant', User::class);
+        $classe = Classe::find($etudiant->classe_id);
+        $annee = Annee::find($classe->niveau->specialite->id);
+        $semestre = Semestre::find($semestre_id);
+        $matieres = Matiere::where('semestre_id',$semestre_id)
+            ->where('niveau_id',$classe->niveau_id)
+            ->get();
+        $abscences = Abscence::where('user_id',$etudiant->id)->get();
+        $heures = 0;
+        if ($abscences->count() > 0) {
+            foreach ($abscences as $abscence) {
+                $heures = $heures + $hourdiff = round((strtotime($abscence->seance->heure_fin) - strtotime($abscence->seance->heure_debut)) / 3600, 1);
+            }
+        }
+        return view('docs.bulletin',compact('etudiant','classe','semestre','matieres','heures','annee'));
+//        $pdf = PDF::loadView('docs.attestation_inscription', compact('etudiant'));
+//        return $pdf->download($etudiant->cin.'attestation_inscription'.'pdf');
     }
 }

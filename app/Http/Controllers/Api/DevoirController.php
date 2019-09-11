@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Model\Devoir;
+use App\Model\User;
+use App\Notifications\DevoirNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,15 +31,17 @@ class DevoirController extends Controller
             ]);
 
         } else if ($user->role == 'ROLE_PROFESSEUR') {
-            $query = Devoir::with('matiere','classe.niveau.specialite')
-                ->where('date', '>', new \DateTime('today'));
             $matieres = DB::table('affectations')->select('matiere_id')
                 ->where('user_id',$user->id)
                 ->distinct()
                 ->get();
+            $matiere_ids = [];
             foreach ($matieres as $matiere){
-                $query->orWhere('matiere_id',$matiere->matiere_id);
+                array_push($matiere_ids, $matiere->matiere_id);
             }
+            $query = Devoir::with('matiere','classe.niveau.specialite')
+                ->where('date', '>', new \DateTime('today'))
+                ->whereIn('matiere_id', $matiere_ids);
             $devoirs = $query->distinct()->get();
             return response()->json([
                 'devoirs' => $devoirs
@@ -73,6 +77,12 @@ class DevoirController extends Controller
                 ]);
             }
             $devoir = Devoir::create($request->all());
+            $users = User::where('classe_id',$devoir->classe_id)->get();
+            foreach ($users as $user){
+                $user->notify(
+                    new DevoirNotification('icon-calendar text-success','Nouveau Devoir',$devoir,'/app/calendrier/app-calendar')
+                );
+            }
             $devoir = Devoir::with('matiere','classe.niveau.specialite')->find($devoir->id);
             return response()->json([
                 'devoir' => $devoir
@@ -88,6 +98,12 @@ class DevoirController extends Controller
         if ($user->role == 'ROLE_PROFESSEUR') {
             $devoir = Devoir::find($id);
             $devoir->delete();
+            $users = User::where('classe_id',$devoir->classe_id)->get();
+            foreach ($users as $user){
+                $user->notify(
+                    new DevoirNotification('icon-calendar text-danger','Devoir Annulé',$devoir,'/app/calendrier/app-calendar')
+                );
+            }
             return response()->json([
                 'message' => 'Succees'
             ]);
@@ -104,6 +120,12 @@ class DevoirController extends Controller
             $devoir = Devoir::find($id);
             $devoir->date = $request->get('date');
             $devoir->save();
+            $users = User::where('classe_id',$devoir->classe_id)->get();
+            foreach ($users as $user){
+                $user->notify(
+                    new DevoirNotification('icon-calendar text-warning','Devoir Mis a jour',$devoir,'/app/calendrier/app-calendar')
+                );
+            }
             return response()->json([
                 'message' => 'Succees'
             ]);

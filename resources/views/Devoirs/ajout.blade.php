@@ -81,8 +81,8 @@
                                     </select>
                                 </div>
                                 <div class="input-field form-input">
-                                    <input id="coeficient" step="0.1" name="coeficient" type="number" class="validate" required>
                                     <label for="coeficient" class="">Coeficient</label>
+                                    <input id="coeficient" step="0.1" name="coeficient" type="number" class="validate" required>
                                 </div>
 
                             </div>
@@ -97,7 +97,8 @@
                                     <label for="type" class="control-label">Type</label>
                                     <select required id="type" name="type" class="form-control">
                                         <option value="" selected disabled>Selectionnez Type</option>
-                                        <option value="controle">Devoir de controle</option>
+                                        <option value="controle 1">Devoir de controle 1 </option>
+                                        <option value="controle 2">Devoir de controle 2 </option>
                                         <option value="examen">Examen</option>
                                     </select>
                                 </div>

@@ -99,18 +99,6 @@ class EmploiController extends Controller
                     $emplois->date_fin = $dateF;
                     $emplois->seance_id  = $se->id;
                     $emplois->save();
-                }else{
-                    $se= Seance::find($s->id);
-                    $jou=Jour::find($j->id);
-                    $emplois=new Emploi();
-
-                    $emplois->classe_id = $classe->id;
-                    $emplois->semaine  = $semaine;
-                    $emplois->jour_id = $jou->id;
-                    $emplois->date_debut = $dateD;
-                    $emplois->date_fin = $dateF;
-                    $emplois->seance_id  = $se->id;
-                    $emplois->save();
                 }
             }
         }
@@ -198,23 +186,13 @@ class EmploiController extends Controller
                     $emplois->date_fin = $dateF;
                     $emplois->seance_id  = $se->id;
                     $emplois->save();
-                }else{
-                    $se= Seance::find($s->id);
-                    $jou=Jour::find($j->id);
-                    $emplois=new Emploi();
-
-                    $emplois->classe_id = $classe->id;
-                    $emplois->semaine  = $semaine;
-                    $emplois->jour_id = $jou->id;
-                    $emplois->date_debut = $dateD;
-                    $emplois->date_fin = $dateF;
-                    $emplois->seance_id  = $se->id;
-                    $emplois->save();
                 }
             }
         }
-        foreach ($classe->users as $user) {
-            $user->notify(new ScheduleModified('icon-grid text-warning', $dateD. ' => '.$dateF, 'Emploi Modifié'));
+        if (new \DateTime($dateD) >= new \DateTime('today')){
+            foreach ($classe->users as $user) {
+                $user->notify(new ScheduleModified('icon-grid text-warning', $dateD. ' => '.$dateF, 'Emploi Modifié','/app/emplois'));
+            }
         }
         return redirect()->route('emplois.classe',['classe_id'=>$classe->id])->with('success','Emploi modifié avec success');
     }
@@ -257,6 +235,15 @@ class EmploiController extends Controller
             return redirect()->route('emplois.classe',['classe_id'=>$classe_id])->with('success','Emploi Supprimé avec success');
         }
         return redirect()->route('emplois.classe',['classe_id'=>$classe_id])->with('erreur','Erreur d\'operation' );
+    }
+
+    static function caseSeanceJour($seance_id, $jour_id, $classe_id, $dateD) {
+        $cases = Emploi::where('classe_id',$classe_id)
+            ->where('date_debut',$dateD)
+            ->where('jour_id',$jour_id)
+            ->where('seance_id', $seance_id)
+            ->get();
+        return $cases;
     }
 
 

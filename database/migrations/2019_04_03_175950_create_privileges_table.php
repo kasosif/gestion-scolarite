@@ -17,6 +17,7 @@ class CreatePrivilegesTable extends Migration
 
             $table->bigIncrements('id');
             $table->string('titre')->unique();
+            $table->string('ressource');
             $table->timestamps();
         });
     }

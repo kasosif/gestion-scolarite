@@ -36,7 +36,7 @@ class DevoirRequest extends FormRequest
             'date' => 'required|date|after: today|before: '.$date,
             'type' => [
                 'required',
-                'regex:(controle|examen)'
+                'regex:(controle 1|controle 2|examen)'
             ],
             'matiere_id' => 'required|numeric'
         ];

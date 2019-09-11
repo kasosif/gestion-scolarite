@@ -84,20 +84,20 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="nom" value="{{$matiere->nom}}" name="nom" type="text" class="validate" required>
                                     <label for="nom" class="">Nom</label>
+                                    <input id="nom" value="{{$matiere->nom}}" name="nom" type="text" class="validate" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="coeficient" value="{{$matiere->coeficient}}" name="coeficient" type="number" class="validate" required>
                                     <label for="coeficient" class="">Coefficient</label>
+                                    <input id="coeficient" value="{{$matiere->coeficient}}" name="coeficient" type="number" class="validate" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="input-field form-input">
-                                    <input  value="{{$matiere->plafond_abscences}}" id="plafond_abscences" name="plafond_abscences" type="number" class="validate" required>
                                     <label for="plafond_abscences" class="">Plafond Absences</label>
+                                    <input  value="{{$matiere->plafond_abscences}}" id="plafond_abscences" name="plafond_abscences" type="number" class="validate" required>
                                 </div>
                             </div>
                         </div>

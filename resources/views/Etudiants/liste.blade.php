@@ -5,6 +5,8 @@
 @section('csspage')
     <!-- dataTables css -->
     <link href="{{asset('assets/plugins/datatables/dataTables.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- iziToast alert -->
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 @endsection
 @section('etudiantactive')
     class = "active"
@@ -59,7 +61,7 @@
                                 @foreach($etudiants as $etudiant)
                                     <tr>
                                         <td>
-                                            {{$etudiant->classe->abbreviation}} {{$etudiant->classe->niveau->nom}}
+                                            {{$etudiant->classe->abbreviation}} {{$etudiant->classe->niveau->specialite->nom}} {{$etudiant->classe->niveau->nom}}
                                         </td>
                                         <td>
                                             <img @if($etudiant->image)
@@ -91,7 +93,7 @@
                                                 <a href="{{route('etudiant.show',['cin' => $etudiant->cin])}}" class="btn btn-warning w-md">Info/Docs</a>
                                             @endcan
                                             @can('deleteEtudiant',\App\Model\User::class)
-                                                <button onclick="deleteUser({{$etudiant->cin}})" type="button" class="btn btn-danger w-md">Supp</button>
+                                                <button onclick="deleteUser('{{$etudiant->cin}}')" type="button" class="btn btn-danger w-md">Supp</button>
                                             @endcan
                                         </td>
                                     </tr>
@@ -134,9 +136,18 @@
 @section('scriptpage')
     <!-- dataTables js -->
     <script src="{{asset('assets/plugins/datatables/dataTables.min.js')}}" type="text/javascript"></script>
+    <!-- iziToast -->
+    <script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
             $('.table').DataTable();
+            @if ($message = Session::get('success'))
+            iziToast.success({
+                title: 'Success',
+                message: '{{ $message }}',
+                position: 'topCenter'
+            });
+            @endif
         });
         function deleteUser(cin) {
             $('#deleteform').attr('action','{{route('etudiant.destroy')}}'+'/'+cin);

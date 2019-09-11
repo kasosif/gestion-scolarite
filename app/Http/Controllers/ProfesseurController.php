@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\ProfesseurRequest;
+use App\Mail\WelcomeMailGs;
+use App\Mail\WelcomeMailWelearn;
 use App\Model\User;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class ProfesseurController extends Controller
 {
@@ -43,14 +47,16 @@ class ProfesseurController extends Controller
     public function store(ProfesseurRequest $request)
     {
         $this->authorize('createProfesseur', User::class);
-        $params = ['role' => 'ROLE_PROFESSEUR'];
+        $plainpass = Str::random(8);
+        $params = ['role' => 'ROLE_PROFESSEUR','password' => $plainpass];
         if ($image = $request->files->get('image')) {
             $destinationPath = 'images/professeurs/'; // upload path
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $params['image'] = $profileImage;
         }
-        User::create(array_merge($request->all(), $params));
+        $professeur = User::create(array_merge($request->all(), $params));
+        Mail::to($professeur->email)->send(new WelcomeMailWelearn($professeur,$plainpass));
         return redirect()->route('professeur.index')->with('success','Professeur Ajouté');
     }
 

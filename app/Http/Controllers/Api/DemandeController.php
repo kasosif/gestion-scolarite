@@ -17,7 +17,7 @@ class DemandeController extends Controller
 
         if ($user->role == 'ROLE_ETUDIANT') {
             $validator = Validator::make($request->all(), [
-                'type' => ['required', 'regex:(Presence|Inscription)']
+                'type' => ['required', 'regex:(Presence|Inscription|Personnalise)']
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -27,6 +27,7 @@ class DemandeController extends Controller
             Demande::create(
                 [
                     'type' => $request->get('type'),
+                    'description' => $request->get('description'),
                     'user_id' => $user->id,
                 ]
             );

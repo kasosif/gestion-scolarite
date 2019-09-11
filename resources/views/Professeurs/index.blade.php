@@ -61,11 +61,14 @@
                                 @foreach($professeurs as $professeur)
                                     <tr>
                                         <td>
-                                            @if($professeur->image)
-                                                <img src="{{asset('images/professeurs/'.$professeur->image)}}" alt="User Image" style="width: 50px;">
-                                            @else
-                                                No Image
-                                            @endif
+                                            <img @if($professeur->image)
+                                                 src="{{asset('images/professeurs/'.$professeur->image)}}"
+                                                 @elseif($professeur->gendre == 'female')
+                                                 src="{{asset('assets/dist/img/avatar2.png')}}"
+                                                 @elseif($professeur->gendre == 'male')
+                                                 src="{{asset('assets/dist/img/avatar5.png')}}"
+                                                 @endif
+                                                 alt="User Image" style="width: 50px;">
                                         </td>
                                         <td>
                                             {{$professeur->cin}}
@@ -84,7 +87,7 @@
                                                 <a href="{{route('professeur.edit',['cin' => $professeur->cin])}}" class="btn btn-primary w-md">Modif/Info</a>
                                             @endcan
                                             @can('deleteProfesseur',$professeur)
-                                                <button onclick="deleteUser({{$professeur->cin}})" type="button" class="btn btn-danger w-md">Supp</button>
+                                                <button onclick="deleteUser('{{$professeur->cin}}')" type="button" class="btn btn-danger w-md">Supp</button>
                                             @endcan
                                         </td>
                                     </tr>

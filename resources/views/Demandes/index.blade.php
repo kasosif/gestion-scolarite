@@ -54,7 +54,13 @@
                                             {{$demande->created_at}}
                                         </td>
                                         <td>
-                                            {{$demande->type == 'Presence' ? 'Attestation de Presence' : 'Attestation d\'Inscription' }}
+                                            @if($demande->type == 'Presence')
+                                                Attestation de Presence
+                                            @elseif($demande->type == 'Inscription')
+                                                Attestation d'Inscription
+                                            @else
+                                                <p>{{$demande->description}}</p>
+                                            @endif
                                         </td>
                                         <td>
                                             <a target="_blank" href="{{route('etudiant.show',['cin'=> $demande->user->cin])}}">
@@ -66,7 +72,7 @@
                                                 <button onclick="treatRessource('{{$demande->user->cin}}', '{{$demande->type}}', '{{$demande->id}}')" type="button" class="btn btn-success w-md">Traiter</button>
                                             @endcan
                                             @can('delete',$demande)
-                                            <button onclick="deleteRessource('{{$demande->user->cin}}', '{{$demande->type}}', '{{$demande->id}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                                <button onclick="deleteRessource('{{$demande->user->cin}}', '{{$demande->type}}', '{{$demande->id}}')" type="button" class="btn btn-danger w-md">Supp</button>
                                             @endcan
                                         </td>
                                     </tr>
@@ -145,12 +151,12 @@
         });
         function treatRessource(cin, type, id) {
             $('#treatform').attr('action','{{route('demande.treat')}}'+'/'+id);
-            $('.modal-body').html('<h2>Vous avez génerer la demande d\'attestation de "'+type+'" de l\'etudiant ayant le cin : "'+cin+'" ? </h2>');
+            $('.modal-body').html('<h2>Vous avez génerer la demande d\'attestation "'+type+'" de l\'etudiant ayant le cin : "'+cin+'" ? </h2>');
             $('#treatModal').modal('show');
         }
         function deleteRessource(cin, type, id) {
             $('#deleteform').attr('action','{{route('demande.destroy')}}'+'/'+id);
-            $('.modal-body').html('<h2>Etes vous sur de supprimer la demande d\'attestation de "'+type+'" de l\'etudiant ayant le cin : "'+cin+'" ? </h2>');
+            $('.modal-body').html('<h2>Etes vous sur de supprimer la demande d\'attestation "'+type+'" de l\'etudiant ayant le cin : "'+cin+'" ? </h2>');
             $('#deleteModal').modal('show');
         }
     </script>

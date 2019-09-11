@@ -75,7 +75,8 @@ class FormationController extends Controller
                         new FormationAdded(
                             'fa fa-play text-success',
                             $formation,
-                            'Nouvelle Formation disponible'
+                            'Nouvelle Formation disponible',
+                            '/app/formations'
                         )
                     );
             }
@@ -112,7 +113,7 @@ class FormationController extends Controller
         if ($image = $request->files->get('image')) {
             $destinationPath = 'images/formations/'; // upload path
             if ($formation->image && file_exists(public_path().'/images/formations/'.$formation->image)) {
-                unlink(public_path().'/images/feeds/'.$formation->image);
+                unlink(public_path().'/images/formations/'.$formation->image);
             }
             $formationImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $formationImage);
@@ -151,7 +152,6 @@ class FormationController extends Controller
     {
         $this->authorize('delete', Formation::class);
         $formation = Formation::findorFail($id);
-//        $this->authorize('delete',Formation::class);
         if ($formation->image && file_exists(public_path().'/images/formations/'.$formation->image)) {
             unlink(public_path().'/images/formations/'.$formation->image);
         }

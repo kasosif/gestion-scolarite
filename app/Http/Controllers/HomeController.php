@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class HomeController extends Controller
 {
@@ -85,5 +87,26 @@ class HomeController extends Controller
         $user->image = $profileImage;
         $user->save();
         return redirect()->route('profile')->with('success','Image mis a jour ');
+    }
+
+    public function changepassword(Request $request) {
+        try {
+            $this->validate($request, [
+                'password' => ['required'],
+                'new_password' => ['confirmed', 'required', 'regex:#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#','different:password'],
+            ]);
+        } catch (ValidationException $e) {
+            return redirect()->route('profile')->with('error',$e->errors()['new_password'][0]);
+        }
+        $user = Auth::user();
+        if (Hash::check($request->password, $user->password)) {
+            $user->fill([
+                'password' => $request->new_password
+            ])->save();
+            return redirect()->route('profile')->with('success', 'Mot de Passe changé');
+
+        } else {
+            return redirect()->route('profile')->with('error','Mot de Passe Actuel Incorrect');
+        }
     }
 }

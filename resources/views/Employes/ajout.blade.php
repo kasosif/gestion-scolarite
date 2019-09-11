@@ -60,16 +60,22 @@
                         <i class="fa fa-lock fa-lg"></i>
                         <h2>Privileges <small>autorisations...</small></h2>
                     </div>
+
                     <div class="card-body">
                         <div class="row" style="padding: 4px;">
-                            @foreach($privileges as $privilege)
-                                <div class="col-md-3 switch m-b-20">
-                                    <label style="font-size: inherit">
-                                        {{$privilege->titre}}
-                                        <input type="checkbox" name="privileges[]" value="{{$privilege->id}}">
-                                        <span class="lever"></span>
-                                    </label>
+                            @foreach($ressources as $ressource)
+                                <div class="col-md-12">
+                                    <h2>Droits de gestion des {{$ressource->ressource}}</h2>
                                 </div>
+                                @foreach(\App\Model\Privilege::where('ressource',$ressource->ressource)->get() as $privilege)
+                                    <div @if($ressource->ressource == 'Abcences') class="col-md-4 switch m-b-20" @else class="col-md-3 switch m-b-20" @endif>
+                                        <label style="font-size: inherit">
+                                            {{$privilege->titre}}
+                                            <input type="checkbox" name="privileges[]" value="{{$privilege->id}}">
+                                            <span class="lever"></span>
+                                        </label>
+                                    </div>
+                                @endforeach
                             @endforeach
                         </div>
                     </div>
@@ -86,44 +92,45 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="input-field form-input">
-                                        <input id="prenom" name="prenom" type="text" class="validate" required>
                                         <label for="prenom" class="">Prénom</label>
+                                        <input id="prenom" name="prenom" type="text" class="validate" required>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="prenom_ar" name="prenom_ar" type="text" class="validate" >
                                         <label for="prenom_ar" class="">Prénom Arabe</label>
+                                        <input id="prenom_ar" name="prenom_ar" type="text" class="validate" >
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="prenom_en" name="prenom_en" type="text" class="validate" >
                                         <label for="prenom_en" class="">Prénom Anglais</label>
+                                        <input id="prenom_en" name="prenom_en" type="text" class="validate" >
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="cin" name="cin" type="text" class="validate" required>
                                         <label for="cin" class="">CIN</label>
+                                        <input id="cin" name="cin" type="text" class="validate" required>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="lieu_naissance" name="lieu_naissance" type="text" class="validate" required>
                                         <label for="lieu_naissance" class="">Lieu de Naissance</label>
+                                        <input id="lieu_naissance" name="lieu_naissance" type="text" class="validate" required>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="lieu_naissance_en" name="lieu_naissance_en" type="text" class="validate">
                                         <label for="lieu_naissance_en" class="">Lieu de Naissance Anglais</label>
+                                        <input id="lieu_naissance_en" name="lieu_naissance_en" type="text" class="validate">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-field form-input">
-                                        <input id="nom" name="nom" type="text" class="validate" required>
                                         <label for="nom" class="">Nom</label>
+                                        <input id="nom" name="nom" type="text" class="validate" required>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="nom_ar" name="nom_ar" type="text" class="validate" >
                                         <label for="nom_ar" class="">Nom Arabe</label>
+                                        <input id="nom_ar" name="nom_ar" type="text" class="validate" >
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="nom_en" name="nom_en" type="text" class="validate" >
                                         <label for="nom_en" class="">Nom Anglais</label>
+                                        <input id="nom_en" name="nom_en" type="text" class="validate" >
                                     </div>
-                                    <div class="input-field form-input">
+                                    <div class="form-group">
+                                        <label for="gendre" class="">Gendre</label>
                                         <select id="gendre" name="gendre" class="form-control" required>
                                             <option value="" selected disabled>Selectionnez Gendre</option>
                                             <option value="male">Homme</option>
@@ -131,8 +138,8 @@
                                         </select>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="lieu_naissance_ar" name="lieu_naissance_ar" type="text" class="validate">
                                         <label for="lieu_naissance_ar" class="">Lieu de Naissance Arabe</label>
+                                        <input id="lieu_naissance_ar" name="lieu_naissance_ar" type="text" class="validate">
                                     </div>
                                     <div class="form-group">
                                         <label for="date_naissance" class="">Date de Naissance</label>
@@ -168,19 +175,11 @@
                         </div>
                         <div class="card-body" style="padding: 4px">
                             <div class="input-field form-input">
-                                <input id="email" name="email" type="email" class="validate" required>
                                 <label for="email" class="">Email</label>
+                                <input id="email" name="email" type="email" class="validate" required>
                             </div>
                             <div class="input-field form-input">
                                 <input disabled id="username" name="username" type="text" class="form-control" required>
-                            </div>
-                            <div class="input-field form-input">
-                                <input id="password" name="password" type="password" class="validate" required>
-                                <label for="password" class="">Mot de Passe</label>
-                            </div>
-                            <div class="input-field form-input">
-                                <input id="password-confirm" name="password_confirmation" type="password" class="validate" required>
-                                <label for="password-confirm" class="">Confirmation Mot de Passe</label>
                             </div>
                         </div>
                     </div>

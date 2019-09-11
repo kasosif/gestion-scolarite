@@ -13,11 +13,13 @@ class MarkAdded extends Notification
     protected $icone;
     protected $devoir;
     protected $texte;
-    public function __construct($icone, $devoir, $texte)
+    protected $lien;
+    public function __construct($icone, $devoir, $texte, $lien)
     {
         $this->icone = $icone;
         $this->devoir = $devoir;
         $this->texte = $texte;
+        $this->lien = $lien;
     }
     public function via()
     {
@@ -29,6 +31,7 @@ class MarkAdded extends Notification
             'icone' => $this->icone,
             'devoir' => $this->devoir->type. ' '. $this->devoir->matiere->nom,
             'texte' => $this->texte,
+            'lien' => $this->lien,
         ];
     }
 }

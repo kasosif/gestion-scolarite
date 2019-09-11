@@ -65,23 +65,18 @@
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
                             <div class="col-md-8">
-                                <div class="input-field form-input">
-                                    <input id="titre" name="titre" type="text" class="validate" required>
-                                    <label for="titre" class="">Titre</label>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="input-field form-input">
-                                    <input id="slug" name="slug" type="text" class="validate" required>
-                                    <label for="slug" class="">Slug</label>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
                                 <h2>Image <small></small></h2>
                                 <div class="input-group">
                                     <input type="file" name="image" id="image">
                                 </div>
                             </div>
+                            <div class="col-md-8">
+                                <div class="input-field form-input">
+                                    <label for="titre" class="">Titre</label>
+                                    <input id="titre" name="titre" type="text" class="validate" required>
+                                </div>
+                            </div>
+                            <input id="slug" name="slug" type="hidden" class="validate" required>
                             <div class="col-md-8">
                                 <div class="input-field form-input">
                                     <select id="type" name="type" class="form-control" required>

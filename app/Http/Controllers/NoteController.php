@@ -22,7 +22,7 @@ class NoteController extends Controller
     {
         $this->authorize('view', Note::class);
         $annees = Annee::all();
-        $notes = false;
+        $notes = Note::all();
         if ($user_id = $request->query('user_id')) {
             $notes = Note::where('user_id',$user_id)->get();
         }
@@ -59,7 +59,7 @@ class NoteController extends Controller
                 ]);
                 User::find($etudiantid)
                     ->notify(
-                        new MarkAdded('icon-note text-success',Devoir::find($request->get('devoir_id')),'Nouvelle Note')
+                        new MarkAdded('icon-note text-success',Devoir::find($request->get('devoir_id')),'Nouvelle Note','/app/notes')
                 );
             }
         }

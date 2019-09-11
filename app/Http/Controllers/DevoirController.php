@@ -9,8 +9,11 @@ use App\Model\Classe;
 use App\Model\Devoir;
 use App\Model\Matiere;
 use App\Model\Niveau;
+use App\Model\User;
+use App\Notifications\DevoirNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class DevoirController extends Controller
 {
@@ -52,7 +55,13 @@ class DevoirController extends Controller
     public function store(DevoirRequest $request)
     {
         $this->authorize('create', Devoir::class);
-        Devoir::create($request->all());
+        $devoir = Devoir::create($request->all());
+        $users = User::where('classe_id',$request->get('classe_id'))->get();
+        foreach ($users as $user){
+            $user->notify(
+                new DevoirNotification('icon-calendar text-success','Nouveau Devoir',$devoir,'/app/calendrier/app-calendar')
+            );
+        }
         return redirect()->route('devoir.index')->with('success','Devoir Ajouté');
     }
 
@@ -86,7 +95,6 @@ class DevoirController extends Controller
     {
         $this->authorize('update', Devoir::class);
         $devoir = Devoir::findorFail($id);
-
         $devoir->update($request->all());
         return redirect()->route('devoir.index')->with('success','Devoir Modifié');
     }
@@ -102,7 +110,14 @@ class DevoirController extends Controller
     {
         $this->authorize('delete', Devoir::class);
         $devoir = Devoir::findorFail($id);
+        $classe_id = $devoir->classe_id;
         $devoir->delete();
+        $users = User::where('classe_id', $classe_id)->get();
+        foreach ($users as $user){
+            $user->notify(
+                new DevoirNotification('icon-calendar text-danger','Devoir Annulé',$devoir,'/app/calendrier/app-calendar')
+            );
+        }
         return redirect()->route('devoir.index')->with('success','Devoir Supprimé');
     }
 

@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     //profile
     Route::get('/profile', 'HomeController@profile')->name('profile');
+    Route::put('/profile/changepassword', 'HomeController@changepassword')->name('profile.changepassword');
     Route::put('/profile/update', 'HomeController@updateprofile')->name('profile.update');
     Route::patch('/profile/updatepicture', 'HomeController@updateprofilepicture')->name('profile.changepicture');
 
@@ -34,6 +35,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/etudiants/carte/{cin}', 'EtudiantController@generateCarte')->name('etudiant.carte');
     Route::get('/etudiants/attestaionpresence/{cin}', 'EtudiantController@generateAttestationPresence')->name('etudiant.attestaionpresence');
     Route::get('/etudiants/attestaioninscription/{cin}', 'EtudiantController@generateAttestationInscription')->name('etudiant.attestaioninscription');
+    Route::get('/etudiants/bulletin/{cin}/{semestre_id}', 'EtudiantController@generateBulletin')->name('etudiant.bulletin');
     Route::put('/etudiants/update/{cin}', 'EtudiantController@update')->name('etudiant.update');
     Route::delete('/etudiants/destroy/{cin?}', 'EtudiantController@destroy')->name('etudiant.destroy');
 
@@ -164,10 +166,14 @@ Route::group(['middleware' => 'auth'], function() {
 
     //abscences
 
-    Route::get('/abscences/', 'AbscenceController@index')->name('abscence.index');
-    Route::get('/abscences/ajout', 'AbscenceController@create')->name('abscence.ajout');
-    Route::post('/abscences/store', 'AbscenceController@store')->name('abscence.store');
-    Route::delete('/abscences/destroy/{id?}', 'AbscenceController@destroy')->name('abscence.destroy');
+    Route::get('/abscencesetudiant/', 'AbscenceController@index')->name('abscencesetudiant.index');
+    Route::get('/abscencesetudiant/ajout', 'AbscenceController@create')->name('abscencesetudiant.ajout');
+    Route::post('/abscencesetudiant/store', 'AbscenceController@store')->name('abscencesetudiant.store');
+    Route::delete('/abscencesetudiant/destroy/{id?}', 'AbscenceController@destroyEtudiant')->name('abscencesetudiant.destroy');
+    Route::get('/abscencesprofesseur/', 'AbscenceController@indexProfesseur')->name('abscencesprofesseur.index');
+    Route::get('/abscencesprofesseur/ajout', 'AbscenceController@createProfesseur')->name('abscencesprofesseur.ajout');
+    Route::post('/abscencesprofesseur/store', 'AbscenceController@storeProfesseur')->name('abscencesprofesseur.store');
+    Route::delete('/abscencesprofesseur/destroy/{id?}', 'AbscenceController@destroyProfesseur')->name('abscencesprofesseur.destroy');
 
     //niveaux
 
@@ -205,6 +211,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/ajax/alletudiants', 'AjaxController@getAllStudents')->name('ajax.students');
     Route::get('/ajax/etudiants/{classe_id?}', 'AjaxController@getStudentsByClasse')->name('ajax.studentsbyclass');
     Route::get('/ajax/etudiantsabscence/{classe_id?}', 'AjaxController@getStudentsForPresence')->name('ajax.etudaintsabscence');
+    Route::get('/ajax/professeurabscence/{classe_id?}', 'AjaxController@getTeachersForPresence')->name('ajax.professeurabscence');
     Route::get('/ajax/etudiantsnote/{classe_id?}', 'AjaxController@getStudentsForMark')->name('ajax.etudaintsnotes');
     Route::get('/ajax/professeurs', 'AjaxController@getAllTeachers')->name('ajax.teachers');
     Route::get('/ajax/devoirs/{classe_id?}', 'AjaxController@devoirsByClasse')->name('ajax.devoirsbyclasse');

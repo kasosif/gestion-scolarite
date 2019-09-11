@@ -82,8 +82,8 @@
                                     </select>
                                 </div>
                                 <div class="input-field form-input">
-                                    <input id="coeficient" step="0.1" value="{{$devoir->coeficient}}" name="coeficient" type="number" class="validate" required>
                                     <label for="coeficient" class="">Coeficient</label>
+                                    <input id="coeficient" step="0.1" value="{{$devoir->coeficient}}" name="coeficient" type="number" class="validate" required>
                                 </div>
                             </div>
                             <div class="col-md-6">

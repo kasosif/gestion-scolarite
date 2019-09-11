@@ -66,22 +66,23 @@
                         <div class="row" style="padding: 4px">
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="nom" name="nom" type="text" class="validate" required>
                                     <label for="nom" class="">Nom</label>
+                                    <input id="nom" name="nom" type="text" class="validate" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="date_debut">Date Debut</label>
                                     <input name="date_debut" id= "date_debut" class="form-control" type="date" required>
                                 </div>
                                 <div class="input-field form-input">
-                                    <input id="code" name="code" type="text" class="validate" required>
                                     <label for="code" class="">Code</label>
+                                    <input id="code" name="code" type="text" class="validate" required>
+
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-field form-input">
-                                    <input id="nom_ar" name="nom_ar" type="text" class="validate">
                                     <label for="nom_ar" class="">Nom Arabe</label>
+                                    <input id="nom_ar" name="nom_ar" type="text" class="validate">
                                 </div>
                                 <div class="form-group">
                                     <label for="date_fin">Date Fin</label>

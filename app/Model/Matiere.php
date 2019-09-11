@@ -13,7 +13,7 @@ class Matiere extends Model
      */
     protected $fillable = [
         'nom','coeficient','plafond_abscences',
-        'niveau_id'
+        'niveau_id','semestre_id'
     ];
 
     public function affectations() {
@@ -30,6 +30,10 @@ class Matiere extends Model
 
     public function niveau(){
         return $this->belongsTo(Niveau::class);
+    }
+
+    public function semestre(){
+        return $this->belongsTo(Semestre::class);
     }
 
 
