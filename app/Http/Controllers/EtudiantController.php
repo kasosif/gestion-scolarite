@@ -158,7 +158,7 @@ class EtudiantController extends Controller
         $etudiant = User::where('cin',$cin)->first();
         $this->authorize('viewEtudiant', User::class);
         $pdf = PDF::loadView('docs.carte_etudiant', compact('etudiant'));
-        return $pdf->download($etudiant->cin.'carte_etudiant'.'pdf');
+        return $pdf->download($etudiant->cin.'carte_etudiant'.'.pdf');
     }
 
     /**
@@ -171,7 +171,7 @@ class EtudiantController extends Controller
         $etudiant = User::where('cin',$cin)->first();
         $this->authorize('viewEtudiant', User::class);
         $pdf = PDF::loadView('docs.attestation_presence', compact('etudiant'));
-        return $pdf->download($etudiant->cin.'attestation_presence'.'pdf');
+        return $pdf->download($etudiant->cin.'attestation_presence'.'.pdf');
     }
 
     /**
@@ -184,7 +184,7 @@ class EtudiantController extends Controller
         $etudiant = User::where('cin',$cin)->first();
         $this->authorize('viewEtudiant', User::class);
         $pdf = PDF::loadView('docs.attestation_inscription', compact('etudiant'));
-        return $pdf->download($etudiant->cin.'attestation_inscription'.'pdf');
+        return $pdf->download($etudiant->cin.'attestation_inscription'.'.pdf');
     }
 
     /**

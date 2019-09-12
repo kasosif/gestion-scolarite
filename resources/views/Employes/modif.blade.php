@@ -65,13 +65,17 @@
                         <div class="row" style="padding: 4px;">
                             @foreach($ressources as $ressource)
                                 <div class="col-md-12">
-                                    <h2>Droits de gestion des {{$ressource->ressource}}</h2>
+                                    <h2>
+                                        <a href="#" onclick="toggleRessource('{{str_replace(' ', '', $ressource->ressource)}}')">Droits de gestion des {{$ressource->ressource}}
+                                            <i class="fa fa-lock"></i>
+                                        </a>
+                                    </h2>
                                 </div>
                                 @foreach(\App\Model\Privilege::where('ressource',$ressource->ressource)->get() as $privilege)
                                     <div @if($ressource->ressource == 'Abcences') class="col-md-4 switch m-b-20" @else class="col-md-3 switch m-b-20" @endif>
                                         <label style="font-size: inherit">
                                             {{$privilege->titre}}
-                                            <input @if($employe->privileges->contains($privilege->id)) checked @endif type="checkbox" name="privileges[]" value="{{$privilege->id}}">
+                                            <input @if($employe->privileges->contains($privilege->id)) checked @endif class="{{str_replace(' ', '', $ressource->ressource)}}" type="checkbox" name="privileges[]" value="{{$privilege->id}}">
                                             <span class="lever"></span>
                                         </label>
                                     </div>
@@ -218,5 +222,15 @@
                 'maxFileSize': 2200
             });
         });
+        function toggleRessource(ressource) {
+            event.preventDefault();
+            if ($(this).find(">:first-child").attr('class') === 'fa fa-unlock'){
+                $(this).find(">:first-child").attr('class','fa fa-lock')
+            } else {
+                $(this).find(">:first-child").attr('class','fa fa-unlock')
+            }
+            var checkBoxes = $('.'+ressource);
+            checkBoxes.prop("checked", !checkBoxes.prop("checked"))
+        }
     </script>
 @endsection

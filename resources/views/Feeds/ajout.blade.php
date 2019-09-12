@@ -64,20 +64,20 @@
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <h2>Image <small></small></h2>
-                                <div class="input-group">
+                                <div class="input-group" style="display: inherit !important;">
                                     <input type="file" name="image" id="image">
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="input-field form-input">
                                     <label for="titre" class="">Titre</label>
                                     <input id="titre" name="titre" type="text" class="validate" required>
                                 </div>
                             </div>
                             <input id="slug" name="slug" type="hidden" class="validate" required>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="input-field form-input">
                                     <select id="type" name="type" class="form-control" required>
                                         <option value="" selected disabled>Selectionnez Type</option>
@@ -146,7 +146,10 @@
                             method: "GET",
                             success: function(response) {
                                 $("#choiceContent").html(response);
-                                $('.select2').select2();
+                                $('.select2').select2({
+                                        placeholder: "Selectionnez Classe(s)",
+                                    }
+                                );
                             }
                         });
                         break;
@@ -158,7 +161,10 @@
                             method: "GET",
                             success: function(response) {
                                 $("#choiceContent").html(response);
-                                $('.select2').select2();
+                                $('.select2').select2({
+                                        placeholder: "Selectionnez Etudiant(s)",
+                                    }
+                                );
                             }
                         });
                         break;
@@ -170,7 +176,10 @@
                             method: "GET",
                             success: function(response) {
                                 $("#choiceContent").html(response);
-                                $('.select2').select2();
+                                $('.select2').select2({
+                                        placeholder: "Selectionnez Professeur(s)",
+                                    }
+                                );
                             }
                         });
                         break;

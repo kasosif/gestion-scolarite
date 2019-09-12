@@ -96,7 +96,7 @@ class HomeController extends Controller
                 'new_password' => ['confirmed', 'required', 'regex:#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#','different:password'],
             ]);
         } catch (ValidationException $e) {
-            return redirect()->route('profile')->with('error',$e->errors()['new_password'][0]);
+            return redirect()->route('profile')->with('error',implode(",",$e->errors()['new_password']));
         }
         $user = Auth::user();
         if (Hash::check($request->password, $user->password)) {

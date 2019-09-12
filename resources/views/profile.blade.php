@@ -206,7 +206,7 @@
                                     </div>
                                     <div class="input-field form-input">
                                         <label for="new_password" class="">Nouveau Mot de passe</label>
-                                        <input id="new_password" type="password" placeholder="Nouveau Mot de passe" name="new_password" class="validate" required>
+                                        <input id="new_password" type="password" placeholder="Nouveau Mot de passe (8 caractères contenant au moins un chiffre)" name="new_password" class="validate" required>
                                     </div>
                                     <div class="input-field form-input">
                                         <label for="new_password_confirmation" class="">Confirmer Nouveau Mot de passe</label>

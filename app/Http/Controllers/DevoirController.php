@@ -40,8 +40,8 @@ class DevoirController extends Controller
         $niveaux = Niveau::all();
         $annee = DB::table('annees')
             ->select('annees.*')
-            ->where('annees.date_debut','<',Carbon::today())
-            ->where('annees.date_fin','>',Carbon::today())
+            ->where('annees.date_debut','>',Carbon::today())
+            ->where('annees.date_fin','<',Carbon::today())
             ->first();
         return view('Devoirs.ajout',compact('niveaux','annee'));
     }

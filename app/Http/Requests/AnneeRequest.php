@@ -26,8 +26,8 @@ class AnneeRequest extends FormRequest
         return [
             'nom' => 'required|min:2',
             'nom_ar' => 'nullable|min:2',
-            'date_debut' => 'required|date|after: -2 years',
-            'date_fin' => 'required|date|after: date_debut',
+            'date_debut' => 'required|date',
+            'date_fin' => 'required|date|after:date_debut',
             'code' => 'required'
         ];
     }

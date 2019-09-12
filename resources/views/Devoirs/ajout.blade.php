@@ -73,10 +73,10 @@
                                         <option value="" selected disabled>Selectionnez Classe</option>
                                         @foreach($niveaux as $niveau)
                                             <optgroup label="{{$niveau->specialite->nom}} {{$niveau->nom}}">
-                                            @foreach($niveau->classes as $classe)
-                                                <option value="{{$classe->id}}">{{$niveau->nom}} {{$classe->abbreviation}}</option>
-                                            @endforeach
-                                        </optgroup>
+                                                @foreach($niveau->classes as $classe)
+                                                    <option value="{{$classe->id}}">{{$niveau->nom}} {{$classe->abbreviation}}</option>
+                                                @endforeach
+                                            </optgroup>
                                         @endforeach
                                     </select>
                                 </div>
@@ -107,11 +107,17 @@
                                 <label for="date_pub" class="">Date et heure</label>
                             </div>
                             <div class="col-md-8">
-                                <div class="input-field form-input">
-                                    <input name="date" id= "date_pub" class="validate" type="datetime-local"
-                                           min="{{date('Y-m-d\Th:i', strtotime(Carbon\Carbon::now()->toDateTimeString()))}}"
-                                           max="{{date('Y-m-d\Th:i', strtotime($annee->date_fin))}}" required>
-                                </div>
+                                @if ($annee)
+                                    <div class="input-field form-input">
+                                        <input name="date" id= "date_pub" class="validate" type="datetime-local"
+                                               min="{{date('Y-m-d\Th:i', strtotime(Carbon\Carbon::now()->toDateTimeString()))}}"
+                                               max="{{date('Y-m-d\Th:i', strtotime($annee->date_fin))}}" required>
+                                    </div>
+                                @else
+                                    <div class="alert alert-warning">
+                                        La date courante ne correspond pas à aucune année scolaire existante
+                                    </div>
+                                @endif
                             </div>
 
                         </div>
