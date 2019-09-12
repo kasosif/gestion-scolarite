@@ -128,22 +128,26 @@
                                 <input type="hidden" name="_method" value="PUT">
                                 <div class="col-sm-6">
                                     <div class="input-field form-input">
-                                        <input id="prenom" value="{{Auth::user()->prenom}}" name="prenom" type="text" class="validate" required>
                                         <label for="prenom" class="">Prénom</label>
+                                        <input id="prenom" value="{{Auth::user()->prenom}}" name="prenom" type="text" class="validate" required>
+
                                     </div>
                                     <div class="input-field form-input">
-                                        <input disabled id="cin" value="{{Auth::user()->cin}}" type="text" class="validate" required>
                                         <label for="cin" class="">CIN</label>
+                                        <input disabled id="cin" value="{{Auth::user()->cin}}" type="text" class="validate" required>
+
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="lieu_naissance" value="{{Auth::user()->lieu_naissance}}" name="lieu_naissance" type="text" class="validate" required>
                                         <label for="lieu_naissance" class="">Lieu de Naissance</label>
+                                        <input id="lieu_naissance" value="{{Auth::user()->lieu_naissance}}" name="lieu_naissance" type="text" class="validate" required>
+
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-field form-input">
-                                        <input id="nom" value="{{Auth::user()->nom}}" name="nom" type="text" class="validate" required>
                                         <label for="nom" class="">Nom</label>
+                                        <input id="nom" value="{{Auth::user()->nom}}" name="nom" type="text" class="validate" required>
+
                                     </div>
                                     <div class="input-field form-input">
                                         <select id="gendre" name="gendre" class="form-control" required>
@@ -191,22 +195,22 @@
                     <div class="card-header">
                         <h2>Sécurité <small>Changer Votre Mot de Passe</small></h2>
                     </div>
-                    <div class="card-body" style="padding: 20px">
+                    <div class="card-body " >
                             <div class="row">
                                 <form action="{{route('profile.changepassword')}}" method="post">
                                     @csrf
                                     <input type="hidden" name="_method" value="PUT">
                                     <div class="input-field form-input">
-                                        <input id="password" type="password" placeholder="Mot de passe Actuel" class="validate" name="password" required>
                                         <label for="password" class="">Mot de passe Actuel</label>
+                                        <input id="password" type="password" placeholder="Mot de passe Actuel" class="validate" name="password" required>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="new_password" type="password" placeholder="Nouveau Mot de passe" name="new_password" class="validate" required>
                                         <label for="new_password" class="">Nouveau Mot de passe</label>
+                                        <input id="new_password" type="password" placeholder="Nouveau Mot de passe" name="new_password" class="validate" required>
                                     </div>
                                     <div class="input-field form-input">
-                                        <input id="new_password_confirmation" type="password" name="new_password_confirmation" placeholder="Confirmer Nouveau Mot de passe" class="validate" required>
                                         <label for="new_password_confirmation" class="">Confirmer Nouveau Mot de passe</label>
+                                        <input id="new_password_confirmation" type="password" name="new_password_confirmation" placeholder="Confirmer Nouveau Mot de passe" class="validate" required>
                                     </div>
                                     <button type="submit" class="btn btn-labeled btn-success">
                                         <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Changer
