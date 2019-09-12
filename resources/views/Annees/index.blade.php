@@ -43,6 +43,9 @@
                     <div class="card-header">
                         <i class="fa fa-table fa-lg"></i>
                         Liste des Années Scolaires
+
+                        <div style="float: right"><a href="{{route('specialite.ajout')}}" class="btn btn-primary">Ajouter Spécialité</a></div>
+                        <div class="clearfix"></div>
                     </div>
                     <div class="card-content">
                         <div class="table-responsive">

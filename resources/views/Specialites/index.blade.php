@@ -43,6 +43,8 @@
                     <div class="card-header">
                         <i class="fa fa-table fa-lg"></i>
                         Liste des Specialités
+                        <div style="float: right"><a href="{{route('niveau.ajout')}}" class="btn btn-primary">Ajouter un Niveau</a></div>
+                        <div class="clearfix"></div>
                     </div>
                     <div class="card-content">
                         <div class="table-responsive">

@@ -35,21 +35,13 @@
             </div>
         </div>
         @if (count($errors) > 0)
-
             <div class="alert alert-danger">
-
                 <strong>Opps!</strong> Erreur de l'envoi du formulaire
-
                 <ul>
-
                     @foreach ($errors->all() as $error)
-
                         <li>{{ $error }}</li>
-
                     @endforeach
-
                 </ul>
-
             </div>
             <br>
         @endif
@@ -61,7 +53,7 @@
                         <i class="fa fa-wpforms"></i>
                         Formulaire d'ajout
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 30px!important;">
                         <div class="row" style="padding: 4px">
                             <div class="col-md-12">
                                 <div class="input-field form-input">
@@ -70,13 +62,13 @@
                                 </div>
                             </div>
                             <input id="slug" name="slug" type="hidden" class="validate" required>
-                            <div class="col-md-4">
+                            <div class="">
                                 <h2>Image <small></small></h2>
-                                <div class="input-group">
+                                <div class="input-group" style="width: 100%;">
                                     <input type="file" name="image" id="image">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="">
                                 <div class="form-group">
                                     <label for="compose-textarea">Description</label>
                                     <textarea name="description" required id="compose-textarea" style="height: 100px"></textarea>
@@ -106,15 +98,15 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" >
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-wpforms"></i>
                         Parties Formation
                     </div>
                     <div class="card-body">
-                        <div class="row" style="padding: 4px">
-                            <div class="col-md-6">
+                        <div class="row" style="padding: 4px;margin: 0!important;" >
+                            <div class="col-md-12">
                                 <div class="input-field form-input">
                                     <select id="nbrparties" class="form-control select2" required>
                                         <option value="" selected disabled>Selectionnez Nombre de partie</option>
@@ -125,16 +117,15 @@
                                 </div>
                             </div>
                             <div class="parties"></div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="pull-right">
-                            <button type="submit" class="btn btn-labeled btn-success">
-                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Ajouter
-                            </button>
-                            <button type="reset" class="btn btn-labeled btn-danger">
-                                <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
-                            </button>
+                            <div class="pull-right " style="margin-top: 15px!important;">
+                                <button type="submit" class="btn btn-labeled btn-success">
+                                    <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Ajouter
+                                </button>
+                                <button type="reset" class="btn btn-labeled btn-danger">
+                                    <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
+                                </button>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>

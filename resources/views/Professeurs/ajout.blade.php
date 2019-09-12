@@ -135,7 +135,7 @@
                             <h2>Image <small>Photo de Profil ...</small></h2>
                         </div>
                         <div class="card-body" style="padding: 4px;">
-                            <div class="input-group">
+                            <div class="input-group" style="width: 100%">
                                 <input type="file" name="image" id="imageuser">
                             </div>
                         </div>

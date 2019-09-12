@@ -43,6 +43,8 @@
                     <div class="card-header">
                         <i class="fa fa-table fa-lg"></i>
                         Liste des Professeurs
+                        <div style="float: right"><a href="{{route('abscencesprofesseur.index')}}" class="btn btn-primary">Liste Abscences </a></div>
+                        <div class="clearfix"></div>
                     </div>
                     <div class="card-content">
                         <div class="table-responsive">

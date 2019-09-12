@@ -44,6 +44,7 @@
                 <div class="card-header">
                     <i class="fa fa-table fa-lg"></i>
                     Info Specialité
+
                 </div>
                 <div class="card-content">
                     <div class="row">

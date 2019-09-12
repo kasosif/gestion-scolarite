@@ -42,6 +42,11 @@
                     <div class="card-header">
                         <i class="fa fa-table fa-lg"></i>
                         Liste des Etudiants
+                        <div style="float: right">
+                            <a href="{{route('abscencesetudiant.index')}}" class="btn btn-primary">Liste Abscenses </a>
+                            <a href="{{route('note.index')}}" class="btn btn-primary">Notes Etudiant</a>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
                     <div class="card-content">
                         <div class="table-responsive">

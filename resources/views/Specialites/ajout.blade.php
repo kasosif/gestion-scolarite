@@ -6,6 +6,11 @@
 @endsection
 @section('csspage')
     <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
+    <style>
+        .select2{
+            width: 100%!important;
+        }
+    </style>
 @endsection
 @section('basesactive')
     class = "active"
@@ -62,10 +67,11 @@
                     <div class="card-header">
                         <i class="fa fa-wpforms"></i>
                         Formulaire d'ajout
+
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <label for="annee" class="control-label">Année</label>
                                 <select required id="annee" name="annee_id" class="form-control">
                                     <option value="" selected disabled>Selectionnez Année</option>

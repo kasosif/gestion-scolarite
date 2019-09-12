@@ -148,7 +148,7 @@
                             @if($professeur->image)
                                 <img src="{{asset('images/professeurs/'.$professeur->image)}}" alt="user image" class="thumbnail" style="max-width: 200px">
                             @endif
-                            <div class="input-group">
+                            <div class="input-group" style="width: 100%">
                                 <input type="file" name="image" id="imageuser">
                             </div>
                         </div>
