@@ -216,7 +216,7 @@ class EmploiController extends Controller
         $titre_semaine = $pagination[0]->semaine;
         $pdf = PDF::loadView('docs.emploisemaine', compact('pagination','jours','classe','dateD','dateF','seances','titre_semaine'));
         $pdf->setPaper('A4', 'landscape');
-        return $pdf->download('emploi_classe_'.$classe->abbreviation.'_semaine_'.$dateD->format('d-m-Y').'_'.$dateF->format('d-m-Y').'pdf');
+        return $pdf->download('emploi_classe_'.$classe->abbreviation.'_semaine_'.$dateD->format('d-m-Y').'_'.$dateF->format('d-m-Y').'.pdf');
 
 
     }
