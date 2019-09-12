@@ -73,13 +73,12 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
                         <div class="pull-right">
                             <button type="submit" class="btn btn-labeled btn-success">
                                 <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Recherche
                             </button>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </form>

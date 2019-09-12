@@ -101,8 +101,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
                         <div class="pull-right">
                             <button type="submit" class="btn btn-labeled btn-success">
                                 <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Modifier
@@ -111,6 +109,7 @@
                                 <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
                             </button>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </form>

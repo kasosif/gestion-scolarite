@@ -43,7 +43,7 @@
                     <div class="card-header">
                         <i class="fa fa-table fa-lg"></i>
                         Liste des Niveaux
-                        <div style="float: right"><a href="{{route('classe.ajout')}}" class="btn btn-primary">Ajouter une classes</a></div>
+                        <div style="float: right"><a href="{{route('classe.ajout')}}" class="btn btn-primary">Ajouter une classe</a></div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="card-content">
