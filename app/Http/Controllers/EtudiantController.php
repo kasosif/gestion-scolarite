@@ -44,7 +44,7 @@ class EtudiantController extends Controller
     {
         $this->authorize('createEtudiant', Auth::user());
         $annees = Annee::all();
-        return view('Etudiants.ajout',compact('annees','specialites'));
+        return view('Etudiants.ajout',compact('annees'));
     }
 
     /**
