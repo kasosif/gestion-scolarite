@@ -209,6 +209,7 @@ class EtudiantController extends Controller
     public function generateAttestationInscriptionArabe($cin) {
         $etudiant = User::where('cin',$cin)->first();
         $this->authorize('viewEtudiant', User::class);
+        //return view('docs.attestation_inscription_arabe', compact('etudiant'));
         $pdf = PDF::loadView('docs.attestation_inscription_arabe', compact('etudiant'));
         return $pdf->download($etudiant->cin.'attestation_inscription_arabe'.'.pdf');
     }

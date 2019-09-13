@@ -44,7 +44,7 @@
             &nbsp;&nbsp;&nbsp;إبتداء من :<strong>{{ $etudiant->classe->niveau->specialite->annee->date_debut }}</strong>
         </p>
         <p style="font-size: 16px;margin-right: 10%;" align="right" dir="rtl" lang="ar">
-            &nbsp;&nbsp;&nbsp;وذلك بالنسبة للسنة التكوينية :<strong>{{ $etudiant->classe->niveau->specialite->annee->nom_ar }}</strong>
+            &nbsp;&nbsp;&nbsp;وذلك بالنسبة للسنة الدراسية :<strong>{{ $etudiant->classe->niveau->specialite->annee->nom_ar }}</strong>
         </p>
 
         <div align="left" >
