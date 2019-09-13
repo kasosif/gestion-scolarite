@@ -208,7 +208,7 @@ class AjaxController extends Controller
 
 
     /**
-     * Display matieres by classe
+     * Add Professor Classe
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -221,12 +221,31 @@ class AjaxController extends Controller
         Affectation::create($request->all());
         $matiere = Matiere::findorFail($request->get('matiere_id'));
         $professeur= User::findorFail($request->get('user_id'));
-        return response()->json([
-            'matiere' => $matiere->nom,
-            'matiere_id' => $matiere->id,
-            'professeur' => $professeur->nom.' '.$professeur->prenom,
-            'professeur_id' => $professeur->id
-        ]);
+        return view('Ajax.affectee',compact('matiere','professeur','classe'));
+
+    }
+
+    /**
+     * Cancel Professor Classe
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function desaffecterProfesseur(Request $request)
+    {
+        $classe = Classe::findorFail($request->get('classe_id'));
+        $this->authorize('update',$classe);
+        $matiere = Matiere::find($request->get('matiere_id'));
+        $affectation = Affectation::where('classe_id',$request->get('classe_id'))
+            ->where('matiere_id',$request->get('matiere_id'))
+            ->where('user_id',$request->get('user_id'))
+            ->first();
+        if ($affectation)
+            $affectation->delete();
+        $professeurs = User::where('role','ROLE_PROFESSEUR')->get();
+        return view('Ajax.nonaffectee',compact('matiere','professeurs','classe'));
+
     }
 
     public function displayparites($nb) {

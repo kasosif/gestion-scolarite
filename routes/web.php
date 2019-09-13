@@ -211,6 +211,7 @@ Route::group(['middleware' => 'auth'], function() {
     //ajax
     Route::get('/ajax/classes/{spec_id?}', 'AjaxController@classsesBySpecialite')->name('ajax.classesbyspec');
     Route::post('/ajax/affecterprofesseur', 'AjaxController@affecterProfesseur')->name('ajax.affectprof');
+    Route::post('/ajax/desaffectprofesseur', 'AjaxController@desaffecterProfesseur')->name('ajax.desaffectprof');
     Route::get('/ajax/annees/{annee_id?}', 'AjaxController@classsesByAnnee')->name('ajax.classesbyannee');
     Route::get('/ajax/matieres/{classe_id?}', 'AjaxController@matieresByClasse')->name('ajax.matieresbyclasse');
     Route::get('/ajax/allclasses', 'AjaxController@getAllClasses')->name('ajax.classes');
