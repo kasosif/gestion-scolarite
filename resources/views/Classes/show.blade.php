@@ -8,6 +8,11 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
     <!-- dataTables css -->
     <link href="{{asset('assets/plugins/datatables/dataTables.min.css')}}" rel="stylesheet" type="text/css" />
+    <style>
+        .select2-container{
+            width: 100%!important;
+        }
+    </style>
 @endsection
 @section('basesactive')
     class = "active"
@@ -78,7 +83,7 @@
                                         </div>
                                         @can('update',$classe)
                                             <div class="col-md-4">
-                                                <button type="submit" class="btn btn-labeled btn-danger">
+                                                <button type="submit" class="btn btn-labeled btn-danger" style=" margin-top: 15px; ">
                                                     <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Annuler l'affectation
                                                 </button>
                                             </div>
@@ -110,7 +115,7 @@
                                         </div>
                                         @can('update',$classe)
                                             <div class="col-md-4">
-                                                <button type="submit" class="btn btn-labeled btn-primary">
+                                                <button type="submit" class="btn btn-labeled btn-primary" style=" margin-top: 15px; ">
                                                     <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Affecter Professeur
                                                 </button>
                                             </div>
@@ -193,9 +198,10 @@
                                 message: 'Succes',
                                 position: 'topCenter'
                             });
-                            form.parent().html(data);
-                            $(".select2").select2("remove");
-                            $("select").select2();
+                            var $newform=$(data);
+                            $newform.find('select').select2();
+                            form.parent().html($newform);
+
                         }
 
                     }
@@ -206,5 +212,4 @@
             @endcan
         });
     </script>
-
 @endsection
