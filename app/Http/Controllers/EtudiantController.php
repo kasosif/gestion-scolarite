@@ -175,7 +175,20 @@ class EtudiantController extends Controller
     }
 
     /**
-     * Generate specified resource PDF AttestationInscription.
+     * Generate specified resource PDF AttestationPresence In Arabic.
+     * @param  string  $cin
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function generateAttestationPresenceArabe($cin) {
+        $etudiant = User::where('cin',$cin)->first();
+        $this->authorize('viewEtudiant', User::class);
+        $pdf = PDF::loadView('docs.attestation_presence_arabe', compact('etudiant'));
+        return $pdf->download($etudiant->cin.'attestation_presence_arabe'.'.pdf');
+    }
+
+    /**
+     * Generate specified resource PDF AttestationInscription .
      * @param  string  $cin
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -185,6 +198,19 @@ class EtudiantController extends Controller
         $this->authorize('viewEtudiant', User::class);
         $pdf = PDF::loadView('docs.attestation_inscription', compact('etudiant'));
         return $pdf->download($etudiant->cin.'attestation_inscription'.'.pdf');
+    }
+
+    /**
+     * Generate specified resource PDF AttestationInscription In Arabic.
+     * @param  string  $cin
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function generateAttestationInscriptionArabe($cin) {
+        $etudiant = User::where('cin',$cin)->first();
+        $this->authorize('viewEtudiant', User::class);
+        $pdf = PDF::loadView('docs.attestation_inscription_arabe', compact('etudiant'));
+        return $pdf->download($etudiant->cin.'attestation_inscription_arabe'.'.pdf');
     }
 
     /**
@@ -209,7 +235,7 @@ class EtudiantController extends Controller
             }
         }
         return view('docs.bulletin',compact('etudiant','classe','semestre','matieres','heures','annee'));
-//        $pdf = PDF::loadView('docs.attestation_inscription', compact('etudiant'));
+//        $pdf = PDF::loadView('docs.bulletin', compact('etudiant'));
 //        return $pdf->download($etudiant->cin.'attestation_inscription'.'pdf');
     }
 }

@@ -60,10 +60,27 @@ class NoteController extends Controller
                 User::find($etudiantid)
                     ->notify(
                         new MarkAdded('icon-note text-success',Devoir::find($request->get('devoir_id')),'Nouvelle Note','/app/notes')
-                );
+                    );
             }
         }
         return redirect()->route('note.index')->with('success','Notes Ajouté');
+    }
+
+    /**
+     * @param $id
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id) {
+        $note = Note::find($id);
+        $this->authorize('update', $note);
+        return view('Notes.modif',compact('note'));
+    }
+    public function update(Request $request, $id) {
+        $note = Note::find($id);
+        $note->update(['mark' => $request->get('mark')]);
+        return redirect()->route('note.index')->with('success', 'Note Mise a jour');
+
     }
 
 

@@ -74,20 +74,20 @@
                         @if(($etudiant->nom_ar) && ($etudiant->prenom_ar) && ($etudiant->lieu_naissance_ar))
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-info">Attestation de presence Arabe</button>
+                                    <a href="{{route('etudiant.attestaionpresenceA',['cin' => $etudiant->cin])}}" class="btn btn-info">Attestation de presence Arabe</a>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-info">Attestation d'inscription Arabe</button>
+                                    <a href="{{route('etudiant.attestaioninscriptionA',['cin' => $etudiant->cin])}}" class="btn btn-info">Attestation d'inscription Arabe</a>
                                 </div>
                             </div>
                         @endif
-                        @if($etudiant->classe->niveau->specialite->annee->date_fin < \Carbon\Carbon::today())
+                        {{--@if($etudiant->classe->niveau->specialite->annee->date_fin < \Carbon\Carbon::today())--}}
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-info">Bulletin</button>
+                                    <a href="{{route('etudiant.bulletin',['cin' => $etudiant->cin,'semestre_id'=>1])}}" type="button" class="btn btn-info">Bulletin</a>
                                 </div>
                             </div>
-                        @endif
+                        {{--@endif--}}
                     </div>
                 </div>
                 <div class="card">

@@ -34,7 +34,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/etudiants/show/{cin}', 'EtudiantController@show')->name('etudiant.show');
     Route::get('/etudiants/carte/{cin}', 'EtudiantController@generateCarte')->name('etudiant.carte');
     Route::get('/etudiants/attestaionpresence/{cin}', 'EtudiantController@generateAttestationPresence')->name('etudiant.attestaionpresence');
+    Route::get('/etudiants/attestaionpresenceA/{cin}', 'EtudiantController@generateAttestationPresenceArabe')->name('etudiant.attestaionpresenceA');
     Route::get('/etudiants/attestaioninscription/{cin}', 'EtudiantController@generateAttestationInscription')->name('etudiant.attestaioninscription');
+    Route::get('/etudiants/attestaioninscriptionA/{cin}', 'EtudiantController@generateAttestationInscriptionArabe')->name('etudiant.attestaioninscriptionA');
     Route::get('/etudiants/bulletin/{cin}/{semestre_id}', 'EtudiantController@generateBulletin')->name('etudiant.bulletin');
     Route::put('/etudiants/update/{cin}', 'EtudiantController@update')->name('etudiant.update');
     Route::delete('/etudiants/destroy/{cin?}', 'EtudiantController@destroy')->name('etudiant.destroy');
@@ -169,10 +171,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/abscencesetudiant/', 'AbscenceController@index')->name('abscencesetudiant.index');
     Route::get('/abscencesetudiant/ajout', 'AbscenceController@create')->name('abscencesetudiant.ajout');
     Route::post('/abscencesetudiant/store', 'AbscenceController@store')->name('abscencesetudiant.store');
+    Route::get('/abscencesetudiant/edit/{id}', 'AbscenceController@edit')->name('abscencesetudiant.edit');
+    Route::put('/abscencesetudiant/update/{id}', 'AbscenceController@update')->name('abscencesetudiant.update');
     Route::delete('/abscencesetudiant/destroy/{id?}', 'AbscenceController@destroyEtudiant')->name('abscencesetudiant.destroy');
     Route::get('/abscencesprofesseur/', 'AbscenceController@indexProfesseur')->name('abscencesprofesseur.index');
     Route::get('/abscencesprofesseur/ajout', 'AbscenceController@createProfesseur')->name('abscencesprofesseur.ajout');
     Route::post('/abscencesprofesseur/store', 'AbscenceController@storeProfesseur')->name('abscencesprofesseur.store');
+    Route::get('/abscencesprofesseur/edit/{id}', 'AbscenceController@editProfesseur')->name('abscencesprofesseur.edit');
+    Route::put('/abscencesprofesseur/update/{id}', 'AbscenceController@updateProfesseur')->name('abscencesprofesseur.update');
     Route::delete('/abscencesprofesseur/destroy/{id?}', 'AbscenceController@destroyProfesseur')->name('abscencesprofesseur.destroy');
 
     //niveaux

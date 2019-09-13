@@ -223,7 +223,9 @@ class AjaxController extends Controller
         $professeur= User::findorFail($request->get('user_id'));
         return response()->json([
             'matiere' => $matiere->nom,
-            'professeur' => $professeur->nom.' '.$professeur->prenom
+            'matiere_id' => $matiere->id,
+            'professeur' => $professeur->nom.' '.$professeur->prenom,
+            'professeur_id' => $professeur->id
         ]);
     }
 

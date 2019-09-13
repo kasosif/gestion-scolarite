@@ -122,13 +122,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
                             <div class="pull-right">
                                 <button type="submit" class="btn btn-labeled btn-success">
                                     <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Recherche
                                 </button>
                             </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                 </form>
@@ -189,6 +188,16 @@
                                                 {{date('d-m-Y', strtotime($abscence->date))}}
                                             </td>
                                             <td>
+                                                @can('createEtudiant',\App\Model\Abscence::class)
+                                                    @if(\Request::route()->getName() == 'abscencesetudiant.index')
+                                                        <a href="{{route('abscencesetudiant.edit',['id' => $abscence->id])}}" type="button" class="btn btn-primary w-md">Modif</a>
+                                                    @endif
+                                                @endcan
+                                                @can('createProfesseur',\App\Model\Abscence::class)
+                                                    @if(\Request::route()->getName() == 'abscencesprofesseur.index')
+                                                        <a href="{{route('abscencesprofesseur.edit',['id' => $abscence->id])}}" type="button" class="btn btn-primary w-md">Modif</a>
+                                                    @endif
+                                                @endcan
                                                 @can('deleteEtudiant',$abscence)
                                                     @if(\Request::route()->getName() == 'abscencesetudiant.index')
                                                         <button onclick="deleteAbscenceEtudiant('{{$abscence->id}}','{{$abscence->user->nom}} {{$abscence->user->prenom}}')" type="button" class="btn btn-danger w-md">Supp</button>

@@ -51,6 +51,41 @@ class AbscenceController extends Controller
         return view('Abscences.ajout',compact('annees','seances'));
     }
 
+
+    /**
+     * Show the form for updating a resource.
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function edit($id) {
+        $this->authorize('createEtudiant', Abscence::class);
+        $absence = Abscence::find($id);
+        if ($absence->user->role == "ROLE_ETUDIANT")
+            return view('Abscences.modif',compact('absence'));
+        return redirect()->route('abscencesprofesseur.index');
+    }
+
+    /**
+     * Updating a ressource
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function update(Request $request,$id) {
+        $this->authorize('createEtudiant', Abscence::class);
+        $absence = Abscence::find($id);
+        if ($absence->user->role == "ROLE_ETUDIANT") {
+            if ($request->get('justifie'))
+                $absence->update(['justifie' => true]);
+            else
+                $absence->update(['justifie' => false]);
+            return redirect()->route('abscencesetudiant.index')->with('success','Abscence Mise a jour');
+        }
+        return redirect()->route('abscencesprofesseur.index');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -149,6 +184,41 @@ class AbscenceController extends Controller
             $abscence->user->notify(new MissedAdded('icon-clock', $abscence->seance, 'Vous étiez absent le '.$request->get('date'),'/app/abscences',$abscence->classe));
         }
         return redirect()->route('abscencesprofesseur.index')->with('success','Abscence(s) Ajoutée');
+    }
+
+
+    /**
+     * Show the form for updating a resource.
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function editProfesseur($id) {
+        $this->authorize('createProfesseur', Abscence::class);
+        $absence = Abscence::find($id);
+        if ($absence->user->role == "ROLE_PROFESSEUR")
+            return view('Abscences.modif',compact('absence'));
+        return redirect()->route('abscencesetudiant.index');
+    }
+
+    /**
+     * Updating a ressource
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function updateProfesseur(Request $request,$id) {
+        $this->authorize('createProfesseur', Abscence::class);
+        $absence = Abscence::find($id);
+        if ($absence->user->role == "ROLE_PROFESSEUR") {
+            if ($request->get('justifie'))
+                $absence->update(['justifie' => true]);
+            else
+                $absence->update(['justifie' => false]);
+            return redirect()->route('abscencesprofesseur.index')->with('success', 'Abscence Mise a jour');
+        }
+        return redirect()->route('abscencesetudiant.index');
     }
 
     /**

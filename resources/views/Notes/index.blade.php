@@ -130,6 +130,9 @@
                                                 {{$note->mark}}
                                             </td>
                                             <td>
+                                                @can('update',$note)
+                                                    <a href="{{route('note.edit',['id' => $note->id])}}" class="btn btn-primary w-md">Modif</a>
+                                                @endcan
                                                 @can('delete',$note)
                                                     <button onclick="deleteRessource('{{$note->id}}','{{$note->nom}}')" type="button" class="btn btn-danger w-md">Supp</button>
                                                 @endcan
