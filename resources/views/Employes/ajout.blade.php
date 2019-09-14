@@ -6,6 +6,13 @@
 @endsection
 @section('csspage')
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
+    <style>
+        .row-flex {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+    </style>
 @endsection
 @section('accesactive')
     class = "active-link"
@@ -34,63 +41,26 @@
             </div>
         </div>
         @if (count($errors) > 0)
-
             <div class="alert alert-danger">
-
                 <strong>Opps!</strong> Erreur de l'envoi du formulaire
-
                 <ul>
-
                     @foreach ($errors->all() as $error)
-
                         <li>{{ $error }}</li>
-
                     @endforeach
-
                 </ul>
-
             </div>
             <br>
         @endif
         <form action="{{route('employe.store')}}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="row">
-                <div class="card">
-                    <div class="card-header">
-                        <i class="fa fa-lock fa-lg"></i>
-                        <h2>Privileges <small>autorisations...</small></h2>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="row" style="padding: 4px;">
-                            @foreach($ressources as $ressource)
-                                <div class="col-md-12">
-                                    <h2>
-                                        <a href="#" onclick="toggleRessource('{{str_replace(' ', '', $ressource->ressource)}}')">Droits de gestion des {{$ressource->ressource}}
-                                            <i class="fa fa-lock"></i>
-                                        </a>
-                                    </h2>
-                                </div>
-                                @foreach(\App\Model\Privilege::where('ressource',$ressource->ressource)->get() as $privilege)
-                                    <div @if($ressource->ressource == 'Abcences') class="col-md-4 switch m-b-20" @else class="col-md-3 switch m-b-20" @endif>
-                                        <label style="font-size: inherit">
-                                            {{$privilege->titre}}
-                                            <input type="checkbox" class="{{str_replace(' ', '', $ressource->ressource)}}" name="privileges[]" value="{{$privilege->id}}">
-                                            <span class="lever"></span>
-                                        </label>
-                                    </div>
-                                @endforeach
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
+            <div class="row row-flex">
                 <div class="col-sm-8">
                     <div class="card">
                         <div class="card-header">
                             <i class="fa fa-info fa-lg"></i>
-                            <h2>INFORMATIONS <small>Details employe...</small></h2>
+                            <h2>INFORMATIONS
+                                <small>Details employe...</small>
+                            </h2>
                         </div>
                         <div class="card-body" style="padding: 4px;">
                             <div class="row">
@@ -101,11 +71,11 @@
                                     </div>
                                     <div class="input-field form-input">
                                         <label for="prenom_ar" class="">Prénom Arabe</label>
-                                        <input id="prenom_ar" name="prenom_ar" type="text" class="validate" >
+                                        <input id="prenom_ar" name="prenom_ar" type="text" class="validate">
                                     </div>
                                     <div class="input-field form-input">
                                         <label for="prenom_en" class="">Prénom Anglais</label>
-                                        <input id="prenom_en" name="prenom_en" type="text" class="validate" >
+                                        <input id="prenom_en" name="prenom_en" type="text" class="validate">
                                     </div>
                                     <div class="input-field form-input">
                                         <label for="cin" class="">CIN</label>
@@ -113,11 +83,13 @@
                                     </div>
                                     <div class="input-field form-input">
                                         <label for="lieu_naissance" class="">Lieu de Naissance</label>
-                                        <input id="lieu_naissance" name="lieu_naissance" type="text" class="validate" required>
+                                        <input id="lieu_naissance" name="lieu_naissance" type="text" class="validate"
+                                               required>
                                     </div>
                                     <div class="input-field form-input">
                                         <label for="lieu_naissance_en" class="">Lieu de Naissance Anglais</label>
-                                        <input id="lieu_naissance_en" name="lieu_naissance_en" type="text" class="validate">
+                                        <input id="lieu_naissance_en" name="lieu_naissance_en" type="text"
+                                               class="validate">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -127,11 +99,11 @@
                                     </div>
                                     <div class="input-field form-input">
                                         <label for="nom_ar" class="">Nom Arabe</label>
-                                        <input id="nom_ar" name="nom_ar" type="text" class="validate" >
+                                        <input id="nom_ar" name="nom_ar" type="text" class="validate">
                                     </div>
                                     <div class="input-field form-input">
                                         <label for="nom_en" class="">Nom Anglais</label>
-                                        <input id="nom_en" name="nom_en" type="text" class="validate" >
+                                        <input id="nom_en" name="nom_en" type="text" class="validate">
                                     </div>
                                     <div class="form-group">
                                         <label for="gendre" class="">Gendre</label>
@@ -143,28 +115,31 @@
                                     </div>
                                     <div class="input-field form-input">
                                         <label for="lieu_naissance_ar" class="">Lieu de Naissance Arabe</label>
-                                        <input id="lieu_naissance_ar" name="lieu_naissance_ar" type="text" class="validate">
+                                        <input id="lieu_naissance_ar" name="lieu_naissance_ar" type="text"
+                                               class="validate">
                                     </div>
                                     <div class="form-group">
                                         <label for="date_naissance" class="">Date de Naissance</label>
-                                        <input name="date_naissance" id= "date_naissance" class="form-control" type="date" required>
+                                        <input name="date_naissance" id="date_naissance" class="form-control"
+                                               type="date" required>
                                     </div>
                                 </div>
                             </div>
+                            <button  class="btn btn-labeled btn-success" style="float: right;" ><a href="#priv" class="scrollTo" style="color: inherit;" >
+                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Continuer</a>
+                            </button>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-labeled btn-success">
-                        <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Ajouter
-                    </button>
-                    <button type="reset" class="btn btn-labeled btn-danger">
-                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
-                    </button>
+
                 </div>
                 <div class="col-sm-4">
                     <div class="card">
                         <div class="card-header">
                             <i class="fa fa-picture-o fa-lg"></i>
-                            <h2>Image <small>Photo de Profil ...</small></h2>
+                            <h2>Image
+                                <small>Photo de Profil ...</small>
+                            </h2>
                         </div>
                         <div class="card-body" style="padding: 4px;">
                             <div class="input-group" style="width: 100%">
@@ -175,7 +150,9 @@
                     <div class="card">
                         <div class="card-header">
                             <i class="fa fa-lock fa-lg"></i>
-                            <h2>SECURITE <small>Parametres de Connexion ...</small></h2>
+                            <h2>SECURITE
+                                <small>Parametres de Connexion ...</small>
+                            </h2>
                         </div>
                         <div class="card-body" style="padding: 4px">
                             <div class="input-field form-input">
@@ -190,6 +167,65 @@
                 </div>
 
             </div>
+            <div class="row">
+                <div class="card">
+                    <div class="card-header" id="priv">
+                        <i class="fa fa-lock fa-lg"></i>
+                        <h2>Privileges
+                            <small>autorisations...</small>
+                        </h2>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row row-flex" style="padding: 4px;">
+                            @foreach($ressources as $ressource)
+                                <div class="col-md-6 ">
+                                    <h2>
+                                        <a href="#"
+                                           onclick="toggleRessource('{{str_replace(' ', '', $ressource->ressource)}}')">Droits
+                                            de gestion des {{$ressource->ressource}}
+                                            <i class="fa fa-lock"></i>
+                                        </a>
+                                    </h2>
+
+
+                                    @foreach(\App\Model\Privilege::where('ressource',$ressource->ressource)->get() as $privilege)
+                                        <div class="col-md-6">{{$privilege->titre}}</div>
+                                        <div class="col-md-6">
+                                            <input tabindex="13" type="checkbox" id="{{$privilege->id}}"
+                                                   name="privileges[]"
+                                                   class="{{str_replace(' ', '', $ressource->ressource)}}"
+                                                   value="{{$privilege->id}}">
+                                            <label for="{{$privilege->id}}"
+                                                   style=" margin-right: 11px; ">Activer</label>
+
+                                        </div>
+
+                                    @endforeach
+                                </div>
+                                {{--                                @foreach(\App\Model\Privilege::where('ressource',$ressource->ressource)->get() as $privilege)--}}
+                                {{--                                    <div @if($ressource->ressource == 'Abcences') class="col-md-4 switch m-b-20" @else class="col-md-3 switch m-b-20" @endif>--}}
+                                {{--                                        <label style="font-size: inherit">--}}
+                                {{--                                            {{$privilege->titre}}--}}
+                                {{--                                            <input type="checkbox" class="{{str_replace(' ', '', $ressource->ressource)}}" name="privileges[]" value="{{$privilege->id}}">--}}
+                                {{--                                            <span class="lever"></span>--}}
+                                {{--                                        </label>--}}
+                                {{--                                    </div>--}}
+                                {{--                                @endforeach--}}
+                            @endforeach
+                        </div>
+                        <div style="float: right;">
+                            <button type="submit" class="btn btn-labeled btn-success">
+                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Ajouter
+                            </button>
+                            <button type="reset" class="btn btn-labeled btn-danger">
+                                <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
+                            </button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 @endsection
@@ -202,22 +238,31 @@
             });
             $("#imageuser").fileinput({
                 'showUpload': !1,
-                'allowedFileExtensions': ["jpeg","jpg", "png"],
-                'showCaption':!1,
+                'allowedFileExtensions': ["jpeg", "jpg", "png"],
+                'showCaption': !1,
                 'minFileSize': 5,
                 'maxFileSize': 2200
             });
 
         });
+
         function toggleRessource(ressource) {
             event.preventDefault();
-            if ($(this).find(">:first-child").attr('class') === 'fa fa-unlock'){
-                $(this).find(">:first-child").attr('class','fa fa-lock')
+            if ($(this).find(">:first-child").attr('class') === 'fa fa-unlock') {
+                $(this).find(">:first-child").attr('class', 'fa fa-lock')
             } else {
-                $(this).find(">:first-child").attr('class','fa fa-unlock')
+                $(this).find(">:first-child").attr('class', 'fa fa-unlock')
             }
-            var checkBoxes = $('.'+ressource);
+            var checkBoxes = $('.' + ressource);
             checkBoxes.prop("checked", !checkBoxes.prop("checked"))
         }
+        $('.scrollTo').click(function(){
+            $('html, body').animate({
+                scrollTop: $( $(this).attr('href') ).offset().top
+            }, 500);
+            return false;
+        });
+
+
     </script>
 @endsection
