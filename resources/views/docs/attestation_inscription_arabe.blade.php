@@ -4,12 +4,6 @@
     <meta charset="UTF-8" />
     <title>شهادة ترسيم</title>
 
-    <style>
-        @font-face {
-            font-family:"stc";
-            src:url("{{ storage_path('fonts/stc-bold.ttf')}}") format('truetype');
-        }
-    </style>
 </head>
 <body style="background:transparent; font-family: 'stc';">
 <br><br>

@@ -235,8 +235,8 @@ class EtudiantController extends Controller
                 $heures = $heures + $hourdiff = round((strtotime($abscence->seance->heure_fin) - strtotime($abscence->seance->heure_debut)) / 3600, 1);
             }
         }
-        return view('docs.bulletin',compact('etudiant','classe','semestre','matieres','heures','annee'));
-//        $pdf = PDF::loadView('docs.bulletin', compact('etudiant'));
-//        return $pdf->download($etudiant->cin.'attestation_inscription'.'pdf');
+//        return view('docs.bulletin',compact('etudiant','classe','semestre','matieres','heures','annee'));
+        $pdf = PDF::loadView('docs.bulletin',compact('etudiant','classe','semestre','matieres','heures','annee'));
+        return $pdf->download($etudiant->cin.'attestation_inscription'.'pdf');
     }
 }

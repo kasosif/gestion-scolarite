@@ -3,12 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>شهادة حضور</title>
-    <style>
-        @font-face {
-            font-family:"stc";
-            src:url("{{ storage_path('fonts/stc-bold.ttf')}}") format('truetype');
-        }
-    </style>
+
 </head>
 <body style="background:transparent; font-family: 'stc';">
 <div dir="rtl" lang="ar">

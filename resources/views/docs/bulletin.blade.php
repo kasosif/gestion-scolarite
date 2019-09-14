@@ -1,4 +1,12 @@
-<h1>Bulletin {{$semestre->nom}} , Année Scolaire : {{$annee->nom}}</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Bulletin</title>
+
+</head>
+<body>
+<h1>Année Scolaire : {{$annee->nom}}</h1>
 <h2>Etudiant : {{$etudiant->prenom}} {{$etudiant->nom}}, Date de naissance : {{$etudiant->date_naissance}}</h2>
 <h2>Classe : {{$classe->abbreviation}} {{$classe->niveau->specialite->nom}} {{$classe->niveau->nom}} </h2>
 <h2>Nombre Etudiants : {{$classe->users->count()}} etudiant(s)</h2>
@@ -148,3 +156,5 @@
     </tr>
     </tbody>
 </table>
+</body>
+</html>
