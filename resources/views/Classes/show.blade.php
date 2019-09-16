@@ -200,7 +200,7 @@
                             });
                             var newform=$(data);
                             newform.find('select').select2();
-                            form.parent().html($newform);
+                            form.parent().html(newform);
 
                         }
 
