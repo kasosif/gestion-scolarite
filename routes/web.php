@@ -165,6 +165,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/formations/view/{uuid}', 'FormationController@view')->name('formation.view');
     Route::put('/formations/update/{id}', 'FormationController@update')->name('formation.update');
     Route::delete('/formations/destroy/{id?}', 'FormationController@destroy')->name('formation.destroy');
+    Route::delete('/formations/deletepartie/{id?}', 'FormationController@deletepartie')->name('formation.deletepartie');
 
     //abscences
 

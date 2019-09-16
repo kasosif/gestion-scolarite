@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class FeedController extends Controller
 {
@@ -78,7 +79,7 @@ class FeedController extends Controller
             }
         }
         if ($user->role == 'ROLE_PROFESSEUR') {
-            $feed = Feed::with('user')
+            $feed = Feed::with('user','classes','users')
                 ->where('slug', $slug)
                 ->first();
             if ($feed->type == 'public'){
@@ -111,6 +112,87 @@ class FeedController extends Controller
                 }
             }
 
+        }
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    public function deletefeed($slug) {
+        if (!auth('api')->check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $user = auth('api')->user();
+        if ($user->role == 'ROLE_PROFESSEUR') {
+            $feed = Feed::where('slug',$slug)->first();
+            if ($feed && $feed->user_id == $user->id) {
+                $feed->users()->sync([]);
+                $feed->classes()->sync([]);
+                $feed->delete();
+                return response()->json([
+                    'success' => true
+                ]);
+            }
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    public function editfeed(Request $request, $id) {
+        if (!auth('api')->check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $user = auth('api')->user();
+        if ($user->role == 'ROLE_PROFESSEUR') {
+            $feed = Feed::findorFail($id);
+            $validator = Validator::make($request->all(), [
+                'titre' => [
+                    'required',
+                    'min:5',
+                    Rule::unique('feeds')->ignore($feed->id)
+                ],
+                'slug' => [
+                    'required',
+                    Rule::unique('feeds')->ignore($feed->id)
+                ],
+                'image.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2200|min:5',
+                'contenu' => 'required|min:10',
+                'date' => 'nullable|date',
+                'type' => ['required', 'regex:(public|classes|etudiants|professeurs)'],
+                'users.*' => 'numeric',
+                'classes.*' => 'numeric'
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'error' => $validator->errors()->first()
+                ]);
+            }
+            $params = [];
+            if ($feed && $feed->user_id == $user->id) {
+                if ($image = $request->files->get('image')) {
+                    $destinationPath = 'images/feeds/'; // upload path
+                    if ($feed->image && file_exists(public_path().'/images/feeds/'.$feed->image)) {
+                        unlink(public_path().'/images/feeds/'.$feed->image);
+                    }
+                    $feedImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+                    $image->move($destinationPath, $feedImage);
+                    $params['image'] = $feedImage;
+                }
+                if (!$request->get('date')){
+                    $params['date'] = new \DateTime('now');
+                }
+                $feed->update(array_merge($request->except('users','classes'),$params));
+                $feed->users()->sync([]);
+                $feed->classes()->sync([]);
+                if ($request->get('users')){
+                    $feed->users()->sync($request->get('users'),false);
+                }
+                if ($request->get('classes')){
+                    $feed->classes()->sync($request->get('classes'),false);
+                }
+                return response()->json([
+                    'success' => true
+                ]);
+            }
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
         return response()->json(['error' => 'Unauthorized'], 401);
     }

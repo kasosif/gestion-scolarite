@@ -120,6 +120,12 @@ class UserPolicy
         return $user->privileges->contains($privilege->id);
     }
 
+    public function generateBulletin(User $user)
+    {
+        $privilege = Privilege::where('titre','generate_bulletin')->first();
+        return $user->privileges->contains($privilege->id);
+    }
+
     /**
      * Determine whether the user can update the professeur.
      *

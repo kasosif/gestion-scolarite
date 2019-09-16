@@ -402,6 +402,11 @@
                             <a href="{{route('demande.index')}}">
                                 <i class="material-icons">picture_in_picture</i>
                                 Demandes
+                                @if(\App\Model\Demande::count() > 0 )
+                                    <span class="badge badge-primary">
+                                    {{\App\Model\Demande::count()}}
+                                    </span>
+                                @endif
                             </a>
                         </li>
                     @endcan

@@ -197,7 +197,7 @@
                                                    class="{{str_replace(' ', '', $ressource->ressource)}}"
                                                    value="{{$privilege->id}}">
                                             <label for="{{$privilege->id}}"
-                                                   style=" margin-right: 11px; ">Activer</label>
+                                                   style=" margin-right: 11px; ">Autoriser</label>
 
                                         </div>
 

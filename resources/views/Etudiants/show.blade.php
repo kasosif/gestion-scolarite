@@ -64,29 +64,39 @@
                             <div class="col-md-3">
                                 <a href="{{route('etudiant.carte',['cin'=>$etudiant->cin])}}" class="btn btn-info">Carte Etudiant</a>
                             </div>
-                            <div class="col-md-4">
-                                <a href="{{route('etudiant.attestaionpresence',['cin'=>$etudiant->cin])}}" class="btn btn-info">Attestation de presence</a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="{{route('etudiant.attestaioninscription',['cin'=>$etudiant->cin])}}" class="btn btn-info">Attestation d'inscription</a>
-                            </div>
+                            @can('generatePresence',$etudiant)
+                                <div class="col-md-4">
+                                    <a href="{{route('etudiant.attestaionpresence',['cin'=>$etudiant->cin])}}" class="btn btn-info">Attestation de presence</a>
+                                </div>
+                            @endcan
+                            @can('generateInscription',$etudiant)
+                                <div class="col-md-4">
+                                    <a href="{{route('etudiant.attestaioninscription',['cin'=>$etudiant->cin])}}" class="btn btn-info">Attestation d'inscription</a>
+                                </div>
+                            @endcan
                         </div>
                         @if(($etudiant->nom_ar) && ($etudiant->prenom_ar) && ($etudiant->lieu_naissance_ar))
                             <div class="row">
-                                <div class="col-md-6">
-                                    <a href="{{route('etudiant.attestaionpresenceA',['cin' => $etudiant->cin])}}" class="btn btn-info">Attestation de presence Arabe</a>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="{{route('etudiant.attestaioninscriptionA',['cin' => $etudiant->cin])}}" class="btn btn-info">Attestation d'inscription Arabe</a>
-                                </div>
+                                @can('generatePresence',$etudiant)
+                                    <div class="col-md-6">
+                                        <a href="{{route('etudiant.attestaionpresenceA',['cin' => $etudiant->cin])}}" class="btn btn-info">Attestation de presence Arabe</a>
+                                    </div>
+                                @endcan
+                                @can('generateInscription',$etudiant)
+                                    <div class="col-md-6">
+                                        <a href="{{route('etudiant.attestaioninscriptionA',['cin' => $etudiant->cin])}}" class="btn btn-info">Attestation d'inscription Arabe</a>
+                                    </div>
+                                @endcan
                             </div>
                         @endif
                         {{--@if($etudiant->classe->niveau->specialite->annee->date_fin < \Carbon\Carbon::today())--}}
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <a href="{{route('etudiant.bulletin',['cin' => $etudiant->cin,'semestre_id'=>1])}}" type="button" class="btn btn-info">Bulletin</a>
-                                </div>
+                        @can('generateBulletin',$etudiant)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="{{route('etudiant.bulletin',['cin' => $etudiant->cin,'semestre_id'=>1])}}" type="button" class="btn btn-info">Bulletin</a>
                             </div>
+                        </div>
+                        @endcan
                         {{--@endif--}}
                     </div>
                 </div>

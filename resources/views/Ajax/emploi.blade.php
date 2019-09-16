@@ -9,7 +9,7 @@
         <input type="hidden" name="classe_id" value="{{$classe->id}}">
         <input type="hidden" name="date_debut" value="{{$date_debut}}">
         <input type="hidden" name="date_fin" value="{{$date_fin}}">
-        <div class="card-content">
+        <div class="card-body">
             <div class="table-responsive">
                 <table  class="table table-striped table-bordered table-hover table-checkable" id="datatable_orders" >
                     <thead>
@@ -49,9 +49,10 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="pull-right">
-            <button class="btn btn-success" type="submit"><i class="fa fa-check"></i>Enregistrer</button>
+            <div class="pull-right m-t-5">
+                <button class="btn btn-success" type="submit"><i class="fa fa-check"></i>Enregistrer</button>
+            </div>
+            <div class="clearfix"></div>
         </div>
     </form>
 </div>

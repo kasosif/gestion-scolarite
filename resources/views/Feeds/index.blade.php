@@ -48,6 +48,7 @@
                                 <tr>
                                     <th>Titre</th>
                                     <th>Date</th>
+                                    <th>Auteur</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -59,6 +60,13 @@
                                         </td>
                                         <td>
                                             {{$feed->date}}
+                                        </td>
+                                        <td>
+                                            @if ($feed->user->role == 'ROLE_PROFESSEUR')
+                                                {{$feed->user->nom}} {{$feed->user->prenom}}
+                                            @else
+                                                Administration
+                                            @endif
                                         </td>
                                         <td>
                                             @can('update',$feed)

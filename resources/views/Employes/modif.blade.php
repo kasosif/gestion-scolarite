@@ -230,7 +230,7 @@
                                                    @endif class="{{str_replace(' ', '', $ressource->ressource)}}"
                                                    value="{{$privilege->id}}">
                                             <label for="{{$privilege->id}}"
-                                                   style=" margin-right: 11px; ">Activer</label>
+                                                   style=" margin-right: 11px; ">Autoriser</label>
 
                                         </div>
                                     @endforeach
@@ -249,7 +249,7 @@
                         </div>
                         <div style="float: right;">
                             <button type="submit" class="btn btn-labeled btn-success">
-                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Ajouter
+                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Modifier
                             </button>
                             <button type="reset" class="btn btn-labeled btn-danger">
                                 <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler

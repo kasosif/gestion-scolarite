@@ -45,6 +45,8 @@ Route::get('/abscences', 'Api\AbscenceController@myabscences');
 Route::get('/feeds', 'Api\FeedController@feeds');
 Route::post('/feeds', 'Api\FeedController@add');
 Route::get('/feeds/{slug}', 'Api\FeedController@singlefeed');
+Route::delete('/feeds/{slug}', 'Api\FeedController@deletefeed');
+Route::post('/feeds/{id}', 'Api\FeedController@editfeed');
 //Notes
 Route::get('/notes', 'Api\NoteController@notes');
 //Formations

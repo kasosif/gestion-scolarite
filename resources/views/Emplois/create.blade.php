@@ -90,6 +90,12 @@
     <script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
+            Date.prototype.toInputFormat = function() {
+                var yyyy = this.getFullYear().toString();
+                var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+                var dd  = this.getDate().toString();
+                return yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]); // padding
+            };
             $('.select2').select2();
             $('body').on('change','#annee',function () {
                 $.ajax({
@@ -110,6 +116,17 @@
                     }
                 });
             });
+            $('body').on('change','#date_debut',function () {
+                var date = new Date($("#date_debut").val());
+
+                if(!isNaN(date.getTime())){
+                    date.setDate(date.getDate() + 5);
+
+                    $("#date_fin").val(date.toInputFormat());
+                } else {
+                    alert("Invalid Date");
+                }
+            });
             $("#paramsform").submit(function(e) {
 
                 e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -126,7 +143,7 @@
                         $('#validateparams').remove();
                         $("#paramsform :input").prop("disabled", true);
                         $('#emploicontainer').html(data);
-                        $('.select2').select2();
+                        $('#emploicontainer').find('select').select2();
                         // show response from the php script.
                     },
                     error: function (data) {

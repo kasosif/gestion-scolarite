@@ -119,9 +119,28 @@ class FormationController extends Controller
             $image->move($destinationPath, $formationImage);
             $params['image'] = $formationImage;
         }
-        $formation->update(array_merge($request->except('partie'),$params));
+        $formation->update(array_merge($request->except('partie','oldpartie'),$params));
+        if ($request->files->get('oldpartie')) {
+            foreach ($request->get('oldpartie') as $key => $part) {
+                $choisie = PartieFormation::where('formation_id',$id)
+                    ->where('indice',$key)
+                    ->first();
+                $getID3 = new \getID3;
+                $file = $getID3->analyze(storage_path('app/formations/'.$choisie->cover));
+                $playtime_seconds = $file['playtime_seconds'];
+                $formation->duration -= $playtime_seconds;
+                Storage::delete('formations/'.$choisie->cover);
+                $choisie->titre = $request->get('oldpartie')[$key]['titre'];
+                $choisie->cover = date('YmdHis') . "." .$request->files->get('oldpartie')[$key]['video']->getClientOriginalName();
+                $request->oldpartie[$key]['video']->storeAs('formations', $choisie->cover);
+                $file = $getID3->analyze(storage_path('app/formations/'.$choisie->cover));
+                $playtime_seconds = $file['playtime_seconds'];
+                $formation->duration+= $playtime_seconds;
+                $choisie->save();
+            }
+            $formation->save();
+        }
         if ($request->files->get('partie')) {
-
             for ($i = 1; $i < count($request->get('partie')) + 1; $i++) {
                 $partie = new PartieFormation();
                 $partie->titre = $request->get('partie')[$i]['titre'];
@@ -163,6 +182,33 @@ class FormationController extends Controller
         }
         $formation->delete();
         return redirect()->route('formation.index')->with('success','Formation Supprimée');
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \getid3_exception
+     */
+    public function deletepartie($id) {
+        $this->authorize('delete', Formation::class);
+        $choisie = PartieFormation::where('uuid',$id)->first();
+        $formation = $choisie->formation;
+        $parties = $formation->partieformations()->orderBy('indice')->get();
+        foreach ($parties as $partie) {
+            if ($partie->indice > $choisie->indice) {
+                $partie->indice--;
+                $partie->save();
+            }
+        }
+        $getID3 = new \getID3;
+        $file = $getID3->analyze(storage_path('app/formations/'.$choisie->cover));
+        $playtime_seconds = $file['playtime_seconds'];
+        $formation->duration -= $playtime_seconds;
+        Storage::delete('formations/'.$choisie->cover);
+        $choisie->delete();
+        $formation->save();
+        return redirect()->route('formation.edit',['id'=>$formation->id])->with('success','Partie Supprimée');
     }
 
     public function view($uuid) {

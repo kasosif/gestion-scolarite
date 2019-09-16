@@ -198,8 +198,8 @@
                                 message: 'Succes',
                                 position: 'topCenter'
                             });
-                            var $newform=$(data);
-                            $newform.find('select').select2();
+                            var newform=$(data);
+                            newform.find('select').select2();
                             form.parent().html($newform);
 
                         }

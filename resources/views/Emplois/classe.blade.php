@@ -40,39 +40,44 @@
         </div>
         <div class="row">
             @if($emplois->count() != 0)
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fa fa-table fa-lg"></i>
-                            Liste des Emplois de la classe : {{$classe->niveau->specialite->nom }} {{$classe->abbreviation}} {{$classe->niveau->nom}}
-                        </div>
-                        <div class="card-content">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover">
-                                    <thead>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-table fa-lg"></i>
+                        Liste des Emplois de la classe : {{$classe->niveau->specialite->nom }} {{$classe->abbreviation}} {{$classe->niveau->nom}}
+                    </div>
+                    <div class="card-content">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Semaine</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($emplois as $emploi)
                                     <tr>
-                                        <th>Semaine</th>
-                                        <th>Actions</th>
+                                        <td>
+                                            {{$emploi->semaine}} (de {{date('d-m-Y', strtotime($emploi->date_debut))}} à {{date('d-m-Y', strtotime($emploi->date_fin))}})
+                                        </td>
+                                        <td>
+                                            @can('update',\App\Model\Emploi::class)
+                                                <a href="{{route('emplois.edit',['classe_id'=>$classe->id,'dateD'=>$emploi->date_debut])}}" class="btn btn-primary w-md">Modifier</a>
+                                            @endcan
+                                            <a target="_blank" href="{{route('emplois.show',['classe_id'=>$classe->id,'dateD'=>$emploi->date_debut])}}" class="btn btn-info w-md">Voir</a>
+
+                                            @can('delete',\App\Model\Emploi::class)
+                                                <button onclick="deleteResource('{{$classe->id}}','{{$emploi->date_debut}}','{{$emploi->date_fin}}')" type="button" class="btn btn-danger w-md">Supp</button>
+                                            @endcan
+                                            <a href="{{route('emplois.printweek',['classe_id'=>$classe->id,'dateD'=>$emploi->date_debut])}}" class="btn btn-yellow w-md">Imprimer</a>
+                                        </td>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($emplois as $emploi)
-                                            <tr>
-                                                <td>
-                                                    {{$emploi->semaine}} (de {{date('d-m-Y', strtotime($emploi->date_debut))}} à {{date('d-m-Y', strtotime($emploi->date_fin))}})
-                                                </td>
-                                                <td>
-                                                    <a href="{{route('emplois.edit',['classe_id'=>$classe->id,'dateD'=>$emploi->date_debut])}}" class="btn btn-primary w-md">Modifier</a>
-                                                    <a target="_blank" href="{{route('emplois.show',['classe_id'=>$classe->id,'dateD'=>$emploi->date_debut])}}" class="btn btn-info w-md">Voir</a>
-                                                    <button onclick="deleteResource('{{$classe->id}}','{{$emploi->date_debut}}','{{$emploi->date_fin}}')" type="button" class="btn btn-danger w-md">Supp</button>
-                                                    <a href="{{route('emplois.printweek',['classe_id'=>$classe->id,'dateD'=>$emploi->date_debut])}}" class="btn btn-yellow w-md">Imprimer</a>
-                                                </td>
-                                            </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
             @else
                 <div class="alert alert-warning z-depth-1">
                     <strong>Oops!</strong> Aucun emploi trouvé

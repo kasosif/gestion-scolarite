@@ -7,6 +7,7 @@
 @section('csspage')
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2-bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/iziToast/dist/css/iziToast.min.css')}}">
 @endsection
 @section('formationactive')
     class="active-link"
@@ -62,7 +63,7 @@
                         <i class="fa fa-wpforms"></i>
                         Formulaire de modification
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 30px!important;">
                         <div class="row" style="padding: 4px">
                             <div class="col-md-12">
                                 <div class="input-field form-input">
@@ -71,16 +72,16 @@
                                 </div>
                             </div>
                             <input id="slug" value="{{$formation->slug}}" name="slug" type="hidden" class="validate" required>
-                            <div class="col-md-4">
+                            <div>
                                 <h2>Image <small></small></h2>
                                 @if($formation->image)
                                     <img src="{{asset('images/formations/'.$formation->image)}}" alt="formation image" class="thumbnail" style="max-width: 200px">
                                 @endif
-                                <div class="input-group">
+                                <div class="input-group" style="width: 100%;">
                                     <input type="file" name="image" id="image">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div>
                                 <div class="form-group">
                                     <label for="compose-textarea">Description</label>
                                     <textarea name="description" required id="compose-textarea" style="height: 100px">{{$formation->description}}</textarea>
@@ -117,11 +118,11 @@
                         Parties Formation
                     </div>
                     <div class="card-body">
-                        <div class="row" style="padding: 4px">
-                            <div class="col-md-6">
+                        <div class="row" style="padding: 4px;margin: 0!important;" >
+                            <div class="col-md-12">
                                 <div class="input-field form-input">
                                     <select id="nbrparties" class="form-control select2" required>
-                                        <option value="" selected disabled>Nombre de partie a ajouter</option>
+                                        <option value="" selected disabled>Nombre de partie à ajouter</option>
                                         @for($i = 0; $i < 11 - count($formation->partieformations); $i++)
                                             <option value="{{$i}}">{{$i}}</option>
                                         @endfor
@@ -131,43 +132,75 @@
                             <div class="partiesexistantes">
                                 @foreach($formation->partieformations as $key => $partie)
                                     <div class="partie{{$key + 1}}">
-                                        <div class="col-md-8">
+                                        <div class="col-md-12 displaypartie{{$key + 1}}">
                                             <div class="input-field form-input">
                                                 <label for="titrepartie{{$key + 1}}" class="">Titre</label>
-                                                <input disabled value="{{$partie->titre}}" id="titrepartie{{$key + 1}}" name="partie[{{$key + 1}}][titre]" type="text" class="validate" required>
+                                                <input disabled value="{{$partie->titre}}" id="titrepartie{{$key + 1}}" name="partie[{{$key + 1}}][titre]" type="text" class="validate" style="width: 80%" required>
+                                                <div class="pull-right">
+                                                    <button type="button" class="btn btn-primary" onclick="displayFormPartie({{$key + 1}})"><i class="fa fa-pencil"></i></button>
+                                                    <button type="button" class="btn btn-danger" onclick="deletePartie('{{$partie->uuid}}')"><i class="fa fa-trash"></i></button>
+                                                </div>
                                             </div>
-                                            <video width="400" controls>
+                                            <video style="width: 100%" controls>
                                                 <source src="{{route('formation.view',['uuid'=> $partie->uuid])}}" type="video/mp4">
                                             </video>
                                         </div>
+                                        <div class="col-md-12 formpartie{{$key + 1}}"></div>
                                     </div>
                                 @endforeach
                             </div>
                             <div class="parties">
 
                             </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="pull-right">
-                            <button type="submit" class="btn btn-labeled btn-success">
-                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Modifier
-                            </button>
-                            <button type="reset" class="btn btn-labeled btn-danger">
-                                <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
-                            </button>
+                            <div class="pull-right " style="margin-top: 15px!important;">
+                                <button type="submit" class="btn btn-labeled btn-success">
+                                    <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Modifier
+                                </button>
+                                <button type="reset" class="btn btn-labeled btn-danger">
+                                    <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Annuler
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
     </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content panel-warning">
+                <div class="modal-header panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Confirmation de suppression</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <form action="#" method="post" id="deleteform">
+                        @csrf
+                        <input name="_method" type="hidden" value="DELETE">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <input type="submit" class="btn btn-success" value="Oui, Supprimer" />
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 @section('scriptpage')
     <script src="{{asset('assets/plugins/bootstrap-fileinput/fileinput.min.js')}}"></script>
     <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/iziToast/dist/js/iziToast.min.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
+            @if ($message = Session::get('success'))
+            iziToast.success({
+                title: 'Success',
+                message: '{{ $message }}',
+                position: 'topCenter'
+            });
+            @endif
             $('.select2').select2();
             $('.fileinput').fileinput(
                 {
@@ -225,5 +258,37 @@
                 }
             });
         });
+        function deletePartie(id) {
+            $('#deleteform').attr('action','{{route('formation.deletepartie')}}'+'/'+id);
+            $('.modal-body').html('<h2>Etes-vous sûr de vouloir supprimer cette partie ?</h2>');
+            $('#deleteModal').modal('show');
+        }
+        function displayFormPartie(indice) {
+            $('.displaypartie'+indice).hide();
+            $('.formpartie'+indice).html('' +
+                '<div class="input-field form-input">\n' +
+                '<label for="titrepartie'+indice+'" class="">Titre</label>\n' +
+                '<input id="titrepartie'+indice+'" name="oldpartie['+indice+'][titre]" type="text" class="validate" style="width: 80%" required>\n' +
+                '<div class="pull-right">' +
+                '<button type="button" class="btn btn-default" onclick="annulermodif('+indice+')">Annuler</button>'+
+                '</div>\n' +
+                '<div class="input-field form-input">\n' +
+                '<label for="videopartie'+indice+'" class="">Video</label>\n' +
+                '<input id="videopartie'+indice+'" name="oldpartie['+indice+'][video]" type="file" class="fileinput" required>\n' +
+                '</div>');
+            $('.partie'+indice).find('input:file').fileinput(
+                {
+                    'showUpload': !1,
+                    'allowedFileExtensions': ["mp4"],
+                    'showCaption':!1,
+                    'minFileSize': 5,
+                    'maxFileSize': 50000
+                });
+
+        }
+        function annulermodif(indice) {
+            $('.formpartie'+indice).html('');
+            $('.displaypartie'+indice).show();
+        }
     </script>
 @endsection

@@ -65,23 +65,23 @@
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <h2>Image <small></small></h2>
                                 @if($feed->image)
                                     <img src="{{asset('images/feeds/'.$feed->image)}}" alt="feed image" class="thumbnail" style="max-width: 200px">
                                 @endif
-                                <div class="input-group">
+                                <div class="input-group" style="width: 100%">
                                     <input type="file" name="image" id="image">
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="input-field form-input">
                                     <label for="titre" class="">Titre</label>
                                     <input id="titre" name="titre" value="{{$feed->titre}}" type="text" class="validate" required>
                                 </div>
                             </div>
                             <input value="{{$feed->slug}}" id="slug" name="slug" type="hidden" class="validate" required>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="input-field form-input">
                                     <select id="type" name="type" class="form-control" required>
                                         <option value="" selected disabled>Selectionnez Type</option>

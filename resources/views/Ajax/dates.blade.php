@@ -21,6 +21,6 @@
             min="{{date('Y-m-d', strtotime($annee->date_debut))}}"
             @endif
             max="{{date('Y-m-d', strtotime($annee->date_fin))}}"
-            name="date_fin" id= "date_fin" class="form-control" type="date" required>
+            readonly name="date_fin" id= "date_fin" class="form-control" type="date" required>
     </div>
 </div>
