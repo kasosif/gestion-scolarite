@@ -125,6 +125,7 @@ class FormationController extends Controller
                 $choisie = PartieFormation::where('formation_id',$id)
                     ->where('indice',$key)
                     ->first();
+                $choisie->progressionetudiants()->delete();
                 $getID3 = new \getID3;
                 $file = $getID3->analyze(storage_path('app/formations/'.$choisie->cover));
                 $playtime_seconds = $file['playtime_seconds'];
