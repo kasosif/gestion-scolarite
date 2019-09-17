@@ -246,6 +246,60 @@ class EmploiController extends Controller
         return $cases;
     }
 
+    static function ProfesseursDisponible($classe_id,$seance_id,$jour_id,$dateD) {
+        $cases = Emploi::where('seance_id',$seance_id)
+            ->where('jour_id',$jour_id)
+            ->where('date_debut',$dateD)
+            ->get();
+        $user_indisponibles = [];
+        foreach ($cases as $case) {
+            array_push($user_indisponibles,$case->user->id);
+        }
+        $affectations = Affectation::where('classe_id',$classe_id)
+            ->whereNotIn('user_id',$user_indisponibles)->get();
+        return $affectations;
+    }
+    static function ProfesseursDisponibleM($user_id,$classe_id,$seance_id,$jour_id,$dateD) {
+        $cases = Emploi::where('seance_id',$seance_id)
+            ->where('jour_id',$jour_id)
+            ->where('date_debut',$dateD)
+            ->get();
+        $user_indisponibles = [];
+        foreach ($cases as $case) {
+            if ($case->user_id != $user_id)
+                array_push($user_indisponibles,$case->user->id);
+        }
+        $affectations = Affectation::where('classe_id',$classe_id)
+            ->whereNotIn('user_id',$user_indisponibles)->get();
+        return $affectations;
+    }
+
+    static function SallesDisponible($seance_id,$jour_id,$dateD) {
+        $cases = Emploi::where('seance_id',$seance_id)
+            ->where('jour_id',$jour_id)
+            ->where('date_debut',$dateD)
+            ->get();
+        $salles_indisponibles = [];
+        foreach ($cases as $case) {
+            array_push($salles_indisponibles,$case->salle_id);
+        }
+        $salles = Salle::whereNotIn('id',$salles_indisponibles)->get();
+        return $salles;
+    }
+    static function SallesDisponibleM($salle_id,$seance_id,$jour_id,$dateD) {
+        $cases = Emploi::where('seance_id',$seance_id)
+            ->where('jour_id',$jour_id)
+            ->where('date_debut',$dateD)
+            ->get();
+        $salles_indisponibles = [];
+        foreach ($cases as $case) {
+            if ($case->salle_id != $salle_id)
+                array_push($salles_indisponibles,$case->salle_id);
+        }
+        $salles = Salle::whereNotIn('id',$salles_indisponibles)->get();
+        return $salles;
+    }
+
 
 
 

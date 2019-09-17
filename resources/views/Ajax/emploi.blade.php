@@ -29,7 +29,7 @@
                                     <div class="input-group">
                                         <select title="Matiere" name="mat[{{ $jour->id }}][{{$seance->id }}]" class="form-control select2">
                                             <option value="" selected disabled>Matiere</option>
-                                            @foreach($affectations as $affectation)
+                                            @foreach(\App\Http\Controllers\EmploiController::ProfesseursDisponible($classe->id,$seance->id,$jour->id,$date_debut) as $affectation)
                                                 <option value="{{ $affectation->matiere->id }}">{{ $affectation->matiere->nom }} ({{$affectation->user->nom}} {{$affectation->user->prenom}})</option>
                                             @endforeach
                                         </select>
@@ -37,7 +37,7 @@
                                     <div class="input-group">
                                         <select title="Salle" name="salle[{{ $jour->id }}][{{ $seance->id }}]"  class="form-control select2 col-cm-6">
                                             <option value="" selected disabled>Salle</option>
-                                            @foreach($salles as $salle)
+                                            @foreach(\App\Http\Controllers\EmploiController::SallesDisponible($seance->id,$jour->id,$date_debut) as $salle)
                                                 <option value="{{ $salle->id }}">{{ $salle->nom }}</option>
                                             @endforeach
                                         </select>

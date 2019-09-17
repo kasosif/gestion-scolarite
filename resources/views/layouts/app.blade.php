@@ -50,7 +50,7 @@
             <img src="{{asset('assets/dist/img/logo3.png')}}" alt="logo" width="205" height="60">
         </a>
         <a id="menu-toggle">
-            <i class="material-icons">apps</i>
+            <i class="fa fa-bars fa-lg"></i>
         </a>
         <div class="navbar-custom-menu hidden-xs">
             <ul class="navbar navbar-right">
@@ -292,13 +292,13 @@
                     </a>
                     <ul id='dropdown-user' class='dropdown-content'>
                         <li>
-                            <a href="{{route('profile')}}"><i class="material-icons">perm_identity</i> Mon Profil</a>
+                            <a href="{{route('profile')}}"><i class="fa fa-user fa-lg" style="color: #00a6b2;margin-right: 3px;"></i> Mon Profil</a>
                         </li>
                         <li>
                             <a style="font-size: 15px" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">
-                                <i class="material-icons">lock</i> Deconnexion</a>
+                                <i class="fa fa-lock fa-lg" style="color: #00a6b2;margin-right: 3px;"></i> Deconnexion</a>
                         </li>
                     </ul>
                 </li>
@@ -310,149 +310,297 @@
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf
     </form>
-    <div id="sidebar-wrapper" class="waves-effect" data-simplebar>
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li @yield('dashactive')>
-                        <a href="{{route('home')}}">
-                            <i class="material-icons">dashboard</i>
-                            Tableau de Bord
-                        </a>
-                    </li>
-                    <li @yield('basesactive')>
-                        <a><i class="material-icons">build</i>Les Bases<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            @can('view',App\Model\Annee::class)
-                                <li @yield('anneeactive')><a href="{{route('annee.index')}}">Années Scolaires</a></li>
-                            @endcan
-                            @can('view',App\Model\Specialite::class)
-                                <li @yield('specialiteactive')><a href="{{route('specialite.index')}}">Spécialites</a></li>
-                            @endcan
-                            @can('view',App\Model\Niveau::class)
-                                <li @yield('niveauactive')><a href="{{route('niveau.index')}}">Niveaux</a></li>
-                            @endcan
-                            @can('view',App\Model\Classe::class)
-                                <li @yield('classeactive')><a href="{{route('classe.index')}}">Classes</a></li>
-                            @endcan
-                        </ul>
-                    </li>
-                    <li @yield('etudiantactive')>
-                        <a><i class="material-icons">supervisor_account</i>Etudiants<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            @can('viewEtudiant',App\Model\User::class)
-                                <li @yield('listeetudiantactive')><a href="{{route('etudiant.index')}}">Liste des Etudiants</a></li>
-                            @endcan
-                            @can('viewEtudiant',App\Model\Abscence::class)
-                                <li @yield('abscenceetudiantactive')><a href="{{route('abscencesetudiant.index')}}">Abscences</a></li>
-                            @endcan
-                            @can('view',App\Model\Note::class)
-                                <li @yield('noteetudiantactive')><a href="{{route('note.index')}}">Notes</a></li>
-                            @endcan
-                        </ul>
-                    </li>
-                    <li @yield('professeuractive')>
-                        <a><i class="material-icons">contact_mail</i>Professeurs<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            @can('viewProfesseur',App\Model\User::class)
-                                <li @yield('listeprofesseuractive')><a href="{{route('professeur.index')}}">Liste des Professeurs</a></li>
-                            @endcan
-                            @can('viewProfesseur',App\Model\Abscence::class)
-                                <li @yield('abscenceprofesseuractive')><a href="{{route('abscencesprofesseur.index')}}">Abscences</a></li>
-                            @endcan
-                        </ul>
-                    </li>
-                    @can('view',App\Model\Feed::class)
-                        <li @yield('actualiteactive')>
-                            <a href="{{route('feed.index')}}">
-                                <i class="material-icons">rss_feed</i>
-                                Actualitées
+    @if(Auth::user()->role == "ROLE_ADMIN")
+        <div id="sidebar-wrapper" class="waves-effect" data-simplebar>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li @yield('dashactive')>
+                            <a href="{{route('home')}}">
+                                <i class="fa fa-dashboard"></i>
+                                Tableau de Bord
                             </a>
                         </li>
-                    @endcan
-                    @can('view',App\Model\Formation::class)
-                        <li @yield('formationactive')>
-                            <a href="{{route('formation.index')}}">
-                                <i class="material-icons">play_arrow</i>
-                                Formations
-                            </a>
+                        <li @yield('basesactive')>
+                            <a><i class="fa fa-star"></i>Les Bases<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                @can('view',App\Model\Annee::class)
+                                    <li @yield('anneeactive')><a href="{{route('annee.index')}}">Années Scolaires</a></li>
+                                @endcan
+                                @can('view',App\Model\Specialite::class)
+                                    <li @yield('specialiteactive')><a href="{{route('specialite.index')}}">Spécialites</a></li>
+                                @endcan
+                                @can('view',App\Model\Niveau::class)
+                                    <li @yield('niveauactive')><a href="{{route('niveau.index')}}">Niveaux</a></li>
+                                @endcan
+                                @can('view',App\Model\Classe::class)
+                                    <li @yield('classeactive')><a href="{{route('classe.index')}}">Classes</a></li>
+                                @endcan
+                            </ul>
                         </li>
-                    @endcan
-                    @if(Auth::user()->role == 'ROLE_ADMIN')
-                        <li @yield('accesactive')>
-                            <a href="{{route('employe.index')}}">
-                                <i class="material-icons">lock_open</i>
-                                Accés
-                            </a>
+                        <li @yield('etudiantactive')>
+                            <a><i class="fa fa-graduation-cap"></i>Etudiants<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                @can('viewEtudiant',App\Model\User::class)
+                                    <li @yield('listeetudiantactive')><a href="{{route('etudiant.index')}}">Liste des Etudiants</a></li>
+                                @endcan
+                                @can('viewEtudiant',App\Model\Abscence::class)
+                                    <li @yield('abscenceetudiantactive')><a href="{{route('abscencesetudiant.index')}}">Abscences</a></li>
+                                @endcan
+                                @can('view',App\Model\Note::class)
+                                    <li @yield('noteetudiantactive')><a href="{{route('note.index')}}">Notes</a></li>
+                                @endcan
+                            </ul>
                         </li>
-                    @endif
-                    <li @yield('emploisactive')>
-                        <a><i class="fa fa-calendar"></i>Emplois Du temps <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            @can('create',App\Model\Emploi::class)
-                                <li @yield('emploisajoutactive')><a href="{{route('emplois.create')}}" >Ajouter Un Emploi</a></li>
-                            @endcan
-                            @can('view',App\Model\Emploi::class)
-                                <li @yield('emploislisteactive')><a href="{{route('emplois.classes')}}">Liste des Emplois</a></li>
-                            @endcan
-                        </ul>
-                    </li>
-                    @can('view',App\Model\Demande::class)
-                        <li @yield('demandeactive')>
-                            <a href="{{route('demande.index')}}">
-                                <i class="material-icons">picture_in_picture</i>
-                                Demandes
-                                @if(\App\Model\Demande::count() > 0 )
-                                    <span class="badge badge-primary">
+                        <li @yield('professeuractive')>
+                            <a><i class="fa fa-address-card"></i>Professeurs<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                @can('viewProfesseur',App\Model\User::class)
+                                    <li @yield('listeprofesseuractive')><a href="{{route('professeur.index')}}">Liste des Professeurs</a></li>
+                                @endcan
+                                @can('viewProfesseur',App\Model\Abscence::class)
+                                    <li @yield('abscenceprofesseuractive')><a href="{{route('abscencesprofesseur.index')}}">Abscences</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                        @can('view',App\Model\Feed::class)
+                            <li @yield('actualiteactive')>
+                                <a href="{{route('feed.index')}}">
+                                    <i class="fa fa-feed"></i>
+                                    Actualitées
+                                </a>
+                            </li>
+                        @endcan
+                        @can('view',App\Model\Formation::class)
+                            <li @yield('formationactive')>
+                                <a href="{{route('formation.index')}}">
+                                    <i class="fa fa-play"></i>
+                                    Formations
+                                </a>
+                            </li>
+                        @endcan
+                        @if(Auth::user()->role == 'ROLE_ADMIN')
+                            <li @yield('accesactive')>
+                                <a href="{{route('employe.index')}}">
+                                    <i class="fa fa-lock"></i>
+                                    Accés
+                                </a>
+                            </li>
+                        @endif
+                        <li @yield('emploisactive')>
+                            <a><i class="fa fa-calendar"></i>Emplois Du temps <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                @can('create',App\Model\Emploi::class)
+                                    <li @yield('emploisajoutactive')><a href="{{route('emplois.create')}}" >Ajouter Un Emploi</a></li>
+                                @endcan
+                                @can('view',App\Model\Emploi::class)
+                                    <li @yield('emploislisteactive')><a href="{{route('emplois.classes')}}">Liste des Emplois</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                        @can('view',App\Model\Demande::class)
+                            <li @yield('demandeactive')>
+                                <a href="{{route('demande.index')}}">
+                                    <i class="fa fa-files-o"></i>
+                                    Demandes
+                                    @if(\App\Model\Demande::count() > 0 )
+                                        <span class="badge badge-primary">
                                     {{\App\Model\Demande::count()}}
                                     </span>
-                                @endif
+                                    @endif
+                                </a>
+                            </li>
+                        @endcan
+                        <li @yield('parametreactive')>
+                            <a><i class="fa fa-cog"></i>Paramètres<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                @can('view',App\Model\Semestre::class)
+                                    <li @yield('semestreactive')><a href="{{route('semestre.index')}}">Semestres</a></li>
+                                @endcan
+                                @can('view',App\Model\Seance::class)
+                                    <li @yield('seanceactive')><a href="{{route('seance.index')}}">Séances</a></li>
+                                @endcan
+                                @can('view',App\Model\Devoir::class)
+                                    <li @yield('devoiractive')><a href="{{route('devoir.index')}}">Devoirs</a></li>
+                                @endcan
+                                @can('view',App\Model\Matiere::class)
+                                    <li @yield('matiereactive')><a href="{{route('matiere.index')}}">Matieres</a></li>
+                                @endcan
+                                @can('view',App\Model\Salle::class)
+                                    <li @yield('salleactive')><a href="{{route('salle.index')}}">Salles</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                        <li class=" @yield('compteactive') hidden-lg hidden-md hidden-sm">
+                            <a><i class="material-icons">account_circle</i>Compte</a>
+                            <ul class="nav nav-second-level">
+                                <li @yield('profilactive')>
+                                    <a href="{{route('profile')}}"><i class="material-icons">perm_identity</i>Profil</a>
+                                </li>
+                                <li>
+                                    <a style="font-size: 15px" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                                        <i class="material-icons">lock</i> Deconnexion</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="side-last"></li>
+                    </ul>
+                    <!-- ./sidebar-nav -->
+                </div>
+                <!-- ./sidebar -->
+            </div>
+            <!-- ./sidebar-nav -->
+        </div>
+    @endif
+    @if(Auth::user()->role == "ROLE_EMPLOYE")
+        <div id="sidebar-wrapper" class="waves-effect" data-simplebar>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li @yield('dashactive')>
+                            <a href="{{route('home')}}">
+                                <i class="fa fa-dashboard"></i>
+                                Tableau de Bord
                             </a>
                         </li>
-                    @endcan
-                    <li @yield('parametreactive')>
-                        <a><i class="material-icons">settings</i>Paramètres<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            @can('view',App\Model\Semestre::class)
-                                <li @yield('semestreactive')><a href="{{route('semestre.index')}}">Semestres</a></li>
-                            @endcan
-                            @can('view',App\Model\Seance::class)
-                                <li @yield('seanceactive')><a href="{{route('seance.index')}}">Séances</a></li>
-                            @endcan
-                            @can('view',App\Model\Devoir::class)
-                                <li @yield('devoiractive')><a href="{{route('devoir.index')}}">Devoirs</a></li>
-                            @endcan
-                            @can('view',App\Model\Matiere::class)
-                                <li @yield('matiereactive')><a href="{{route('matiere.index')}}">Matieres</a></li>
-                            @endcan
-                            @can('view',App\Model\Salle::class)
-                                <li @yield('salleactive')><a href="{{route('salle.index')}}">Salles</a></li>
-                            @endcan
-                        </ul>
-                    </li>
-                    <li class=" @yield('compteactive') hidden-lg hidden-md hidden-sm">
-                        <a><i class="material-icons">account_circle</i>Compte</a>
-                        <ul class="nav nav-second-level">
-                            <li @yield('profilactive')>
-                                <a href="{{route('profile')}}"><i class="material-icons">perm_identity</i>Profil</a>
+                        @if(count(array_intersect(Auth::user()->privileges()->pluck('titre')->toArray(), ['view_annees','view_specialites','view_niveaux','view_classes'])) > 0)
+                            <li @yield('basesactive')>
+                                <a><i class="fa fa-star"></i>Les Bases<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    @can('view',App\Model\Annee::class)
+                                        <li @yield('anneeactive')><a href="{{route('annee.index')}}">Années Scolaires</a></li>
+                                    @endcan
+                                    @can('view',App\Model\Specialite::class)
+                                        <li @yield('specialiteactive')><a href="{{route('specialite.index')}}">Spécialites</a></li>
+                                    @endcan
+                                    @can('view',App\Model\Niveau::class)
+                                        <li @yield('niveauactive')><a href="{{route('niveau.index')}}">Niveaux</a></li>
+                                    @endcan
+                                    @can('view',App\Model\Classe::class)
+                                        <li @yield('classeactive')><a href="{{route('classe.index')}}">Classes</a></li>
+                                    @endcan
+                                </ul>
                             </li>
-                            <li>
-                                <a style="font-size: 15px" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
+                        @endif
+                        @if(count(array_intersect(Auth::user()->privileges()->pluck('titre')->toArray(), ['view_etudiants','view_abscences_etudiant','view_notes'])) > 0)
+                            <li @yield('etudiantactive')>
+                                <a><i class="fa fa-graduation-cap"></i>Etudiants<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    @can('viewEtudiant',App\Model\User::class)
+                                        <li @yield('listeetudiantactive')><a href="{{route('etudiant.index')}}">Liste des Etudiants</a></li>
+                                    @endcan
+                                    @can('viewEtudiant',App\Model\Abscence::class)
+                                        <li @yield('abscenceetudiantactive')><a href="{{route('abscencesetudiant.index')}}">Abscences</a></li>
+                                    @endcan
+                                    @can('view',App\Model\Note::class)
+                                        <li @yield('noteetudiantactive')><a href="{{route('note.index')}}">Notes</a></li>
+                                    @endcan
+                                </ul>
+                            </li>
+                        @endif
+                        @if(count(array_intersect(Auth::user()->privileges()->pluck('titre')->toArray(), ['view_professeurs','view_abscences_professeur'])) > 0)
+                            <li @yield('professeuractive')>
+                                <a><i class="fa fa-address-card"></i>Professeurs<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    @can('viewProfesseur',App\Model\User::class)
+                                        <li @yield('listeprofesseuractive')><a href="{{route('professeur.index')}}">Liste des Professeurs</a></li>
+                                    @endcan
+                                    @can('viewProfesseur',App\Model\Abscence::class)
+                                        <li @yield('abscenceprofesseuractive')><a href="{{route('abscencesprofesseur.index')}}">Abscences</a></li>
+                                    @endcan
+                                </ul>
+                            </li>
+                        @endif
+                        @can('view',App\Model\Feed::class)
+                            <li @yield('actualiteactive')>
+                                <a href="{{route('feed.index')}}">
+                                    <i class="fa fa-feed"></i>
+                                    Actualitées
+                                </a>
+                            </li>
+                        @endcan
+                        @can('view',App\Model\Formation::class)
+                            <li @yield('formationactive')>
+                                <a href="{{route('formation.index')}}">
+                                    <i class="fa fa-play"></i>
+                                    Formations
+                                </a>
+                            </li>
+                        @endcan
+                        @if(count(array_intersect(Auth::user()->privileges()->pluck('titre')->toArray(), ['view_emplois','create_emplois'])) > 0)
+                            <li @yield('emploisactive')>
+                                <a><i class="fa fa-calendar"></i>Emplois Du temps <span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    @can('create',App\Model\Emploi::class)
+                                        <li @yield('emploisajoutactive')><a href="{{route('emplois.create')}}" >Ajouter Un Emploi</a></li>
+                                    @endcan
+                                    @can('view',App\Model\Emploi::class)
+                                        <li @yield('emploislisteactive')><a href="{{route('emplois.classes')}}">Liste des Emplois</a></li>
+                                    @endcan
+                                </ul>
+                            </li>
+                        @endif
+                        @can('view',App\Model\Demande::class)
+                            <li @yield('demandeactive')>
+                                <a href="{{route('demande.index')}}">
+                                    <i class="fa fa-files-o"></i>
+                                    Demandes
+                                    @if(\App\Model\Demande::count() > 0 )
+                                        <span class="badge badge-primary">
+                                    {{\App\Model\Demande::count()}}
+                                    </span>
+                                    @endif
+                                </a>
+                            </li>
+                        @endcan
+                        @if(count(array_intersect(Auth::user()->privileges()->pluck('titre')->toArray(), ['view_semestres','view_seances','view_devoirs','view_matieres','view_salles'])) > 0)
+                            <li @yield('parametreactive')>
+                                <a><i class="fa fa-cog"></i>Paramètres<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    @can('view',App\Model\Semestre::class)
+                                        <li @yield('semestreactive')><a href="{{route('semestre.index')}}">Semestres</a></li>
+                                    @endcan
+                                    @can('view',App\Model\Seance::class)
+                                        <li @yield('seanceactive')><a href="{{route('seance.index')}}">Séances</a></li>
+                                    @endcan
+                                    @can('view',App\Model\Devoir::class)
+                                        <li @yield('devoiractive')><a href="{{route('devoir.index')}}">Devoirs</a></li>
+                                    @endcan
+                                    @can('view',App\Model\Matiere::class)
+                                        <li @yield('matiereactive')><a href="{{route('matiere.index')}}">Matieres</a></li>
+                                    @endcan
+                                    @can('view',App\Model\Salle::class)
+                                        <li @yield('salleactive')><a href="{{route('salle.index')}}">Salles</a></li>
+                                    @endcan
+                                </ul>
+                            </li>
+                        @endif
+                        <li class=" @yield('compteactive') hidden-lg hidden-md hidden-sm">
+                            <a><i class="material-icons">account_circle</i>Compte</a>
+                            <ul class="nav nav-second-level">
+                                <li @yield('profilactive')>
+                                    <a href="{{route('profile')}}"><i class="material-icons">perm_identity</i>Profil</a>
+                                </li>
+                                <li>
+                                    <a style="font-size: 15px" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">
-                                    <i class="material-icons">lock</i> Deconnexion</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="side-last"></li>
-                </ul>
-                <!-- ./sidebar-nav -->
+                                        <i class="material-icons">lock</i> Deconnexion</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="side-last"></li>
+                    </ul>
+                    <!-- ./sidebar-nav -->
+                </div>
+                <!-- ./sidebar -->
             </div>
-            <!-- ./sidebar -->
+            <!-- ./sidebar-nav -->
         </div>
-        <!-- ./sidebar-nav -->
-    </div>
-    <!-- ./sidebar-wrapper -->
+@endif
+<!-- ./sidebar-wrapper -->
     <!-- Page content -->
     <div id="page-content-wrapper">
         <div class="page-content">

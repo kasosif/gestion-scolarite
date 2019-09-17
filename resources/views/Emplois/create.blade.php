@@ -78,6 +78,44 @@
                 </div>
             </div>
         </div>
+        <div id="loader" style="display: none" class="text-center">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+                <div class="spinner-layer spinner-green">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row" id="emploicontainer">
 
         </div>
@@ -128,9 +166,8 @@
                 }
             });
             $("#paramsform").submit(function(e) {
-
                 e.preventDefault(); // avoid to execute the actual submit of the form.
-
+                $('#loader').show();
                 var form = $(this);
                 var url = '{{route('ajax.displayemploi')}}';
 
@@ -142,6 +179,7 @@
                     {
                         $('#validateparams').remove();
                         $("#paramsform :input").prop("disabled", true);
+                        $('#loader').hide();
                         $('#emploicontainer').html(data);
                         $('#emploicontainer').find('select').select2();
                         // show response from the php script.

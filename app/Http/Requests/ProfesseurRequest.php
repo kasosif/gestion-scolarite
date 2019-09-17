@@ -31,7 +31,7 @@ class ProfesseurRequest extends FormRequest
                 {
                     return [
                         'image.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2200|min:5',
-                        'cin' => 'required|numeric|unique:users|digits:8',
+                        'cin' =>  ['required','numeric','unique:users','digits:8','regex:/^0*(?:[1-9]|[1-9]\d\d*)$/'],
                         'nom' => 'required|min:2',
                         'nom_ar' => 'nullable|min:2',
                         'nom_en' => 'nullable|min:2',
@@ -54,6 +54,7 @@ class ProfesseurRequest extends FormRequest
                         'cin' => ['required',
                             'numeric',
                             'digits:8',
+                            'regex:/^0*(?:[1-9]|[1-9]\d\d*)$/',
                             Rule::unique('users')->ignore($user->id)
                         ],
                         'nom' => 'required|min:2',

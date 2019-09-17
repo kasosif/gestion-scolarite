@@ -238,7 +238,8 @@ class DatabaseSeeder extends Seeder
             ['titre' => 'view_niveaux', 'ressource' => 'Niveaux scolaires'],['titre' => 'update_niveaux', 'ressource' => 'Niveaux scolaires'],['titre' => 'delete_niveaux', 'ressource' => 'Niveaux scolaires'],['titre' => 'create_niveaux', 'ressource' => 'Niveaux scolaires'],
             ['titre' => 'view_formations', 'ressource' => 'Formations'],['titre' => 'update_formations', 'ressource' => 'Formations'],['titre' => 'delete_formations', 'ressource' => 'Formations'],['titre' => 'create_formations', 'ressource' => 'Formations'],
             ['titre' => 'view_demandes', 'ressource' => 'Demandes'],['titre' => 'update_demandes', 'ressource' => 'Demandes'],['titre' => 'delete_demandes', 'ressource' => 'Demandes'],
-            ['titre' => 'view_emplois', 'ressource' => 'Emplois de temps'],['titre' => 'update_emplois', 'ressource' => 'Emplois de temps'],['titre' => 'delete_emplois', 'ressource' => 'Emplois de temps'],['titre' => 'create_emplois', 'ressource' => 'Emplois de temps']
+            ['titre' => 'view_emplois', 'ressource' => 'Emplois de temps'],['titre' => 'update_emplois', 'ressource' => 'Emplois de temps'],['titre' => 'delete_emplois', 'ressource' => 'Emplois de temps'],['titre' => 'create_emplois', 'ressource' => 'Emplois de temps'],
+            ['titre' => 'generate_presence', 'ressource' => 'Attestations'],['titre' => 'generate_inscription', 'ressource' => 'Attestations'],['titre' => 'generate_bulletin', 'ressource' => 'Attestations']
         ]);
 ////        DB::table('jours')->insert([
 ////            ['nom'=>'Lundi'],

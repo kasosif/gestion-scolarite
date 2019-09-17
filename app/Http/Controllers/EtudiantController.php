@@ -169,7 +169,7 @@ class EtudiantController extends Controller
      */
     public function generateAttestationPresence($cin) {
         $etudiant = User::where('cin',$cin)->first();
-        $this->authorize('viewEtudiant', User::class);
+        $this->authorize('generatePresence', User::class);
         $pdf = PDF::loadView('docs.attestation_presence', compact('etudiant'));
         return $pdf->download($etudiant->cin.'attestation_presence'.'.pdf');
     }
@@ -182,7 +182,7 @@ class EtudiantController extends Controller
      */
     public function generateAttestationPresenceArabe($cin) {
         $etudiant = User::where('cin',$cin)->first();
-        $this->authorize('viewEtudiant', User::class);
+        $this->authorize('generatePresence', User::class);
         $pdf = PDF::loadView('docs.attestation_presence_arabe', compact('etudiant'));
         return $pdf->download($etudiant->cin.'attestation_presence_arabe'.'.pdf');
     }
@@ -195,7 +195,7 @@ class EtudiantController extends Controller
      */
     public function generateAttestationInscription($cin) {
         $etudiant = User::where('cin',$cin)->first();
-        $this->authorize('viewEtudiant', User::class);
+        $this->authorize('generateInscription', User::class);
         $pdf = PDF::loadView('docs.attestation_inscription', compact('etudiant'));
         return $pdf->download($etudiant->cin.'attestation_inscription'.'.pdf');
     }
@@ -208,7 +208,7 @@ class EtudiantController extends Controller
      */
     public function generateAttestationInscriptionArabe($cin) {
         $etudiant = User::where('cin',$cin)->first();
-        $this->authorize('viewEtudiant', User::class);
+        $this->authorize('generateInscription', User::class);
         //return view('docs.attestation_inscription_arabe', compact('etudiant'));
         $pdf = PDF::loadView('docs.attestation_inscription_arabe', compact('etudiant'));
         return $pdf->download($etudiant->cin.'attestation_inscription_arabe'.'.pdf');
@@ -221,7 +221,7 @@ class EtudiantController extends Controller
      */
     public function generateBulletin($cin, $semestre_id) {
         $etudiant = User::where('cin',$cin)->first();
-        $this->authorize('viewEtudiant', User::class);
+        $this->authorize('generateBulletin', User::class);
         $classe = Classe::find($etudiant->classe_id);
         $annee = Annee::find($classe->niveau->specialite->id);
         $semestre = Semestre::find($semestre_id);
