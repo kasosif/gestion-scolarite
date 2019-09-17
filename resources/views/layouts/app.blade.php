@@ -21,7 +21,7 @@
         <!-- Animation Css -->
         <link href="{{asset('assets/plugins/animate/animate.css')}}" rel="stylesheet" />
         <!-- Material Icons CSS -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="{{asset('css/material-icons.css')}}" rel="stylesheet">
         <!-- Font Awesome -->
         <link href="{{asset('assets/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
         <!-- simplebar scroll css -->
