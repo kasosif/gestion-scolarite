@@ -228,4 +228,75 @@ class FormationController extends Controller
         }
         return response()->json(['error' => 'Unauthorized'], 401);
     }
+
+    public function deletepartie($id) {
+        if (!auth('api')->check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $user = auth('api')->user();
+        if ($user->role = "ROLE_PROFESSEUR" ) {
+            $choisie = PartieFormation::where('uuid', $id)->first();
+            $formation = $choisie->formation;
+            if ($formation->user->id == $user->id) {
+                $parties = $formation->partieformations()->orderBy('indice')->get();
+                foreach ($parties as $partie) {
+                    if ($partie->indice > $choisie->indice) {
+                        $partie->indice--;
+                        $partie->save();
+                    }
+                }
+                $getID3 = new \getID3;
+                $file = $getID3->analyze(storage_path('app/formations/' . $choisie->cover));
+                $playtime_seconds = $file['playtime_seconds'];
+                $formation->duration -= $playtime_seconds;
+                Storage::delete('formations/' . $choisie->cover);
+                $choisie->delete();
+                $formation->save();
+                $formation = Formation::with(['niveau', 'niveau.specialite', 'partieformations' => function ($query) {
+                    $query->orderBy('indice');
+                }, 'partieformations.progressionetudiants'])
+                    ->find($formation->id);
+                return response()->json(
+                    [
+                        'parties' => $formation->partieformations
+                    ]
+                );
+            }
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    public function editformation(Request $request,$id) {
+        $formation = Formation::findOrFail($id);
+        $params = [];
+        if ($image = $request->files->get('image')) {
+            $destinationPath = 'images/formations/'; // upload path
+            if ($formation->image && file_exists(public_path().'/images/formations/'.$formation->image)) {
+                unlink(public_path().'/images/formations/'.$formation->image);
+            }
+            $formationImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $formationImage);
+            $params['image'] = $formationImage;
+        }
+        $formation->update(array_merge($request->except('parties'),$params));
+        if ($request->files->get('parties')) {
+            for ($i = 1; $i < count($request->get('parties')) + 1 ; $i++) {
+                $partie = new PartieFormation();
+                $partie->titre = $request->get('parties')[$i]['titre'];
+                $partie->indice = $formation->partieformations->count() + 1;
+                $partie->cover = date('YmdHis') . "." .strtolower($request->files->get('parties')[$i]['video']->getClientOriginalName());
+                $request->parties[$i]['video']->storeAs('formations', $partie->cover);
+                $partie->uuid = (string)Uuid::generate();
+                $getID3 = new \getID3;
+                $file = $getID3->analyze(storage_path('app/formations/'.$partie->cover));
+                $playtime_seconds = $file['playtime_seconds'];
+                $formation->duration = $formation->duration + $playtime_seconds;
+                $partie->formation_id = $formation->id;
+                $partie->save();
+            }
+            $formation->save();
+        }
+        return response()->json(['success' => 'true']);
+    }
 }

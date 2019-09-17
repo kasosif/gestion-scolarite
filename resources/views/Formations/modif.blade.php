@@ -119,16 +119,6 @@
                     </div>
                     <div class="card-body">
                         <div class="row" style="padding: 4px;margin: 0!important;" >
-                            <div class="col-md-12">
-                                <div class="input-field form-input">
-                                    <select id="nbrparties" class="form-control select2" required>
-                                        <option value="" selected disabled>Nombre de partie à ajouter</option>
-                                        @for($i = 0; $i < 11 - count($formation->partieformations); $i++)
-                                            <option value="{{$i}}">{{$i}}</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                            </div>
                             <div class="partiesexistantes">
                                 @foreach($formation->partieformations as $key => $partie)
                                     <div class="partie{{$key + 1}}">
@@ -148,6 +138,16 @@
                                         <div class="col-md-12 formpartie{{$key + 1}}"></div>
                                     </div>
                                 @endforeach
+                            </div>
+                            <div class="col-md-12">
+                                <div class="input-field form-input">
+                                    <select id="nbrparties" class="form-control select2" required>
+                                        <option value="" selected disabled>Nombre de partie à ajouter</option>
+                                        @for($i = 0; $i < 11 - count($formation->partieformations); $i++)
+                                            <option value="{{$i}}">{{$i}} partie(s)</option>
+                                        @endfor
+                                    </select>
+                                </div>
                             </div>
                             <div class="parties">
 

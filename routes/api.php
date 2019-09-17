@@ -55,6 +55,8 @@ Route::post('/formations', 'Api\FormationController@add');
 Route::put('/formations', 'Api\FormationController@progress');
 Route::get('/formations/{slug}', 'Api\FormationController@singleformation');
 Route::delete('/formations/{slug}', 'Api\FormationController@deleteformation');
+Route::delete('/formations/deletepartie/{id}', 'Api\FormationController@deletepartie');
+Route::post('/formations/edit/{id}', 'Api\FormationController@editformation');
 Route::get('/{uuid}/view', 'Api\FormationController@view');
 //Affectations
 Route::get('/affectations', 'Api\AffectationController@affectations');
